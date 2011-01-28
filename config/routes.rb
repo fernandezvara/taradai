@@ -1,33 +1,5 @@
 Taradai::Application.routes.draw do
 
-  get "tforum/create_answer"
-
-  get "tforum/create_topic"
-
-  get "tforum/delete_answer"
-
-  get "tforum/delete_topic"
-
-  get "tforum/destroy_answer"
-
-  get "tforum/destroy_topic"
-
-  get "tforum/edit_answer"
-
-  get "tforum/edit_topic"
-
-  get "tforum/index"
-
-  get "tforum/new_answer"
-
-  get "tforum/new_topic"
-
-  get "tforum/topic"
-
-  get "tforum/update_answer"
-
-  get "tforum/update_topic"
-
   devise_for :users
   
   resources :profiles, :only => [:new, :create, :edit, :update]
@@ -64,8 +36,7 @@ Taradai::Application.routes.draw do
   
   match ':profilename/blog',                                :controller => 'blogs',            :action => 'browse',              :as => 'blogs_show'
   match ':profilename/blog/:slug',                          :controller => 'blogs',            :action => 'show',                :as => 'blog_show'
-  
-  
+    
   #Messages
   match 'my/messages/inbox',                                :controller => 'messages',         :action => 'inbox',               :as => 'messages_inbox'
   match 'my/messages/preview',                              :controller => 'messages',         :action => 'preview',             :as => 'messages_preview'
@@ -116,12 +87,27 @@ Taradai::Application.routes.draw do
 
   #Matchers for tendencies....
   match '/t/:name',                                         :controller => 'tendencies',       :action => 'show',                :as => 'tendencies_show'
-  match '/t/:name/forum',                                   :controller => 'tendencies',       :action => 'forum',               :as => 'tendencies_forum'
-  match '/t/:name/forum/new',                               :controller => 'tendencies',       :action => 'forum_new',           :as => 'tendencies_forum_new'  
-  match '/t/:name/forum/create',                            :controller => 'tendencies',       :action => 'forum',               :as => 'tendencies_forum_create'
   match '/t/:name/blogs',                                   :controller => 'tendencies',       :action => 'blogs',               :as => 'tendencies_blogs'
   match '/t/:name/members',                                 :controller => 'tendencies',       :action => 'members',             :as => 'tendencies_members'
   match '/t/:name/groups',                                  :controller => 'tendencies',       :action => 'groups',              :as => 'tendencies_groups'
+  
+  # Tendency forums....
+  match '/t/:name/forum',                                  :controller => 'tforum',            :action => 'index',               :as => 'tendencies_forum'
+  match '/t/:name/forum/new',                              :controller => 'tforum',            :action => 'new_topic',           :as => 'tendencies_forum_topic_new'  
+  match '/t/:name/forum/create',                           :controller => 'tforum',            :action => 'create_topic',        :as => 'tendencies_forum_topic_create'
+  match '/t/:name/forum/:tslug',                           :controller => 'tforum',            :action => 'topic',               :as => 'tendencies_forum_topic_show'  
+  match '/t/:name/forum/:tslug/edit',                      :controller => 'tforum',            :action => 'edit_topic',          :as => 'tendencies_forum_topic_edit'  
+  match '/t/:name/forum/:tslug/update',                    :controller => 'tforum',            :action => 'update_topic',        :as => 'tendencies_forum_topic_update'
+  match '/t/:name/forum/:tslug/delete',                    :controller => 'tforum',            :action => 'delete_topic',        :as => 'tendencies_forum_topic_delete'  
+  match '/t/:name/forum/:tslug/destroy',                   :controller => 'tforum',            :action => 'destroy_topic',       :as => 'tendencies_forum_topic_destroy'
+
+  match '/t/:name/forum/:tslug/answer',                    :controller => 'tforum',            :action => 'new_answer',          :as => 'tendencies_forum_topic_answer_new'  
+  match '/t/:name/forum/:tslug/answer/create',             :controller => 'tforum',            :action => 'create_answer',       :as => 'tendencies_forum_topic_answer_create'
+  match '/t/:name/forum/:tslug/:aslug/edit',               :controller => 'tforum',            :action => 'edit_answer',         :as => 'tendencies_forum_topic_answer_edit'  
+  match '/t/:name/forum/:tslug/:aslug/update',             :controller => 'tforum',            :action => 'update_answer',       :as => 'tendencies_forum_topic_answer_update'  
+  match '/t/:name/forum/:tslug/:aslug/delete',             :controller => 'tforum',            :action => 'delete_answer',       :as => 'tendencies_forum_topic_answer_delete'  
+  match '/t/:name/forum/:tslug/:aslug/destroy',            :controller => 'tforum',            :action => 'destroy_answer',      :as => 'tendencies_forum_topic_answer_destroy'  
+  match '/t/:name/forum/:tslug#(:aslug)',                  :controller => 'tforum',            :action => 'topic',               :as => 'tendencies_forum_topic_show'
 
   #Matchers for ongs...
 

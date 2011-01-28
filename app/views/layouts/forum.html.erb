@@ -29,7 +29,12 @@
 		
 		<div class="clear"></div>
 		<div class="w950 mr0 clearfix">
-				<%= render :partial => 'layouts/groups/groupname' %>
+		    <% if controller_name == "gforum" %>
+				  <%= render :partial => 'layouts/groups/groupname' %>
+				<% end %>
+				<% if controller_name == "tforum" %>
+				  <%= render :partial => 'layouts/tendencies/name' %>
+				<% end %>
 				<div class="w740 mb10 main radius4 color0 left mh500">
 					<div class="m10">
 						<%= yield :main %>

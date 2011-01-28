@@ -24,10 +24,10 @@
 			<% else %>
 				<%= content_tag(:li, link_to('Grupos', tendencies_groups_url(:name => @tendency.slug)), :class => 'radius4') %>
 			<% end %>
-			<% if controller_name == 'photos' and action_name == 'show' %>
-				<%= content_tag(:li, link_to('Fotos', photos_show_url(:profilename => @profile.profilename)), :class => ['radius4', 'active']) %>
+			<% if controller_name == 'tforum' %>
+				<%= content_tag(:li, link_to('Foro', tendencies_forum_url(:name => @tendency.slug)), :class => ['radius4', 'active']) %>
 			<% else %>
-				<%#= content_tag(:li, link_to('Fotos', photos_show_url(:profilename => @profile.profilename)), :class => 'radius4') %>
+				<%= content_tag(:li, link_to('Foro', tendencies_forum_url(:name => @tendency.slug)), :class => ['radius4']) %>
 			<% end %>
 		</ul>
 	</div>

@@ -3,11 +3,11 @@
 	<div class="m5 b">Temas</div>
 </div>
 <div class="right">
-	<%= link_to "Nuevo Tema", group_forum_topic_new_url(:slug => @group.slug) , :class => 'button', :type => 'modal' %>
+	<%= link_to "Nuevo Tema", tendencies_forum_topic_new_url(:name => @tendency.slug) , :class => 'button', :type => 'modal' %>
 </div>
 	<% if @topics.count == 0 %>
 		<div class="clear tcenter mt20">
-			<p><br /><%= 'No hay mensajes aún en el foro. ' %> <br /><%= link_to "Se el primero en escribir.", group_forum_topic_new_url(:slug => @group.slug) %></p>
+			<p><br /><%= 'No hay mensajes aún en el foro. ' %> <br /><%= link_to "Se el primero en escribir.", tendencies_forum_topic_new_url(:name => @tendency.slug), :type => 'modal'%></p>
 		</div>
 	<% else %>
 		<ul id="forum" class="clear">
@@ -22,7 +22,7 @@
 					<% end %>
 				</div>
 				<div class="w460 left p10">
-					<p class="mb0"><span class="f110"><%= link_to topic.title, group_forum_topic_show_url(:slug => @group.slug, :tslug => topic.slug) %></span><br />
+					<p class="mb0"><span class="f110"><%= link_to topic.title, tendencies_forum_topic_show_url(:name => @tendency.slug, :tslug => topic.slug) %></span><br />
 						<span class="f090">por 
 						<% if profile.nil? %>
 							<%= 'Usuario dado de baja en el sistema.' %>
@@ -41,7 +41,7 @@
 					<% end %>
 					<% if topic.ganswers.count > 0 %>
 						<% last = topic.ganswers.order_by(:created_at.asc).last %>
-						<br /><span class="f090"><%= link_to 'Ver última respuesta', group_forum_topic_show_url(:slug => @group.slug, :tslug => topic.slug, :aslug => last.slug) %>
+						<br /><span class="f090"><%= link_to 'Ver última respuesta', tendencies_forum_topic_show_url(:name => @tendency.slug, :tslug => topic.slug, :aslug => last.slug) %>
 						<br />(hace <%= time_ago_in_words(last.created_at) %>)</span>
 					<% end %>
 					</p>
