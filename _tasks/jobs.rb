@@ -140,6 +140,12 @@ job 'activity.new' do |args|
       notify_to << Prof.find(data['profile_id'])
     end  
     owner_id = [data['profile_id']]
+  when "tforum"
+    notify_to = Prof.find(data['profile_id']).connections('Friend')
+    if notify_to.include?(Prof.find(data['profile_id'])) == false
+      notify_to << Prof.find(data['profile_id'])
+    end  
+    owner_id = [data['profile_id']]
   end
 
   notify_to.each do |prof|

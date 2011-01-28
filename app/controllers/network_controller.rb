@@ -21,12 +21,9 @@ class NetworkController < ApplicationController
       redirect_to :root
     else
       time = Time.at(params[:time].to_i)
-      puts time
-      case @current_profile.class.to_s
-      when 'Profile'
-        @profile = @current_profile
-        @nodes = @current_profile.activities.where(:created_at.gt => time).order_by(:created_at.desc)
-      end
+
+      @profile = @current_profile
+      @nodes = @current_profile.activities.where(:created_at.gt => time).order_by(:created_at.desc)
     end
   end
 end

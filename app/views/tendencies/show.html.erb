@@ -63,6 +63,35 @@
 			<% end
 			rescue
 			end
+		when "tforum"
+		  puts 'paso'
+			if hash_data['profile_id'] == session['current_profile']
+				profile = @current_profile
+			else
+				profile = Prof.find(hash_data['profile_id'])
+			end
+			begin
+			@topic = @tendency.gforum.gtopics.find(hash_data['topic_id'])
+			if profile.nil? == false and @topic.nil? == false %>
+					<li id="<%= activity.id.to_s %>">
+						<div class="left w530">
+						<div class="left w50 p10">
+							<%= link_to image_tag(file_path(profile.portrait, 'portrait', '50'), :alt => profile.name, :type => "p50"), profile_show_url(:profilename => profile.profilename) %>
+						</div>						
+						<div class="m10 w420">
+						<% if hash_data["profile_id"] == session["current_profile"]%>
+						<p>Has escrito el mensaje '<%= link_to @topic.title, tendencies_forum_topic_show_url(:name => @tendency.slug, :tslug => @topic.slug) %>' en el foro.<br/><span class="quiet">Hace <%= time_ago_in_words(activity.created_at) %></span></p>
+						<% else %>
+						<p><%= link_to profile.name, profile_show_url(:profilename => profile.profilename) %> ha escrito el mensaje '<%= link_to @topic.title, tendencies_forum_topic_show_url(:name => @tendency.slug, :tslug => @topic.slug) %>' en el foro.<br/><span class="quiet">Hace <%= time_ago_in_words(activity.created_at) %></span></p>
+						<% end %>
+						</div>
+						</div>
+						<hr class="mb0" />
+					</li>	
+			<% end
+			rescue
+			end
+		
 		end  %>
 	<% end %>
 </ul>

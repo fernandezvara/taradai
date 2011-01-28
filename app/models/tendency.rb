@@ -2,7 +2,7 @@ class Tendency < ActAsGraph
   include Mongoid::Document
   include Mongoid::Timestamps
   
-  before_save create_forum!
+  before_save :create_forum!
   
   field :slug, :type => String
   index :slug
@@ -22,6 +22,8 @@ class Tendency < ActAsGraph
   def members_count
     return self.connections_count('Tend')
   end
+  
+  private 
   
   def create_forum!
     self.create_gforum

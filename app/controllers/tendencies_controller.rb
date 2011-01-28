@@ -10,15 +10,6 @@ class TendenciesController < ApplicationController
     end
   end
 
-  def forum
-  end
-
-  def forum_new
-  end
-  
-  def forum_create
-  end
-
   def blogs
     @tendency = Tendency.where(:slug => params[:name]).first
     if @tendency.nil?

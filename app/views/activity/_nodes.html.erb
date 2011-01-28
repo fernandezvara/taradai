@@ -336,6 +336,37 @@ end %>
 						<% end %>
 						<% rescue
 						end %>
+						<% when "tforum"
+  						if hash_data['profile_id'] == session['current_profile']
+  							profile = @current_profile
+  						else
+  							profile = Prof.find(hash_data['profile_id'])
+  						end
+  						begin
+  						@tendency = Tendency.find(hash_data['tendency_id'])
+  						@topic = @tendency.gforum.gtopics.find(hash_data['topic_id'])
+  						if profile.nil? == false and @tendency.nil? == false and @topic.nil? == false %>
+  								<li id="<%= node.id.to_s %>">
+  									<div class="left w50 p10">
+  										<%= image_tag file_path(profile.portrait, 'portrait', '50'), :alt => profile.name, :type => "p50" %>
+  									</div>
+  									<div class="left <%= size %>">
+  										<div class="m10 <%= size2 %>">
+  										<% if hash_data["profile_id"] == session["current_profile"]%>
+  										<p>Has escrito el mensaje '<%= link_to @topic.title, tendencies_forum_topic_show_url(:name => @tendency.slug, :tslug => @topic.slug) %>' en '<%= link_to @tendency.name[session['locale']], tendencies_show_url(:name => @tendency.slug) %>'.<br/><span class="quiet">Hace <%= time_ago_in_words(node.created_at) %></span></p>
+  										<% else %>
+  										<p><%= link_to profile.name, profile_show_url(:profilename => profile.profilename) %> ha escrito el mensaje '<%= link_to @topic.title, tendencies_forum_topic_show_url(:name => @tendency.slug, :tslug => @topic.slug) %>' en '<%= link_to @tendency.name[session['locale']], tendencies_show_url(:name => @tendency.slug) %>'.<br/><span class="quiet">Hace <%= time_ago_in_words(node.created_at) %></span></p>
+  										<% end %>
+  										</div>
+  									</div>
+  									<hr class="mb0" />
+  								</li>
+
+  						<% end %>
+  						<% rescue
+  						end %>
+						
+						
 				<%
 			end #end case
 	#end	#end cache

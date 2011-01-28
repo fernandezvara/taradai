@@ -47,8 +47,7 @@ class GroupsController < ApplicationController
   def show
     @group = Group.where(:slug => params[:slug]).first
     @title = @group.name
-    @activities = @group.activities.order_by(:created_at.desc)
-    #@activities = @group.connections_sort_by_time('GAct', 0, 40, 'DESC')
+    @activities = @group.activities.order_by(:created_at.desc).limit(40)
     render :layout => 'group'
   end
   
