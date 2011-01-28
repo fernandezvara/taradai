@@ -1,0 +1,30 @@
+<% content_for :content do %>
+<div class="w570">
+	<%= form_for(@topic, :url => group_forum_topic_create_url) do |f| %>
+	<div class="w560 radius4 green0f green4b f130 lh130 p5 mr0">Nuevo Tema</div>
+	<div class="w560 fcolor8 f110 lh110 mt10"><p>Por favor, escribe un asunto y mensaje.</p></div>
+	
+	<div class="w560 fcolor9 f110 lh110 mt10">
+		<div class="w70 mr10 tright left mb10"><strong>Asunto:</strong></div>
+	
+		<div class="w470 right mb10">
+			<%= f.text_field :title, :maxlength => 80, :class=> 'w460'   %>
+		</div>
+		<div class="clear">
+		<div class="w70 mr10 tright left"><strong>Mensaje:</strong></div>
+	
+		<div class="w470 right">
+			<%= f.text_area :body, :style => "width:460px; height:200px" %>
+		</div>
+	</div>
+	<div class="clear"></div>
+	<div class="mt10 w570">
+		<div class="right">
+	<input type="button" value="Cancelar" class="close" />
+	<%= f.submit :class => 'ml10' %>
+		</div>
+	</div>
+	<% end %>
+	<div class="clear"></div>
+</div>
+<% end %>

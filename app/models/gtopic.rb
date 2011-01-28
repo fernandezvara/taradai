@@ -6,6 +6,7 @@ class Gtopic
   field :title,      :type => String
   field :body,       :type => String
   field :slug,       :type => String
+  field :locale,     :type => String
 
   index :slug
   

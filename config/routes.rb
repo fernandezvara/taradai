@@ -1,5 +1,33 @@
 Taradai::Application.routes.draw do
 
+  get "tforum/create_answer"
+
+  get "tforum/create_topic"
+
+  get "tforum/delete_answer"
+
+  get "tforum/delete_topic"
+
+  get "tforum/destroy_answer"
+
+  get "tforum/destroy_topic"
+
+  get "tforum/edit_answer"
+
+  get "tforum/edit_topic"
+
+  get "tforum/index"
+
+  get "tforum/new_answer"
+
+  get "tforum/new_topic"
+
+  get "tforum/topic"
+
+  get "tforum/update_answer"
+
+  get "tforum/update_topic"
+
   devise_for :users
   
   resources :profiles, :only => [:new, :create, :edit, :update]
