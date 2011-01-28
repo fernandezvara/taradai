@@ -1,0 +1,31 @@
+<% content_for :head do %>
+<%= javascript_include_tag 'cleditor/jquery.cleditor.min.js' %>
+<% end %>
+
+<% content_for :javascript do %>
+$(document).ready(function() {
+	$("#blog_body").cleditor({
+		width:620,
+		height:400,
+		controls: "bold italic underline strikethrough | color highlight removeformat | bullets numbering | outdent indent | alignleft center alignright justify | undo redo",
+		bodyStyle: "font-family:'lucida grande', Verdana, Arial, sans-serif; font-size: 12px; cursor:text;"
+	});
+});
+<% end %>
+
+<% content_for :content do %>
+
+<% if @blog.errors.any? %>
+  <div id="error_explanation">
+    <h4>Por favor, corrige estos errores:</h4>
+    <ul>
+    <% @blog.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= render 'formedit' %>
+
+<% end %>

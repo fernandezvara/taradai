@@ -1,0 +1,17 @@
+<% content_for :content do %>
+		<ul class="friends">
+			<% @groups.each do |g| %>
+				<li style="height:70px; border-bottom:1px #aaa solid;">
+					<div class="left w80 m10"><%= link_to image_tag(file_path(g.gportrait, 'gportrait', '50'), :alt=> g.name, :type=> 'p50'), group_show_url(:slug => g.slug) %></div>
+					<div class="left w500 f105 m10"><%= link_to g.name, group_show_url(:slug => g.slug) %><br/>
+						<div id="hideable" class="right">
+							<% if g.owner_id == @current_profile.id.to_s %>
+								<%= link_to "Editar", group_edit_url(:slug => g.slug) %> · 
+							<% end %>
+							<%= link_to "Ver", group_show_url(:slug => g.slug) %>
+					</div>
+				</li>
+				<div class="clear"></div>
+			<% end %>
+		</ul>
+<% end %>

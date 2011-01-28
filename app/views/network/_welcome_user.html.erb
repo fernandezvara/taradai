@@ -1,0 +1,15 @@
+<h2>¡Bienvenido a taradai, <%= @current_profile.first_name %>!</h2>
+
+<p class="tjustify">Taradai es una red social creada con el fin de ser una fuente de información sobre las nuevas tendencias, terapias alternativas y nuevas prácticas naturales que nos permitan mejorar nuestro espíritu, salud y todo lo que tenemos a nuestro alrededor.</p>
+<p class="tjustify">Por su carácter abierto y social, taradai tiene como objetivo ser útil y práctico tanto para aquellos que son grandes conocedores de cada una de las tendencias, como de aquellos que tienen inquietud y desean conocerlas para adaptarlas a su estilo de vida.</p>
+<p>...</p>
+
+<h3>¿Cómo comienzo a usar taradai?</h3>
+<h4>1. Buscar amigos.</h4>
+<p class="tjustify">Como primer paso, puedes ver quien de tus conocidos ya forma parte de esta red. Puedes buscarlos pulsando en el botón 'Buscar Amigos' que ves justo aquí debajo.</p>
+<p class="tcenter"><a href="#" class="button">Buscar amigos en taradai</a><br/></p>
+<h4>2. Pon una foto a tu perfil.</h4>
+<p class="tjustify">Poniendo una foto en tu perfil permitirás a tus amigos que sepan que realmente eres tú el propietario del perfil.</p>
+<p class="tcenter"><%= link_to "Seleccionar foto", portrait_new_url(:profilename => @current_profile.profilename), :class => "button", :type => 'modal' %><br/></p>
+<h4>3. Edita tu perfil.</h4>
+<p class="tjustify">Puedes editar la información de tu perfil añadiendo aquella que creas conveniente y quieras compartir. Si miras en la parte de arriba, podrás ver un menú con los accesos a tu información, tu perfil, tus mensajes, tus datos, etc.</p>

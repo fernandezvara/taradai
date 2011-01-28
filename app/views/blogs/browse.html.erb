@@ -1,0 +1,37 @@
+<% content_for :main do %>
+<ul class="friends">
+<% @blogs.each do |blog| %>
+	<% if blog.privacy == true 
+		 if @profile == @current_profile or @profile.connected?('Friend', @current_profile) == true 
+			show = true
+		else
+			show = false
+		end
+	else
+		show = true
+	end %>
+			
+	<% if show == true and blog.published == true %>	
+	<li>
+<div class="color0 radius4 mb20">
+	<div class="p10">
+		<h3><%= blog.title %></h3><hr />
+		<div class="mb10"><%= sanitize(blog.body, :tags => %w(br))[0..100] %></div>
+		<hr />
+		<div class="left"><p><%= l(blog.updated_at, :format => :short) %></p></div>
+		<div id="hideable" class="right">
+			<%= link_to "Leer el artículo completo ...", blog_show_url(:profilename => @profile.profilename, :slug => blog.slug) %>
+			<% if @profile == @current_profile %>
+				<%= " | " %><%= link_to "Editar", blog_edit_path(:slug => blog.slug) %> | <%= link_to "Eliminar", blog_delete_url(:slug => blog.slug), :type => 'modal' %>
+			<% end %>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>	
+	</li>
+	<% end %>
+<% end %>
+</ul>
+<p><%= "Blogs = " + @blogs.count.to_s %></p>
+
+<% end %>

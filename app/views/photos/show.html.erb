@@ -1,0 +1,34 @@
+<% content_for :main do %>
+	<% if @albums.count == 0 %>
+		<p><%= "No hay álbumes de fotos que mostrar." %></p>
+	<% else %>
+		<% if @albums.count == 1 %>
+		<p><%= "Se ha encontrado un álbum de fotos. " %></p>
+		<% else %>
+		<p> <%= "Se han encontrado #{@albums.count.to_s} álbumes de fotos." %></p>
+		<% end %>
+		<% counter = 0 %>
+		<% @albums.each do |album| %>
+			<% counter = counter + 1 %>
+			<% if counter % 3 == 0 %>
+				<div class="left w160 mr0 mb20">
+			<% else %>
+				<div class="left w160 mr25 mb20">
+			<% end %>
+				<%# if album.cover.nil? or album.cover == "" %>
+					<%#= link_to image_tag('/images/portal/albums/thumb.png'), album_show_url(:profilename => @profile.profilename, :slug => album.slug) %>
+				<%# else %>
+					<%# photo = album.photos.find(album.cover) %>
+					<%#= link_to image_tag(photo.photo.url_path + 'thumb_'+  photo.photo_filename), album_show_url(:profilename => @profile.profilename, :slug => album.slug) %>
+					<% photo = album.photos.find(album.cover) %>
+					<% if photo.nil? %>
+						<% photo_photo = nil %>
+					<% else %>
+						<% photo_photo = photo.photo %>
+					<% end %>
+					<%= link_to image_tag(file_path(photo_photo, 'photo', 't'), :type => 'pht'), album_show_url(:profilename => @profile.profilename, :slug => album.slug) %>
+				<%# end %>
+				</div>
+		<% end %>
+	<% end %>
+<% end %>

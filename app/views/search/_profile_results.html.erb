@@ -1,0 +1,18 @@
+<%= will_paginate(@search) %>
+<ul id="search_results">
+<% @search.each do |search| %>
+	<li>
+		<% friend = @current_profile.connected?('Friend', search) %>
+		<div class="left w70"><%= link_to image_tag(file_path(search.portrait, 'portrait', '50'), :alt=> search.name, :class => 'm10'), profile_show_url(:profilename => search.profilename) %></div>
+		<div class="left w430 f105 m10"><%= link_to search.name, profile_show_url(:profilename => search.profilename) %><%= " (amigo)" if friend %><%= " (tú)" if search == @current_profile %>
+			<br />
+			<div id="hideable" class="right">
+			<% if search != @current_profile and friend == false %>
+				<%= link_to 'Añadir como amigo', friend_request_url(:profilename => search.profilename), :class => 'button mr0 ml0', :type => 'modal' %>
+			<% end %>
+			</div>
+		</div>
+	</li>
+<% end %>
+</ul>
+<%= will_paginate(@search) %>

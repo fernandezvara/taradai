@@ -1,0 +1,72 @@
+es:
+    mail:
+        common:
+            header: "taradai"
+            thanks: "Gracias, \n El equipo de taradai"
+            footer: "Reto Contínuo, S.L. Todos los derechos reservados"
+    activity:
+        friendship:
+            mail:
+                subject: "%{profile1_name} ha aceptado tu petición como amigo."
+        
+        
+        
+        
+        
+        is_now_friend_of:
+            activity:
+                text: "%{user1_link} y %{user2_link} son ahora amigos"
+                own_text: "Te has hecho amigo de %{user2_link}"
+        friend_accept:
+            notification:
+                text: "%{user1_name} ha aceptado tu petición como amigo."
+            mail:
+                subject: "%{user1_name} ha aceptado tu petición como amigo"
+                message: "Hola, %{user2_name}, \n\n%{user1_name} ha aceptado tu petición como amigo."
+        message:
+            notification:
+                text: "%{user1_name} te ha enviado un mensaje."
+            mail:
+                subject: "%{user1_name} te ha enviado un mensaje."
+                message: "Hola, %{user2_name}, \n\n%{user1_name} te ha enviado un mensaje titulado: '%{message_subject}'."
+                link_text: "Pincha aquí para acceder al mensaje"
+        friend_request:
+            notification:
+                text: "%{user1_name} te ha hecho una petición como amigo."
+            mail:
+                subject: "%{user1_name} quiere ser tu amigo."
+                message: "Hola, %{user2_name}, \n\n%{user1_name} quiere ser tu amigo.\n\nTe ha enviado el siguiente mensaje:\n\n'%{message_text}'."
+                link_text: "Pincha aquí para ver tus peticiones como amigo."
+        friend_cancel:
+            notification:
+                text: "%{user1_name} no ha aceptado tu petición como amigo."
+            mail:
+                subject: "%{user1_name} ha cancelado tu petición como amigo."
+                message: "Hola, %{user2_name}, \n\n%{user1_name} ha cancelado tu petición como amigo."
+        change_portrait:
+            activity: 
+                text: "%{user1_link} ha cambiado la foto de su perfil."
+                own_text: "Has cambiado la foto de tu perfil."
+        change_profile_data:
+            activity: 
+                text: "%{user1_link} ha cambiado la información de su perfil."
+                own_text: "Has cambiado la información de tu perfil"
+        change_status_message:
+            activity: 
+                text: "%{user1_link} ha cambiado su estado a: '%{status_message}'"
+                own_text: "Has cambiado tu estado a: '%{status_message}'"
+        delete_status_message:
+            activity: 
+                text: "%{user1_link} ahora no tiene estado"
+                own_text: "Has borrado tu estado"
+        profile_message:
+            activity:
+                text: "%{user1_link} ha escrito en el perfil de %{user2_link}:<br />%{message}"
+                own_text: "%{user1_link} ha escrito en el perfil de %{user2_link}:<br />%{message}"
+            mail:
+                subject: "%{user1_name} ha escrito en tu perfil."
+                message: "Hola, %{user2_name}, \n\n%{user1_name} ha escrito en tu perfil un mensaje.\n\n%{message}"
+                
+                
+                
+                

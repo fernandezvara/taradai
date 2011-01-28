@@ -1,0 +1,7 @@
+<% @tendencies = @profile.connections('Tend') %>
+<div class="color8 fcolor1 radius4tr radius4br pl10 mt10 mr10 mb5 pt5 pb5">Intereses:</div>
+	<div class="color2 fcolor9 ml10">
+	<% @tendencies.each do |tendency| %>
+		<%= link_to tendency.name[session[:locale]], tendencies_show_url(:name => tendency.slug) %><br />
+	<% end %>
+	</div>

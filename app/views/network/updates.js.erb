@@ -1,0 +1,4 @@
+<% if @nodes.count > 0 %>
+$("ul#activities").attr('time', '<%= @nodes.first.created_at.to_i.to_s %>');
+$("ul#activities").prepend("<%= escape_javascript(raw(render :partial => 'activity/nodes')) %>");
+<% end %>

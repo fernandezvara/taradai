@@ -1,0 +1,28 @@
+<% content_for :content do %>
+<div class="w470">
+	<%= simple_form_for(@status, :url => status_create_url(:profilename => @current_profile.profilename)) do |f| %>
+	<div class="w460 radius4 green0f green4b f130 lh130 p5 mr0">Nuevo estado</div>
+	<div class="w460 fcolor8 f110 lh110 mt10"><p>Comparte lo que estás pensando o haciendo con tus amigos.<br />Si quieres borrar tu estado actual deja en blanco la casilla.</p></div>
+	
+	<div class="w460 fcolor9 f110 lh110 mt10">
+		<div class="w70 mr10 tright left"><strong>Estado:</strong></div>
+		<div class="w370 right">
+			<%= f.text_area :status, :class => "w370 h90 mb5" %>
+		</div>
+	</div>
+	<div class="clear w460 tright"><span id="counter" class="quiet">Caracteres: 0/150</span></div>
+	<div class="clear mt10 w470">
+		<div class="right">
+	<input type="button" value="Cancelar" class="close" />
+	<%= f.submit :class => 'ml10' %>
+		</div>
+	</div>
+	<% end %>
+	<div class="clear"></div>
+</div>
+<script>
+	$(document).ready(function() {
+		$("#status_status").counter(150);
+	})
+</script>
+<% end %>

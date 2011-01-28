@@ -1,0 +1,51 @@
+<% content_for :main do %>
+
+	<% if @photos.count == 0 %>
+		<p><%= "No hay fotos en este álbum aún." %></p>
+	<% else %>
+		<% if @photos.count == 1 %>
+		<p><%= "Se ha encontrado una foto. " %></p>
+		<% else %>
+		<p> <%= "Se han encontrado #{@photos.count.to_s} fotos." %></p>
+		<% end %>
+		<div class="w530">
+			<%= form_tag album_org_url %>
+			<ul id ="organize">
+			
+				<% @photos.each do |photo| %>
+						<li>
+							<div class="left w160 p10">
+								<%= image_tag(file_path(photo.photo, 'photo', 't'), :type => 'pht', :alt => photo.title) %>
+							</div>
+							<div class="right w330 p10">
+								<p class="mb0">Título:</p>
+								<%= text_field :photo, :title, :value => photo.title, :index => photo.id.to_s, :class => 'w320' %>
+								<div id="hideable" class="right mt20 mb0"><%= link_to "Borrar foto", photo_delete_url(:slug => @album.slug, :id => photo.id.to_s), :type => 'modal' %> · <%= link_to "Usar como portada", album_cover_url(:slug => @album.slug, :id => photo.id.to_s), :type => 'modal' %></div>
+							</div>
+							<%= hidden_field :photo, :order, :value => photo.order, :index => photo.id.to_s %>
+							<div class="clear"></div>
+						</li>
+				<% end %>
+			</ul>
+			<%= submit_tag "Enviar cambios", :disable_with => 'Enviando...' %>
+		</div>
+					<%#= link_to image_tag(photo.photo.url_path + 'thumb_'+  photo.photo_filename), photo_show_url(:profilename => @profile.profilename, :slug => @album.slug, :id => photo.id.to_s) %>
+					
+	<% end %>
+
+<% end %>
+
+<% content_for :head do %>
+<%= javascript_include_tag "common/jquery.dragsort-0.4.min.js" %>
+<% end %>
+
+<% content_for :javascript do %>
+
+	$("ul#organize").dragsort({ dragSelector: "li", dragBetween: true, dragEnd: reOrder, placeHolderTemplate: "<li style='height:40px; width: 530: margin:0px'></li>" });
+	
+	function reOrder() {
+		$("ul#organize li").each(function(index) { 
+			$(this).find("input[type=hidden]").val(index + 1);
+		});	
+	}
+<% end %>

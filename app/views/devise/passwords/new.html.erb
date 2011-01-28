@@ -1,0 +1,21 @@
+<% content_for :left do %>
+	<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f| %>
+	  	<fieldset>
+			<legend><%= t('user.titles.forgot_password')%></legend>
+			<%= devise_error_messages! %>
+			<p><%= f.label(:email, t('user.labels.email')) %><br />
+			<%= f.text_field :email, :class=> "t" %></p>
+
+			<p><%= f.submit t('user.buttons.resend_password') %></p>
+		</fieldset>
+	<% end %>
+<%= render :partial => 'devise/shared/links' %>
+<% end %>
+
+<% content_for :right do %>
+	<h3><%= t('user.titles.help_forgot_password') %></h3>
+	<br />
+	<p><%= t('user.labels.help_forgot_password1') %></p>
+	<p><%= t('user.labels.help_forgot_password2') %></p>
+	<p><%= t('user.labels.help_forgot_password3') %></p>
+<% end %>

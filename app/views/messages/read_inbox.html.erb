@@ -1,0 +1,41 @@
+<% content_for :content do 
+	sender = Prof.find(@message.from)
+	arr_to = Array.new
+	@message.to.each do |to|
+		arr_to << Prof.find(to)
+	end
+%>
+	<div class="w630 tright mb20">
+		<%= link_to "Volver a los mensajes", messages_inbox_url, :class => 'button' %>&nbsp;
+		<%= link_to 'Borrar', message_delete_inbox_url(:slug => @message.slug), :type => 'modal', :class => 'button' %>&nbsp;
+		<%= link_to 'Responder', message_reply_url(:slug => @message.slug), :class => 'button' %>
+	</div>
+	<div class="w70 mr10 mb10 tright left clear">De:</div>
+	<div class="w550 left"><%= link_to sender.name, profile_show_url(:profilename => sender.profilename) %></div>
+	<div class="w70 mr10 mb10 tright left clear">Para:</div>
+	<div class="w550 left">
+		<% arr_to.each do |to| %>
+			<% if arr_to.count != 1 %>
+				<% if to != arr_to.first and to != arr_to.last %>
+					<%= "," %>
+				<% end %>
+				<% if to == arr_to.last %>
+					<%= " y " %>
+				<% end %>
+			<% end %>
+			<%= link_to to.name, profile_show_url(:profilename => to.profilename) %>
+		<% end%>
+	</div>
+	<div class="w70 mr10 mb10 tright left clear">Asunto:</div>
+	<div class="w550 left mb10"><span class="b"><%= @message.subject == "" ? "(sin título)" : @message.subject %></span><br />
+	<span class="quiet"><%= l(@message.created_at, :format => :short) %></span></div>
+	<div class="w630 clear">
+		<div class="w50 mr10 left pl10 pr10">
+			<%= link_to image_tag('portal/avatars/avatar50.png', :class => 'portrait', :title => sender.name),  profile_show_url(:profilename => sender.profilename) %>
+		</div>
+		<div class="w530 left radius4 color0 p10">
+			<%= simple_format(@message.body) %>
+		</div>
+	</div>
+	
+<% end %>

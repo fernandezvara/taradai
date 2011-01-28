@@ -1,0 +1,12 @@
+<div class="mt10 green0f green3b pr10 pl10 pt5 pb5 radius4tl radius4tr b ">
+	Grupos (<%= @tendency.connections_count('GTend') %>)
+</div>
+<div class="color1 p10 radius4bl radius4br">
+	<% @groups = @tendency.connections('GTend') %>
+	<% @groups.each do |group| %>
+		<%= link_to group.name, group_show_url(:slug => group.slug) %>
+	<% end %>
+</div>
+<div class="green0f green3b pr10 pl10 pt5 pb5 radius4bl radius4br">
+	<%= link_to "Ver todos",  tendencies_groups_url(:name => @tendency.slug), :class => 'gside' %>
+</div>

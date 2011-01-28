@@ -1,0 +1,15 @@
+<%= form_for(@blog, :url => blog_create_url) do |f| %>
+
+<p><%= f.label :title %><br />
+<%= f.text_field :title, :class=> 'w620' %></p>
+
+<p><%= f.text_area :body, :class=> 'w620 h400' %></p>
+
+<div class="clearfix left">
+	<% @tendencies.each do |t| %>
+		<%= check_box("t", "#{t.id.to_s}") %> <%= t.name[session['locale']] %><br />
+	<% end %>
+</div>
+<div class="clearfix tright"><p><%= f.check_box :privacy, {}, true, false %><%= f.label :privacy %> · <%= f.check_box :published, {}, true, false %><%= f.label :published %></p></div>
+<div class="right"><%= f.submit  %></div>
+<% end %>

@@ -1,0 +1,24 @@
+<div class="color8 fcolor1 radius4tr radius4br pl10 mt10 mr10 mb5 pt5 pb5"><%= link_to "Ver todos los artículos", blogs_show_url(:profilename => @profile.profilename), :class=> 'pside' %></div>
+
+<% @conn = @blog.connections('BTend') 
+@arts = Array.new
+@conn.each do |conn|
+	c_temp = conn.connections_random('BTend', 4)
+	c_temp.each do |c|
+		if c != @blog
+			@arts << c
+		end
+	end
+end
+%>
+
+<% if @arts.count > 0 %>
+<div class="color8 fcolor1 radius4tr radius4br pl10 mt10 mr10 mb5 pt5 pb5">Otros artículos parecidos</div>
+	<div class="color2 fcolor9 ml10">
+	<% @arts.each do |art| %>
+		<% puts art.class.to_s %>
+		<% profile = Prof.find(art.prof_id) %>
+		<%= link_to art.title, blog_show_url(:profilename => profile.profilename, :slug => art.slug) %><br />
+	<% end %>
+	</div>
+<% end %>

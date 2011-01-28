@@ -1,0 +1,56 @@
+<% if @current_profile == @profile %>
+	<% if action_name == "show" %>
+	<div class="color8 radius4tr radius4br pl10 mt10 mr10 mb5 pt5 pb5">
+		<%= link_to "Crear álbum de fotos", album_new_url(:profilename => @profile.profilename), :class => 'pside', :type => 'modal' %>
+	</div>
+	<% end %>
+	<% if action_name == "album_show" %>
+	<div class="color8 radius4tr radius4br pl10 mt10 mr10 mb5 pt5 pb5">
+		<%= link_to "Añadir fotos", photo_new_url(:profilename => @profile.profilename, :slug => @album.slug), :class => 'pside', :type => 'modal' %>
+	</div>
+	<div class="color8 radius4tr radius4br pl10 mt10 mr10 mb5 pt5 pb5">
+		<%= link_to "Organizar álbum", album_organize_url(@profile.profilename, :slug => @album.slug), :class => 'pside' %>
+	</div>
+	<% end %>
+	<% if action_name == "album_organize" %>
+	<div class="color8 radius4tr radius4br pl10 mt10 mr10 mb5 pt5 pb5">
+		<%= link_to "Eliminar el álbum", album_delete_url(:profilename => @profile.profilename, :slug => @album.slug), :class => 'pside', :type => 'modal'  %>
+	</div>
+	<div class="color8 radius4tr radius4br pl10 mt10 mr10 mb5 pt5 pb5">
+		<%= link_to "Volver al álbum", album_show_url(:profilename => @profile.profilename, :slug => @album.slug), :class => 'pside' %>
+	</div>
+	<% end %>
+<% end %>
+
+<% if action_name == "album_show" %>
+	<div class="color8 radius4tr radius4br pl10 mt10 mr10 mb5 pt5 pb5">
+		<%= link_to "Ver todos los álbumes", photos_show_url(:profilename => @profile.profilename), :class => 'pside' %>
+	</div>
+<% end %>
+
+<% if action_name == "photo_show" %>
+	<% if @prev != false or @next != false %>
+		<div class="color8 radius4tr radius4br pl10 mt10 mr10 mb5 pt5 pb5">
+			<% if @prev != false %>
+				<%= link_to "Anterior", photo_show_url(:profilename => @profile.profilename, :slug => @album.slug, :id => @prev.id.to_s), :class => 'pside', :type => 'stay' %>
+			<% end %>
+			<% if @prev != false and @next != false%>
+				<%= " · " %>
+			<% end %>
+			<% if @next != false %>
+				<%= link_to "Siguiente", photo_show_url(:profilename => @profile.profilename, :slug => @album.slug, :id => @next.id.to_s), :class => 'pside', :type => 'stay' %>
+			<% end %>
+		</div>
+	<% end %>
+	<% if @current_profile == @profile %>
+	<div class="color8 radius4tr radius4br pl10 mt10 mr10 mb5 pt5 pb5">
+		<%= link_to "Borrar esta foto", photo_delete_url(:slug => @album.slug, :id => @photo.id.to_s), :class => 'pside', :type => 'modal' %>
+	</div>
+	<div class="color8 radius4tr radius4br pl10 mt10 mr10 mb5 pt5 pb5">
+		<%= link_to "Usar como portada", album_cover_url(:profilename => @profile.profilename, :slug => @album.slug, :id => @photo.id.to_s), :class => 'pside', :type => 'modal' %>
+	</div>
+	<% end %>
+<div class="color8 radius4tr radius4br pl10 mt10 mr10 mb5 pt5 pb5">
+	<%= link_to "Volver al álbum", album_show_url(:profilename => @profile.profilename, :slug => @album.slug), :class => 'pside' %>
+</div>
+<% end %>

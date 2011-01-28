@@ -1,0 +1,56 @@
+<% content_for :main do %>
+<div class="w520 left radius4 green3b green0f mb10">
+	<div class="m5 b">Temas</div>
+</div>
+<div class="right">
+	<%= link_to "Nuevo Tema", group_forum_topic_new_url(:slug => @group.slug) , :class => 'button', :type => 'modal' %>
+</div>
+	<% if @topics.count == 0 %>
+		<div class="clear tcenter mt20">
+			<p><br /><%= 'No hay mensajes aún en el foro. ' %> <br /><%= link_to "Se el primero en escribir.", group_forum_topic_new_url(:slug => @group.slug) %></p>
+		</div>
+	<% else %>
+		<ul id="forum" class="clear">
+		<% @topics.each do |topic| %>
+			<% profile = Prof.find(topic.prof_id) %>
+			<li id="<%= topic.slug %>" style="vertical-align:middle;" class="clear">
+				<div class="w50 left p10">
+					<% if profile.nil? %>
+						<%= image_tag '/portal/avatars/p50_default.png', :alt => 'Usuario dado de baja en el sistema.' %>
+					<% else %>
+						<%= link_to image_tag(file_path(profile.portrait, 'portrait', '50'), :alt => profile.name, :type => "p50"), profile_show_url(:profilename => profile.profilename) %>
+					<% end %>
+				</div>
+				<div class="w460 left p10">
+					<p class="mb0"><span class="f110"><%= link_to topic.title, group_forum_topic_show_url(:slug => @group.slug, :tslug => topic.slug) %></span><br />
+						<span class="f090">por 
+						<% if profile.nil? %>
+							<%= 'Usuario dado de baja en el sistema.' %>
+						<% else %>
+							<%= link_to profile.name, profile_show_url(:profilename => profile.profilename) %>
+						<% end %>
+						</span><span class="quiet f090">(creado hace <%= time_ago_in_words(topic.created_at) %>)</span>
+					</p>
+				</div>
+				<div class="w150 left p10">
+					<p class="mb0">
+					<% if topic.ganswers.count == 1%>
+						<%= "1 respuesta" %>
+					<% else %>
+						<%= "#{topic.ganswers.count.to_s} respuestas" %>
+					<% end %>
+					<% if topic.ganswers.count > 0 %>
+						<% last = topic.ganswers.order_by(:created_at.asc).last %>
+						<br /><span class="f090"><%= link_to 'Ver última respuesta', group_forum_topic_show_url(:slug => @group.slug, :tslug => topic.slug, :aslug => last.slug) %>
+						<br />(hace <%= time_ago_in_words(last.created_at) %>)</span>
+					<% end %>
+					</p>
+				</div>
+			</li>
+		<% end %>
+		</ul>
+	<% end %>
+	
+	<p><%= "#{@topics.count} topics..." %></p>
+	
+<% end %>

@@ -1,0 +1,28 @@
+<% content_for :content do %>
+<div class="w470">
+	<%= simple_form_for(@album, :url => { :controller => "photos", :action => "album_create"}) do |f| %>
+	<div class="w460 radius4 green0f green4b f130 lh130 p5 mr0">Nuevo álbum de fotos</div>
+	<div class="w460 fcolor8 f110 lh110 mt10"><p>Vas a crear un nuevo álbum de fotos, por favor, indica el título que desees que tenga.<br />Además, puedes escribir una descripción sobre el contenido del mismo.</p></div>
+	
+	<div class="w460 fcolor9 f110 lh110 mt10">
+		<div class="w70 mr10 tright left"><strong>Titulo</strong></div>
+		<div class="w370 right">
+			<%= f.text_field :title, :class => "w370" %>
+		</div>
+		<div class="clear"></div>
+		<div class="w70 mt5 mr10 tright left"><strong>Descripción</strong></div>
+		<div class="w370 mt5 right">
+			<%= f.text_area :description, :class => "w370 h90" %>
+		</div>
+	</div>
+	<div class="clear"></div>
+	<div class="mt10 w470">
+		<div class="right">
+	<input type="button" value="Cancelar" class="close" />
+	<%= f.submit :class => 'ml10' %>
+		</div>
+	</div>
+	<% end %>
+	<div class="clear"></div>
+</div>
+<% end %>

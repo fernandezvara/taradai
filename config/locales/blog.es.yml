@@ -1,0 +1,22 @@
+es:
+    helpers:
+        label:
+            blog:
+                title: "Título"
+                body: "Mensaje"
+                published: "Publicar"
+            blogcomment:
+                comment: "Comentario"
+        submit:
+            blog:
+                create: "Guardar artículo"
+                update: "Guardar cambios"
+            blogcomment:
+                create: "Enviar comentario"
+                update: "Editar comentario"
+    activerecord:
+        attributes:
+            blog:
+                title: "Titulo"
+                body: "Texto"
+                

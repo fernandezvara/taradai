@@ -1,0 +1,32 @@
+<div class="w950 p10 color8 fcolor1 radius4 mb10">
+	<div class="left">
+		<span class="f130" style="line-height:26px; overflow:hidden;"><%= @group.name %></span>
+	</div>
+	<div class="right">
+		<ul class="ta mb0">
+			<% if controller_name == 'groups' and action_name == 'show' %>
+				<%= content_tag(:li, link_to('Novedades', group_show_url(:slug => @group.slug)), :class => ['radius4', 'active']) %>
+			<% else %>
+				<%= content_tag(:li, link_to('Novedades', group_show_url(:slug => @group.slug)), :class => 'radius4') %>
+			<% end %>
+			<% if controller_name == 'groups' and action_name == 'members' %>
+				<%= content_tag(:li, link_to('Miembros', group_members_url(:slug => @group.slug)), :class => ['radius4', 'active']) %>
+			<% else %>
+				<%= content_tag(:li, link_to('Miembros', group_members_url(:slug => @group.slug)), :class => 'radius4') %>
+			<% end %>
+			<% if controller_name == 'gforum' %>
+				<%= content_tag(:li, link_to('Foro', group_forum_url(:slug => @group.slug)), :class => ['radius4', 'active']) %>
+			<% else %>
+				<%= content_tag(:li, link_to('Foro', group_forum_url(:slug => @group.slug)), :class => 'radius4') %>
+			<% end %>
+			<% if @group.owner_id == @current_profile.id.to_s and Gpending.where(:group_id => @group.id.to_s).count > 0 and @group.private == true %>
+				<% if controller_name == 'groups' and action_name == 'pending' %>
+					<%= content_tag(:li, link_to('Peticiones como miembro', group_applies_url(:slug => @group.slug)), :class => ['radius4', 'active']) %>
+				<% else %>
+					<%= content_tag(:li, link_to('Peticiones como miembro', group_applies_url(:slug => @group.slug)), :class => 'radius4') %>
+				<% end %>
+			<% end %>
+		</ul>
+	</div>
+	<div class="clear"></div>
+</div>

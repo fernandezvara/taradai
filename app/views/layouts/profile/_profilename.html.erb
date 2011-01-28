@@ -1,0 +1,40 @@
+<div class="w950 p10 color8 fcolor1 radius4 mb10">
+	<div class="left">
+		<span class="f130" style="line-height:26px; overflow:hidden;"><%= @profile.name %></span>
+	</div>
+	<div class="right">
+		<ul class="ta mb0">
+			<% if controller_name == 'prof' and action_name == 'show' %>
+				<%= content_tag(:li, link_to('Novedades', profile_show_url(:profilename => @profile.profilename)), :class => ['radius4', 'active']) %>
+			<% else %>
+				<%= content_tag(:li, link_to('Novedades', profile_show_url(:profilename => @profile.profilename)), :class => 'radius4') %>
+			<% end %>
+			<% if controller_name == 'profiles' and action_name == 'about' %>
+				<%= content_tag(:li, link_to('Sobre mí', profile_about_url(:profilename => @profile.profilename)), :class => ['radius4', 'active']) %>
+			<% else %>
+				<%= content_tag(:li, link_to('Sobre mí', profile_about_url(:profilename => @profile.profilename)), :class => 'radius4') %>
+			<% end %>
+			<% if controller_name == 'friends' and action_name == 'show' %>
+				<%= content_tag(:li, link_to('Amigos', friends_show_url(:profilename => @profile.profilename)), :class => ['radius4', 'active']) %>
+			<% else %>
+				<%= content_tag(:li, link_to('Amigos', friends_show_url(:profilename => @profile.profilename)), :class => 'radius4') %>
+			<% end %>
+			<% if controller_name == 'blogs' %>
+				<%= content_tag(:li, link_to('Artículos', blogs_show_url(:profilename => @profile.profilename)), :class => ['radius4', 'active']) %>
+			<% else %>
+				<%= content_tag(:li, link_to('Artículos', blogs_show_url(:profilename => @profile.profilename)), :class => 'radius4') %>
+			<% end %>
+			<% if controller_name == 'groups' %>
+				<%= content_tag(:li, link_to('Grupos', profile_groups_url(:profilename => @profile.profilename)), :class => ['radius4', 'active']) %>
+			<% else %>
+				<%= content_tag(:li, link_to('Grupos', profile_groups_url(:profilename => @profile.profilename)), :class => 'radius4') %>
+			<% end %>
+			<% if controller_name == 'photos' and action_name == 'show' %>
+				<%= content_tag(:li, link_to('Fotos', photos_show_url(:profilename => @profile.profilename)), :class => ['radius4', 'active']) %>
+			<% else %>
+				<%= content_tag(:li, link_to('Fotos', photos_show_url(:profilename => @profile.profilename)), :class => 'radius4') %>
+			<% end %>
+		</ul>
+	</div>
+	<div class="clear"></div>
+</div>

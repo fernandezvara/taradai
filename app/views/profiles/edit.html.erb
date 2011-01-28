@@ -1,0 +1,69 @@
+<% content_for :content do %>
+	<% case @profile.class.to_s %>
+	<% when 'Profile' %>
+	<%= form_for(@profile) do |f| %>
+		<h4>Información básica</h4>
+        <hr />
+        	<dl id="mydata">
+                <dt><p><%= t('user.labels.full_name') %></p></dt>
+                <dd><p><%= @current_user.profile.first_name + " " + @current_user.profile.last_name %></p>
+				<p><%= f.check_box("last_name_show", :checked => @current_user.profile.last_name_show) %> <%= t('user.labels.show_my_full_name') %></p>
+				</dd>
+                <div class="clearfix"></div>
+                <dt><p><%= f.label :gender, t('user.labels.gender') %></p></dt>
+                <dd><p>
+				<% if @current_user.profile.gender == true %>
+					<%= radio_button(:profile, :gender, "false", :checked => false) %> <%= t('user.labels.male') %>
+					<%= radio_button(:profile, :gender, "true", :checked => true) %> <%= t('user.labels.female') %>
+				<% else %>
+					<%= radio_button(:profile, :gender, "false", :checked => true) %> <%= t('user.labels.male') %>
+					<%= radio_button(:profile, :gender, "true", :checked => false) %> <%= t('user.labels.female') %>
+				<% end %>
+				</p>
+                <p><%= f.check_box("gender_show", :checked => @current_user.profile.gender_show) %><%= t('user.labels.show_in_my_profile') %></dd>
+                <div class="clearfix"></div>
+                <dt><%= f.label :birthday, t('user.labels.birthday') %></dt>
+                <dd><p>
+                <%= f.date_select :birthday, :default => @current_user.profile.birthday, :start_year => Date.current.year, :end_year => Date.current.year - 100 %>
+                </p>
+                <p><% birthday_options = { t('user.labels.birthday_full') => 0, t('user.labels.birthday_only_day_month') => 1, t('user.labels.birthday_no_show')=> 2} %>
+				<%= select(:profile, :birthday_show, birthday_options, :selected => @current_user.profile.birthday_show )%></p>
+				<p><% horoscope_options = { t('user.labels.horoscope_show') => 1, t('user.labels.horoscope_no_show') => 0 }%>
+				<%= select(:profile, :horoscope_show, horoscope_options, :selected => @current_user.profile.birthday_show )%></p>
+                </dd>
+                <div class="clearfix"></div>
+                <dt><%= t('user.labels.birthday_country') %></dt>
+                <dd><p><%#= localized_country_select(:profile, :country, @current_user.profile.country, :class=> "w300") %></p></dd>
+                <div class="clearfix"></div>
+                <dt>Crencias religiosas</dt>
+                <dd><p><%= f.text_field :religion, :class => "w300", :maxlength => 50 , :value => @current_user.profile.religion %></p>
+                <p><%= f.check_box("religion_show", :checked => @current_user.profile.religion_show) %><%= t('user.labels.show_in_my_profile') %></p></dd>
+                <div class="clearfix"></div>
+                <dt>Estado Civil</dt>
+                <dd><p><% if @current_user.profile.gender == true 
+				civil_status_options = { t('user.labels.civil_no_show') => 0, t('user.labels.single_female') => 1, t('user.labels.inrelation') => 2, t('user.labels.married_female') => 3, t('user.labels.divorced_female') => 4, t('user.labels.widow_female') => 5}
+				else
+				civil_status_options = {t('user.labels.civil_no_show') => 0, t('user.labels.single_male') => 1, t('user.labels.inrelation') => 2, t('user.labels.married_male') => 3, t('user.labels.divorced_male') => 4, t('user.labels.widow_male') => 5}
+				end %>
+				<%= select(:profile, :civil_state, civil_status_options, :selected => @current_user.profile.civil_state) %>
+				</p></dd>
+                <div class="clearfix"></div>
+            </dl>
+            <h4>Sobre mi</h4>
+            <hr />
+            <dl id="mydata">
+               <dt>Sobre mi</dt>
+               <dd><p><%= f.text_area :about_me, {:class=>"w450 h200 ml10 mr10", :value=> @current_user.profile.about_me }%></p></dd>
+               <div class="clearfix"></div>
+               <dt>Cómo soy</dt>
+               <dd><p><%= f.text_area :own_definition, {:class=>"w450 h200 ml10 mr10", :value => @current_user.profile.own_definition } %></p></dd>
+               <div class="clearfix"></div>
+               <dt>Qúe busco</dt>
+               <dd><p><%= f.text_area :searching_for, {:class=> "w450 h200 ml10 mr10", :value => @current_user.profile.searching_for }%></p></dd>
+               <div class="clearfix"></div>
+            </dl>
+            <div class="right tright mb20 mr10"><%= f.submit "Guardar"%></div>
+	<% end %>
+	<% when 'PProfile'%>
+	<% end %>
+<% end %>

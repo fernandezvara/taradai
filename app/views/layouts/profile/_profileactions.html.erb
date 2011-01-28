@@ -1,0 +1,21 @@
+<div class="my_actions">
+	<% if @current_user == @user %>
+		<ul id="actions">
+			<li><%= link_to "Editar mi perfil", '#'  %>
+				<ul>
+					<li><%= link_to "Cambiar foto", '#'  %></li>
+					<li><a href="#">Privacidad</a></li>
+				</ul>
+			</li>
+		</ul>
+	<% else %>
+		<ul id="actions">
+			<li><%= link_to "Otro perfil....", '#'  %>
+				<ul>
+					<li><%= link_to "Cambiar foto", '#'  %></li>
+					<li><a href="#">Privacidad</a></li>
+				</ul>
+			</li>
+		</ul>
+	<% end %>
+</div>

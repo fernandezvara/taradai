@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title><%= title %></title>
+<%= csrf_meta_tag %>
+<%= javascript_include_tag :defaults %>
+<%= render :partial => 'layouts/common/htmlhead'%>
+<%= yield :head %>
+<script>
+	$(document).ready(function() {
+		$('img.portrait').tinyTips('light', 'title');
+		
+		$(".user_m, .user_n").click(function(){
+			location.href = $(this).find("a").attr("href");
+		});
+		
+		$(".my_menu li, .my_messages_menu li, .my_groups_menu li, .my_events_menu li, .my_blog_menu li").click(function(){
+			location.href = $(this).find("a").attr("href");
+		});
+		
+		/*		
+		function notification() {
+			$.getScript('/profile/updates.js');
+		}
+		
+		$.doTimeout("notify", 60000, function() {
+			notification();
+			return true;
+		});
+		
+		// Ejecutar los Timers
+		$.doTimeout("notify", "true");
+
+		*/
+		
+		<%- flash.each do |key, msg| -%>
+			flashBar("<%= msg %>", "<%= key %>", {});
+		<%- end -%>
+	});
+	
+	<%= yield :javascript %>
+</script>
+
+</head>
+<body>
+	<div class="container">
+		<!-- header -->
+		<%= render :partial => 'layouts/common/header' %>
+		<div class="clear"></div>
+		<div class="span-24 last my_main_top">
+		</div>
+	    <div class="span-24 last my_main_content radius4 color1">
+	    	<div class="span-7 green0b radius4bl radius4tl">
+	        	<div class="p10">
+					<%= render :partial => 'layouts/my/my_menu' %>
+				</div>
+			</div>
+			<div class="span-17 last">
+	        	<div class="my_content">
+					<%= yield :content %>
+				</div>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="span-24 last footer">
+			<%= render :partial => 'layouts/common/footer' %>
+		</div>
+	</div>
+<div id="modalMask"></div>
+<div id="modalWindow">
+	<p id="modalTitle"></p>
+	<p id="modalText"></p>
+	<div id="modalButtons"></div>
+</div>
+<div id="mWindow" class="radius4"></div>
+<div id="mWindowContent" class="radius4"></div>
+<div id="mask"></div>
+</body>
+</html>

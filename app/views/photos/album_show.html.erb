@@ -1,0 +1,25 @@
+<% content_for :main do %>
+	<% if @photos.count == 0 %>
+		<p><%= "No hay fotos en este álbum aún." %></p>
+	<% else %>
+		<% if @photos.count == 1 %>
+		<p><%= "Se ha encontrado una foto. " %></p>
+		<% else %>
+		<p> <%= "Se han encontrado #{@photos.count.to_s} fotos." %></p>
+		<% end %>
+		<% counter = 0 %>
+		<% @photos.each do |photo| %>
+			<% counter = counter + 1 %>
+			<% if counter % 3 == 0 %>
+				<div class="left w160 mr0 mb20">
+			<% else %>
+				<div class="left w160 mr25 mb20">
+			<% end %>
+			<% begin %>
+					<%= link_to image_tag(file_path(photo.photo, 'photo', 't'), :alt => photo.title, :type => 'pht'), photo_show_url(:profilename => @profile.profilename, :slug => @album.slug, :id => photo.id.to_s) %>
+			<% rescue %>
+			<% end %>
+				</div>
+		<% end %>
+	<% end %>
+<% end %>

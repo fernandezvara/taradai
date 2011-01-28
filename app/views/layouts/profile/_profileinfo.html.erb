@@ -1,0 +1,19 @@
+<div class="profile-info">
+	<div class= "profile-info-container">
+        	<dl>
+            	<dt>Fecha de nacimiento:</dt>
+                <dd><%#= l(@user.profile.birthday, :format => :long) %></dd>
+             </dl>
+        <hr />
+		<%# @total_friends = @profile.friends_count %>
+		<% @total_friends = 0 %>
+        <h5>Amigos:</h5> 
+		<% if @total_friends == 1%>
+			<%= "1 amigo" %>
+		<% else %>
+		<%= @total_friends.to_s + " amigos" %>
+		<% end %>
+		
+       <div class="clear"></div>
+    </div>
+</div>

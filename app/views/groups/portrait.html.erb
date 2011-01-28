@@ -1,0 +1,68 @@
+<% content_for :content do %>
+<script src="/javascripts/uploadify/swfobject.js" type="text/javascript"></script>
+<script src="/javascripts/uploadify/jquery.uploadify.v2.1.4.min.js" type="text/javascript"></script>
+<div class="w470">
+	<div class="w460 radius4 green0f green4b f130 lh130 p5 mr0">Cambio de foto del perfil del grupo</div>
+	<div class="w460 fcolor8 f110 lh110 mt10"><p>Por favor pulsa el botón 'Subir foto' para comenzar el cambio de la foto del grupo. Una vez seleccionado el fichero subirá al servidor y realizará el cambio automáticamente.</p></div>
+	
+	<script type="text/javascript">
+	$(function() {
+		$('#custom_file_upload').uploadify({
+			'uploader'       : '/javascripts/uploadify/uploadify.swf',
+			'script'         : '<%= group_portrait_create_url(:slug => @group.slug) %>',
+			'scriptData'     : {
+				'authenticity_token'      : encodeURIComponent('<%= u form_authenticity_token if protect_against_forgery? %>'),
+				'user'                    : '<%= @current_profile.profilename %>' ,
+				"<%= key = Rails.application.config.session_options[:key] %>" : "<%= cookies[key] %>"
+			}, 
+			'cancelImg'      : '/javascripts/uploadify/cancel.png',
+			'multi'          : false,
+			'auto'           : true,
+			'fileExt'        : '*.jpg;*.gif;*.png',
+			'fileDesc'       : 'Image Files (.JPG, .GIF, .PNG)',
+			'queueID'        : 'custom-queue',
+			'queueSizeLimit' : 1,
+			'simUploadLimit' : 1,
+			'displayData'    : 'percentage',
+			'sizeLimit'      : <%= 5.megabytes %>,
+			'removeCompleted': false,
+			'onSelectOnce'   : function(event,data) { 
+				$('#status-message').text(data.filesSelected + ' foto/s añadida/s a la cola de subida.');
+			},
+			'onAllComplete'  : function(event,data) { 
+				setTimeout(jump(), 500);
+			}
+		});
+	});
+	
+	function jump() {
+		window.location = '<%= group_show_url(:slug => @group.slug) %>';
+	}
+	
+	</script>
+	<style type="text/css">
+		#custom-demo .uploadifyQueueItem {  background-color: #FFFFFF;  border: none;  border-bottom: 1px solid #E5E5E5;  font: 11px Verdana, Geneva, sans-serif;  height: 50px;  margin-top: 0;  padding: 10px;  width: 350px; }
+		#custom-demo .uploadifyError {  background-color: #FDE5DD !important;  border: none !important;  border-bottom: 1px solid #FBCBBC !important;}
+		#custom-demo .uploadifyQueueItem .cancel {  float: right;}
+		#custom-demo .uploadifyQueue .completed {  color: #C5C5C5;}
+		#custom-demo .uploadifyProgress {  background-color: #E5E5E5;  margin-top: 10px;  width: 100%;}
+		#custom-demo .uploadifyProgressBar {  background-color: #0099FF;  height: 3px;  width: 1px;}
+		#custom-demo #custom-queue {  border: 1px solid #E5E5E5;  height: 73px;margin-bottom: 10px;  width: 390px; overflow:scroll;}
+	</style>
+	<div class="w460 fcolor9 f110 lh110 mt10" id="custom-demo">
+		<div class="demo-box">
+			<div id="status-message">Selecciona la foto que quieres usar.</div>
+			<div id="custom-queue" class="uplodifyQueue"></div>
+			<input id="custom_file_upload" type="file", name="photofile" style="display: none;" />
+		</div>
+	</div>
+	<div class="clear"></div>
+	<div class="mt10 w470">
+		<div class="right">
+			<%= link_to 'Cancelar', "#", :class => "button close" %>
+		</div>
+	</div>
+
+	<div class="clear"></div>
+</div>
+<% end %>

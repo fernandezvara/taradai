@@ -1,0 +1,9 @@
+<div class="mt10 green0f green3b pr10 pl10 pt5 pb5 radius4tl radius4tr b ">
+	Amigos(<%= @profile.friends_count %>)
+</div>
+<div class="color1 p10 radius4bl radius4br">
+	<% friends = @profile.friends
+	friends.each do |friend| %>
+		<%= link_to friend.name, profile_show_path(:profilename => friend.profilename) %><br/>
+	<% end %>
+</div>

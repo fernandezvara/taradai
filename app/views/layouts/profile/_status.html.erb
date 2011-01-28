@@ -1,0 +1,12 @@
+<% if @profile.statuses.actual.nil? == false %>
+	<% if @profile.statuses.actual.status != "" %>
+<div class="w180 radius4 mb0 tcenter color0 left">
+	<div class="m5 f105">
+		<%= sanitize(@profile.statuses.actual.status.to_s) %>
+	</div>
+</div>
+<div class="w180 mb0">
+	<img src="http://assets.taradai.com/images/portal/pngs/arrow.png" />
+</div>
+	<% end %>
+<% end %>

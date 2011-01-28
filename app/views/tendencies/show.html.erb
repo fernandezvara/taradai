@@ -1,0 +1,69 @@
+<% content_for :main do %>
+<ul id="activities">
+	<%= "#{@activities.count} actividades" %>
+	<% @activities.each do |activity|
+		data = activity.activitydatas
+		hash_data = Hash.new
+		data.each do |d|
+			hash_data[d.key] = d.data
+		end
+		
+		case activity.action
+		when "blog"
+			if hash_data['profile_id'] == session['current_profile']
+				profile = @current_profile
+			else
+				profile = Prof.find(hash_data['profile_id'])
+			end
+			begin
+			@blog = Blog.find(hash_data['blog_id'])
+			if profile.nil? == false and @blog.nil? == false %>
+					<li id="<%= activity.id.to_s %>">
+						<div class="left w530">
+						<div class="left w50 p10">
+							<%= link_to image_tag(file_path(profile.portrait, 'portrait', '50'), :alt => profile.name, :type => "p50"), profile_show_url(:profilename => profile.profilename) %>
+						</div>						
+						<div class="m10 w420">
+						<% if hash_data["profile_id"] == session["current_profile"]%>
+						<p>Has escrito el artículo titulado: <%= link_to @blog.title, blog_show_url(:profilename => profile.profilename, :slug => @blog.slug) %>.<br/><span class="quiet">Hace <%= time_ago_in_words(activity.created_at) %></span></p>
+						<% else %>
+						<p><%= link_to profile.name, profile_show_url(:profilename => profile.profilename) %> ha escrito el artículo titulado: <%= link_to @blog.title, blog_show_url(:profilename => profile.profilename, :slug => @blog.slug) %>.<br/><span class="quiet">Hace <%= time_ago_in_words(activity.created_at) %></span></p>
+						<% end %>
+						</div>
+						</div>
+						<hr class="mb0" />
+					</li>	
+			<% end
+			rescue
+			end
+		when "group"
+			if hash_data['profile_id'] == session['current_profile']
+				profile = @current_profile
+			else
+				profile = Prof.find(hash_data['profile_id'])
+			end
+			begin
+			@group = Group.find(hash_data['group_id'])
+			if profile.nil? == false and @group.nil? == false %>
+					<li id="<%= activity.id.to_s %>">
+						<div class="left w530">
+						<div class="left w50 p10">
+							<%= link_to image_tag(file_path(profile.portrait, 'portrait', '50'), :alt => profile.name, :type => "p50"), profile_show_url(:profilename => profile.profilename) %>
+						</div>						
+						<div class="m10 w420">
+						<% if hash_data["profile_id"] == session["current_profile"]%>
+						<p>Has creado el grupo: <%= link_to @group.name, group_show_url(:slug => @group.slug) %>.<br/><span class="quiet">Hace <%= time_ago_in_words(activity.created_at) %></span></p>
+						<% else %>
+						<p><%= link_to profile.name, profile_show_url(:profilename => profile.profilename) %> ha creado el grupo: <%= link_to @group.name, group_show_url(:slug => @group.slug) %>.<br/><span class="quiet">Hace <%= time_ago_in_words(activity.created_at) %></span></p>
+						<% end %>
+						</div>
+						</div>
+						<hr class="mb0" />
+					</li>	
+			<% end
+			rescue
+			end
+		end  %>
+	<% end %>
+</ul>
+<% end %>

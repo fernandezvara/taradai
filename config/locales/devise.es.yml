@@ -1,0 +1,41 @@
+es:
+  errors:
+    messages:
+      not_found: "no encontrado"
+      already_confirmed: "ya ha sido confirmado"
+      not_locked: "no fué bloqueado"
+  devise:
+    failure:
+      unauthenticated: ''
+      unconfirmed: 'Debes confirmar tu cuenta antes de poder continuar.'
+      locked: 'No puedes acceder con tu cuenta. Está bloqueada.'
+      invalid: 'El correo electrónico o la contraseña son erróneos.'
+      invalid_token: 'Token de validación erróneo.'
+      timeout: 'Tu sesión ha expirado, por favor, vuelve a iniciar sesión para continuar.'
+      inactive: 'Tu cuenta no ha sido activada aún.'
+    sessions:
+      signed_in: 'Inicio de sesión correcto.'
+      signed_out: 'Cierre de sesión correcto.'
+    passwords:
+      send_instructions: 'Vas a recibir un correo con las instrucciones necesarias para cambiar tu contraseña en unos minutos.'
+      updated: 'Tu contraseña ha sido cambiada correctamente. Ya estás validado en nuestro sitio.'
+    confirmations:
+      send_instructions: 'Vas a recibir un correo con las instrucciones que debes seguir para confirmar tu cuenta de correo en unos minutos.'
+      confirmed: 'Tu cuenta ha sido confirmada correctamente. Ya estás validado en nuestro sitio.'
+    registrations:
+      signed_up: 'Has registrado tu cuenta correctamente.'
+      updated: 'Has actualizado tu cuenta correctamente.'
+      destroyed: '¡Hasta luego! Tu cuenta ha sido cancelada correctamente. Esperamos volver a verte por aquí.'
+    unlocks:
+      send_instructions: 'Vas a recibir un correo electrónico con las instrucciones necesarias para desbloquear tu cuenta en unos minutos.'
+      unlocked: 'Tu cuenta ha sido desbloqueada correctamente. Ya estás validado en nuestro sitio.'
+    oauth_callbacks:
+      success: 'Successfully authorized from %{kind} account.'
+      failure: 'Could not authorize you from %{kind} because "%{reason}".'
+    mailer:
+      confirmation_instructions:
+        subject: 'Instrucciones para confirmar tu cuenta.'
+      reset_password_instructions:
+        subject: 'Instrucciones para el cambio de contraseña'
+      unlock_instructions:
+        subject: 'Instrucciones para el desbloqueo de tu cuenta'

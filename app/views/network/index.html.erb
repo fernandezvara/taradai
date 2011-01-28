@@ -1,0 +1,25 @@
+<% content_for :main do %>
+	<% if @nodes.count > 0 %>
+		<ul id="activities" time="<%= @nodes.first.created_at.to_i.to_s %>">
+	<% else %>
+		<ul id="activities" time="0">
+	<% end %>
+	<%= render :partial => 'activity/nodes' %>
+	</ul>
+	<% if @nodes.count < 6 %>
+		<% case @current_profile.class.to_s %>
+		<% when 'Profile' %>
+			<%= render :partial => 'network/welcome_user' %>
+		<% end %>
+	<% end %>
+	
+<% end %>
+
+<% content_for :javascript do %>
+
+	$.doTimeout("ajax", 30000, function() {
+		$.getScript('/my/netupdates.js?time='+ $('ul#activities').attr('time') + '');
+		return true;
+	});
+
+<% end %>

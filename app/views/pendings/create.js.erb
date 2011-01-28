@@ -1,0 +1,26 @@
+flashBar("<%= @flashmsg %>", "<%= @flashcss %>", {});
+
+$('div#add_friend').fadeOut(100);
+$('div#mask').fadeOut(300);
+$('div#mWindow').fadeOut(300);
+$('div#mWindowContent').fadeOut(300);
+
+/*
+$('div#mWindowContent').html('<p class="lh150 f150 tcenter w490 m10">Has enviado una petición como amigo a .<br /><br />asfdsf<br /></p>');
+$('div#mWindow').animate({
+	top: "+=80",
+	height: $('div#mWindowContent').height() -160
+});
+$('div#mWindowContent').animate({
+	top: "+=80",
+	height: $('div#mWindowContent').height() -170
+});
+setTimeout('closeModal()', 10000);
+
+function closeModal() {
+	$('div#mask').fadeOut(300);
+	$('div#mWindow').fadeOut(300);
+	$('div#mWindowContent').fadeOut(300);
+}
+
+*/

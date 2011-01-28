@@ -1,0 +1,30 @@
+<% content_for :content do %>
+	<%= simple_form_for @group, :url => group_update_url do |f| %>
+		<%= f.input :name, :label => 'Nombre:', :hint => 'Escribe el nombre del grupo.', :required => true, :input_html => { :maxlength => 50, :class=> 'w440' } %>
+		<div class="input string optional">
+		<%= f.label :description %><%= f.text_area :description, :rows => 6, :class => 'w440' %>
+		</div>
+		<div class="input string optional"><%= f.label :private %>
+		<%= f.collection_radio :private, [[false, 'Grupo público'], [true, 'Grupo privado']], :first, :last %>
+		</div>
+		<div class="clear right w460 mb10">
+		<span class="hint" style="margin-left:0px;">· Un <strong>grupo público</strong> permite a todos los usuarios unirse a él sin aprobación por el creador del grupo.<br/>· Los <strong>grupos privados</strong> requiren autorización/invitación para formar parte de ellos.</span>
+		</div>
+		<div class="clear"></div>
+		<div class="mr10 ml10 w120 tright b left">Tendencias relacionadas:</div>
+		<div class="left w440">
+			<% @tendencies.each do |t| %>
+				<% if t.connected?('GTend', @group) %>
+					<%= check_box("t", "#{t.id.to_s}", :checked => true) %> <%= t.name[session['locale']] %><br />
+				<% else %>
+					<%= check_box("t", "#{t.id.to_s}") %> <%= t.name[session['locale']] %><br />
+				<% end %>
+			<% end %>
+			<span class="hint" style="margin-left:0px;">Selecciona la/s tendencia/s que trabajais en el grupo.</span> 
+		</div>
+		<div class="clear right">
+			<%= f.submit %>
+		</div>
+		
+	<% end %>
+<% end %>

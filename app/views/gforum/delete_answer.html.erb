@@ -1,0 +1,15 @@
+<% content_for :content do %>
+<div class="w470">
+	<div class="w460 radius4 green0f green4b f130 lh130 p5 mr0">¿Borrar respuesta?</div>
+	<div class="w460 fcolor8 f110 lh110 mt10"><p>¿Quieres borrar la respuesta seleccionada?<br /><br />Esta acción no puede deshacerse.</p></div>
+	<div class="clear"></div>
+	<div class="mt10 w470">
+		<div class="right">
+			<%= link_to "No", "#", :class => 'button close' %>
+			<%= link_to "Si", group_forum_topic_answer_destroy_url(:slug => @group.slug, :tslug => @topic.slug, :aslug => @answer.slug), :class => 'button' %> 
+		</div>
+	</div>
+
+	<div class="clear"></div>
+</div>
+<% end %>

@@ -1,0 +1,20 @@
+
+		<% if @current_profile == @profile %>
+		<div class="color8 fcolor1 radius4tr radius4br pl10 mr10 mt10 mb5 pt5 pb5">
+			Eres tú
+		</div>
+		
+		<% else %>
+			<% if @current_profile.connected?('Friend', @profile) == false %>
+				<div id ="add_friend" class="color8 fcolor1 radius4tr radius4br mt10 pl10 mr10 mb5 pt5 pb5">
+					<%= link_to "Añadir como amigo", friend_request_url(:profilename => @profile.profilename), :class => 'fcolor1', :type => 'modal' %>
+				</div>
+				<div class="color8 fcolor1 radius4tr radius4br pl10 mt10 mr10 mb5 pt5 pb5">
+					Enviar mensaje
+				</div>
+			<% else %>
+				<div id ="add_friend" class="green3b green0f radius4tr radius4br pl10 mt10 mr10 mb5 pt5 pb5">
+					<%= "Es tu amigo" %>
+				</div>
+			<% end %>
+		<% end %>

@@ -1,0 +1,2 @@
+module GforumHelper
+end

@@ -1,0 +1,12 @@
+<% content_for :main do %>
+	<div class="tcenter">
+	<% begin%>
+		<% if @photo.title != "" %>
+			<p><%= @photo.title %></p>
+		<% end %>
+		<%= image_tag(file_path(@photo.photo, 'photo', 'a'), :type => 'pht') %>
+	<% rescue %>
+		<%= "Error al buscar la foto" %>
+	<% end %>
+	</div>
+<% end %>

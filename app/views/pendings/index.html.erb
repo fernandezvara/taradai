@@ -1,0 +1,32 @@
+<% content_for :content do 
+	 if @requests.count == 0 %>
+		<p>No tienes peticiones de amigos</p>
+	<% else %>
+		<ul class="friends_box">
+			<% @requests.each do |r| %>
+			<% @profile = Prof.find(r.requester.to_s) %>
+				<li class="friend">
+					<div class="friend_portrait">
+						<%= link_to image_tag('portal/portraits/avatar50.png', :class => 'portrait', :title => @profile.name),  profile_show_url(:profilename => @profile.profilename) %>
+
+					</div>
+					<div class="friend_info">
+						<%= link_to @profile.name,  profile_show_url(:profilename => @profile.profilename) %>
+						Realizó la petición el <%= l(r.created_at, :format => :long) %>
+						<% if r.message %>
+						<div class="friend_message">
+							Te envía el siguiente mensaje:<br/>
+							<%= simple_format r.message %>
+						</div>
+						<% end %>
+					</div>
+					<div class="friend_buttons">
+						<%= link_to "Aceptar", friend_accept_url(:id => r.id.to_s), :class => 'button' %>
+						<%= link_to "Ignorar", friend_ignore_url(:id => r.id.to_s), :class => 'button' %>
+					</div>
+					<div class="clearfix"></div>
+				</li>
+			<% end %>
+		</ul>
+	<% end %>
+<% end %>

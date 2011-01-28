@@ -1,0 +1,90 @@
+<% content_for :main do %>
+<% profile_creator = Prof.find(@topic.prof_id) %>
+<div class="mb10 right">
+	<% if profile_creator == @current_profile %>
+		<%= link_to "Editar", group_forum_topic_edit_url(:slug => @group.slug, :tslug => @topic.slug), :class=> 'button', :type => 'modal' %> <%= link_to "Borrar", group_forum_topic_delete_url(:slug => @group.slug, :tslug => @topic.slug), :class=> 'button', :type => 'modal' %>
+	<% end %>
+	<%= link_to "Responder", group_forum_topic_answer_new_url, :class=> 'button ml20', :type => 'modal' %>
+	<%= link_to "Volver al foro", group_forum_url(:slug => @group.slug), :class=> 'button ml20' %>
+</div>
+<div class="clear"></div>
+<ul id="topic">
+	<li>
+		<div class="w720">
+			<div class="w70 left">&nbsp;</div>
+			<div class="w650 left radius4 green3b green0f">
+				<div class="m5">
+					<p class="mb0"><span class="f110 b"><%= @topic.title %></span><br />
+					<% if profile_creator.nil? %>
+						<% name = "Usuario dado de baja del sistema." %>
+					<% else %>
+						<% name = profile_creator.name %>
+					<% end %>
+					<span class="f090">por <%= link_to name, profile_show_url(:profilename => profile_creator.profilename), :class=> "gside" %> (hace <%= time_ago_in_words(@topic.created_at) %>)</span></p>
+				</div>
+			</div>
+			<div class="clear w70 left radius4tl radius4bl color3 mr0 mt10">
+				<div class="m10">
+					<% if profile_creator.nil? %>
+						<%= image_tag('/portal/avatars/p50_default.png', :alt => name) %>
+					<% else %>
+						<%= link_to image_tag(file_path(profile_creator.portrait, 'portrait', '50'), :alt => name, :type => "p50"), profile_show_url(:profilename => profile_creator.profilename) %>
+					<% end %>
+				</div>
+			</div>
+			<div class="left w650 color3 radius4tr radius4br radius4bl mt10 mh100">
+				<div class="m10">
+					<%= simple_format(@topic.body) %>
+				</div>
+			</div>
+		</div>
+	</li>
+	
+	<% @answers.each do |answer| %>
+	<% profile_creator = Prof.find(answer.prof_id) %>
+	<li id="<%= answer.slug %>" class="clear">
+		<div class="w720 mt10">
+			<div class="w70 left mt10">&nbsp;</div>
+			<div class="w650 left radius4 green2b green0f mt10">
+				<div class="m5">
+					<p class="mb0"><span class="f110 b"><%= answer.title %></span><br />
+					<% if profile_creator.nil? %>
+						<% name = "Usuario dado de baja del sistema." %>
+					<% else %>
+						<% name = profile_creator.name %>
+					<% end %>
+					<span class="f090">por <%= link_to name, profile_show_url(:profilename => profile_creator.profilename), :class=> "gside" %> (hace <%= time_ago_in_words(answer.created_at) %>)</span></p>
+				</div>
+			</div>
+			<div class="clear w70 left radius4tl radius4bl color2 mr0 mt10">
+				<div class="m10">
+					<% if profile_creator.nil? %>
+						<%= image_tag('/portal/avatars/p50_default.png', :alt => name) %>
+					<% else %>
+						<%= link_to image_tag(file_path(profile_creator.portrait, 'portrait', '50'), :alt => name, :type => "p50"), profile_show_url(:profilename => profile_creator.profilename) %>
+					<% end %>
+				</div>
+			</div>
+			<div class="left w650 color2 radius4tr radius4br radius4bl mt10 mh100">
+				<div class="m10">
+					<%= simple_format(answer.body) %><br />
+					<% if profile_creator == @current_profile %>
+						<div class="right">
+							<%= link_to "Editar", group_forum_topic_answer_edit_url(:slug => @group.slug, :tslug => @topic.slug, :aslug => answer.slug), :class=> 'button', :type => 'modal' %> <%= link_to "Borrar", group_forum_topic_answer_delete_url(:slug => @group.slug, :tslug => @topic.slug, :aslug => answer.slug), :class=> 'button', :type => 'modal' %>
+						</div>
+					<% end %>
+				</div>
+			</div>
+		</div>
+	</li>
+	
+	<% end %>
+</ul>
+<div class="mt10 mb10 right">
+	<% if profile_creator == @current_profile %>
+		<%= link_to "Editar", group_forum_topic_edit_url(:slug => @group.slug, :tslug => @topic.slug), :class=> 'button', :type => 'modal' %> <%= link_to "Borrar", group_forum_topic_delete_url(:slug => @group.slug, :tslug => @topic.slug), :class=> 'button', :type => 'modal' %>
+	<% end %>
+	<%= link_to "Responder", group_forum_topic_answer_new_url, :class=> 'button ml20', :type => 'modal' %>
+	<%= link_to "Volver al foro", group_forum_url(:slug => @group.slug), :class=> 'button ml20' %>
+</div>
+<% end %>

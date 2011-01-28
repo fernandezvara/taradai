@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title><%= title %></title>
+<%= csrf_meta_tag %>
+<%= yield :head %>
+<%= javascript_include_tag :defaults %>
+<%= render :partial => 'layouts/common/htmlhead'%>
+
+<script>
+	$(document).ready(function() {
+		
+		$(".do_nothing").live("click", function() { return false; });
+
+		$('img.portrait').tinyTips('light', 'title');
+/*
+		
+		function notification() {
+			$.getScript('/profile/updates.js');
+		}
+		
+		function updateActivity() {
+			if ($('ul.activity li').length > 0) {
+				$.getScript('/profile/activityupdates.js?profilename=' + $('ul.activity').attr('taradai-profilename') + '&lastpull='+ $('ul.activity').attr('lastpull') + '');
+			}
+		}
+		
+		$.doTimeout("ajax", 10000, function() {
+			notification();
+			updateActivity();
+			return true;
+		});
+		
+		function timerIfPanels() {
+			panelsCount=$(".panels").get().length;
+			
+			if (panelsCount == 1) {
+				obj = ".panels:eq(0)";
+				$(obj).attr("active", "true");
+				$(obj).css('display', 'block');
+			} 
+			else
+			{
+				if (panelsCount > 1) {
+					$.doTimeout("panels", 20000, function() {
+						changePanel();
+						return true;
+					});	
+					$.doTimeout("panels", "true");
+				}
+			}
+		}
+		
+		timerIfPanels(); // if there are panels to show it executes the timer
+		
+		// Ejecutar los Timers
+		//$.doTimeout("ajax", "true");
+			
+		*/ 
+		
+		<%- flash.each do |key, msg| -%>
+			flashBar("<%= msg %>", "<%= key %>", {});
+		  <%#= content_tag :div, flash[key], :id => key, :class => ['flash', key] if flash[key] %>
+		<%- end -%>
+		
+		<%= yield :javascript %>
+	});
+</script>
+</head>
+<body>
+	<div class="container">
+		<%= render :partial => 'layouts/common/header' %>
+		<div class="clear"></div>
+		<div class="w950 mr0 clearfix">
+			<%= render :partial => 'layouts/network/menu' %>
+			<div class="w640 mb10 main radius4 color0 left mh500">
+				<div class="m10">
+					<%= yield :main %>
+				</div>
+			</div>
+			<div class="w310 mt20 mb20 rside color2 right">
+				<div class="mt10 mb10">
+					<div class="color8 fcolor1 radius4tr radius4br pl10 mr10 mb5 pt5 pb5">
+						título
+					</div>
+					<div class="color2 fcolor9 ml10">
+			adfs<br />adfs<br />adfs<br />adfs<br />adfs<br />adfs
+					</div>
+				</div>
+			</div>
+		</div>	
+		<div class="clear"></div>
+		<%= render :partial => 'layouts/common/footer' %>
+	</div>
+	<div id="mWindow" class="radius4"></div>
+	<div id="mWindowContent" class="radius4"></div>
+	<div id="mask"></div>
+</body>
+</html>

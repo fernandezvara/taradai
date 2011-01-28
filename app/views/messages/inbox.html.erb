@@ -1,0 +1,35 @@
+<% content_for :content do %>
+	<% if @messages.count == 0 %>
+		<p>No tienes ningún mensaje.</p>
+	<% else %>
+		<ul class="messages_box">
+			<% @messages.each do |message| %>
+				<% sender = Prof.find(message.from) %>
+				<% if message.readed == true %>
+					<li class="imessage">
+				<% else %>
+					<li class="imessage unreaded">
+				<% end %>
+						<div class="w630">
+							<div class="w50 left p10">
+								<%= link_to image_tag('portal/avatars/avatar50.png', :class => 'portrait', :title => sender.name),  profile_show_url(:profilename => sender.profilename) %>
+							</div>
+							<div class="w470 left p10">
+								<% if message.subject == "" or message.subject.nil? 
+									subject = "(sin título)"
+								else
+									subject = message.subject
+								end %>
+								<p><%= link_to subject, message_read_inbox_url(:slug => message.slug) %><br />
+								<span class="quiet"><%= l(message.created_at, :format => :long) %></span></p>
+							</div>
+							<div id="hideable" class="w60 p10 left">
+								<%= link_to 'borrar', message_delete_inbox_url(:slug => message.slug), :type => 'modal' %>
+							</div>
+						</div>
+						<div class="clear"></div>
+					</li>
+			<% end %>
+		</ul>
+	<% end %>
+<% end %>

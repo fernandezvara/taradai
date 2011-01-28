@@ -1,0 +1,342 @@
+<% if controller_name == "network" 
+	size = "w550"
+	size2 = "w530"
+else
+	size = "w440"
+	size2 = "w420" 
+end %>
+
+<% @nodes.each do |node| %>
+	<% node_cache = node.id.to_s %>
+	<% cache_key = 'Act:' + node_cache + ":" + @profile.id.to_s %>
+	<%# cache cache_key do %>
+		<%  data = node.activitydatas
+			hash_data = Hash.new
+			data.each do |d|
+				hash_data[d.key] = d.data
+			end
+			case node.action
+		   	when "join"
+				if hash_data["profile_id"] == session["current_profile"]
+					profile = @current_profile
+				else
+					profile = Prof.find(hash_data["profile_id"])
+				end 
+				if profile.nil? == false
+				%>
+					
+					<li id="<%= node.id.to_s %>">
+						<div class="left w50 p10">
+							<%= image_tag file_path(profile.portrait, 'portrait', '50'), :alt => profile.name, :type => "p50"%>
+						</div>
+						<div class="left <%= size %>">
+							<div class="m10 <%= size2 %>">
+							<% if hash_data["profile_id"] == session["current_profile"]%>
+							<p>Te has unido a Taradai<br/><span class="quiet">Hace <%= time_ago_in_words(node.created_at) %></span></p>
+							<% else %>
+							<p><%= link_to profile.name, profile_show_url(:profilename => profile.profilename) %> es miembro de Taradai<br/><span class="quiet">Hace <%= time_ago_in_words(node.created_at) %></span></p>
+							<% end %>
+							</div>
+						</div>
+						<hr class="mb0" />
+					</li>
+				<% end %>
+			<% when "friendship" 
+				if hash_data["profile_id1"] == session["current_profile"] or hash_data["profile_id2"] == session["current_profile"] 
+					if hash_data["profile_id1"] == session["current_profile"]
+						begin
+						other_profile = Prof.find(hash_data["profile_id2"])
+						rescue
+						end
+					else
+						begin
+						other_profile = Prof.find(hash_data["profile_id1"])
+						rescue
+						end
+					end
+					if other_profile.nil? == false
+						# Show only if both profiles exists
+					%>
+					<li id="<%= node.id.to_s %>">
+						<div class="left w50 p10">
+							<%= image_tag  file_path(other_profile.portrait, 'portrait', '50'), :alt => other_profile.name, :type => "p50" %>
+						</div>
+						<div class="left <%= size %>">
+							<div class="m10 <%= size2 %>">
+							<p>Te has hecho amigo de <%= link_to other_profile.name, profile_show_url(:profilename => other_profile.profilename) %><br/><span class="quiet">Hace <%= time_ago_in_words(node.created_at) %></span></p>
+							</div>
+						</div>
+						<hr class="mb0" />
+					</li>
+					<%
+					end
+				else
+					begin
+					profile1 = Prof.find(hash_data["profile_id1"])
+					profile2 = Prof.find(hash_data["profile_id2"])
+					rescue
+						profile1 = nil
+						profile2 = nil
+					end
+						
+					if profile1.nil? == false and profile2.nil? == false
+					%>
+					<li id="<%= node.id.to_s %>">
+						<div class="left w50 p10">
+							<%= image_tag(file_path(profile1.portrait, 'portrait', '50'), :alt => profile1.name, :type => "p50") %>
+						</div>
+						<div class="left <%= size %>">
+							<div class="m10 <%= size2 %>">
+							<p><%= link_to profile1.name, profile_show_url(:profilename => profile1.profilename) %> y <%= link_to profile2.name, profile_show_url(:profilename => profile2.profilename) %> se han hecho amigos.<br/><span class="quiet">Hace <%= time_ago_in_words(node.created_at) %></span></p>
+							</div>
+						</div>
+						<hr class="mb0" />
+					</li>
+					
+					<%
+					end
+				end
+			when "album"
+				if hash_data['profile_id'] == session['current_profile']
+					profile = @current_profile
+				else
+					profile = Prof.find(hash_data['profile_id'])
+				end
+				if profile.nil? == false
+					album = profile.albums.find(hash_data['album_id'])
+					if album.nil? == false
+						if hash_data['profile_id'] == session['current_profile'] %>
+							<li id="<%= node.id.to_s %>">
+								<div class="left w50 p10">
+									<%= image_tag file_path(profile.portrait, 'portrait', '50'), :alt => profile.name, :type => "p50" %>
+								</div>
+								<div class="left <%= size %>">
+									<div class="m10 <%= size2 %>">
+									<p>Has creado el álbum de fotos '<%= link_to album.title, album_show_url(:profilename => profile.profilename, :slug => album.slug) %>'.<br/><span class="quiet">Hace <%= time_ago_in_words(node.created_at) %></span></p>
+									<% if album.photos.count > 0 %>
+										<% if album.photos[0].nil? == false %>
+											<div class="left w160 mr10">
+												<%= link_to image_tag(file_path(album.photos[0].photo, 'photo', 't'), :type => "pht"), photo_show_url(:profilename => profile.profilename, :slug => album.slug, :id => album.photos[0].id.to_s), :alt => album.photos[0].title %>
+											</div>
+										<% end %>
+										<% if album.photos[1].nil? == false %>
+											<div class="left w160 mr10">
+												<%= link_to image_tag(file_path(album.photos[1].photo, 'photo', 't'), :type => "pht"), photo_show_url(:profilename => profile.profilename, :slug => album.slug, :id => album.photos[1].id.to_s), :alt => album.photos[1].title %>
+											</div>
+										<% end %>
+										<% if album.photos[2].nil? == false and controller_name == "network" %>
+											<div class="left w160 mr0">
+												<%= link_to image_tag(file_path(album.photos[2].photo, 'photo', 't'), :type => "pht"), photo_show_url(:profilename => profile.profilename, :slug => album.slug, :id => album.photos[2].id.to_s), :alt => album.photos[2].title %>
+											</div>
+										<% end %>
+									<% end %>
+									</div>		
+								</div>
+								<hr class="mb0" />
+							</li>
+						<% else %>
+							<li id="<%= node.id.to_s %>">
+								<div class="left w50 p10">
+									<%= image_tag file_path(profile.portrait, 'portrait', '50'), :alt => profile.name, :type => "p50" %>
+								</div>
+								<div class="left <%= size %>">
+									<div class="m10 <%= size2 %>">
+									<p><%= link_to profile.name, profile_show_url(:profilename => profile.profilename) %> ha creado el álbum de fotos '<%= link_to album.title, album_show_url(:profilename => profile.profilename, :slug => album.slug) %>'.<br/><span class="quiet">Hace <%= time_ago_in_words(node.created_at) %></span></p>
+									<% if album.photos.count > 0 %>
+										<% if album.photos[0].nil? == false %>
+											<div class="left w160 mr10">
+												<%= link_to image_tag(file_path(album.photos[0].photo, 'photo', 't'), :type => "pht"), photo_show_url(:profilename => profile.profilename, :slug => album.slug, :id => album.photos[0].id.to_s), :alt => album.photos[0].title %>
+											</div>
+										<% end %>
+										<% if album.photos[1].nil? == false %>
+											<div class="left w160 mr10">
+												<%= link_to image_tag(file_path(album.photos[1].photo, 'photo', 't'), :type => "pht"), photo_show_url(:profilename => profile.profilename, :slug => album.slug, :id => album.photos[1].id.to_s), :alt => album.photos[1].title %>
+											</div>
+										<% end %>
+										<% if album.photos[2].nil? == false and controller_name == "network" %>
+											<div class="left w160 mr0">
+												<%= link_to image_tag(file_path(album.photos[2].photo, 'photo', 't'), :type => "pht"), photo_show_url(:profilename => profile.profilename, :slug => album.slug, :id => album.photos[2].id.to_s), :alt => album.photos[2].title %>
+											</div>
+										<% end %>
+									<% end %>
+									</div>
+								</div>
+								<hr class="mb0" />
+							</li>
+						<% end
+					end
+				end
+			when "portrait"
+				if hash_data['profile_id'] == session['current_profile']
+					profile = @current_profile
+				else
+					profile = Prof.find(hash_data['profile_id'])
+				end
+				if profile.nil? == false %>
+						<li id="<%= node.id.to_s %>">
+							<div class="left w50 p10">
+								<%= image_tag file_path(profile.portrait, 'portrait', '50'), :alt => profile.name, :type => "p50" %>
+							</div>
+							<div class="left <%= size %>">
+								<div class="m10 <%= size2 %>">
+								<% if hash_data["profile_id"] == session["current_profile"]%>
+								<p>Has cambiado tu foto de perfil.<br/><span class="quiet">Hace <%= time_ago_in_words(node.created_at) %></span></p>
+								<% else %>
+								<p><%= link_to profile.name, profile_show_url(:profilename => profile.profilename) %> ha cambiado su foto de perfil.<br/><span class="quiet">Hace <%= time_ago_in_words(node.created_at) %></span></p>
+								<% end %>
+								</div>
+							</div>
+							<hr class="mb0" />
+						</li>	
+				<% end %>
+				<% 
+			when "status"
+				if hash_data['profile_id'] == session['current_profile']
+					profile = @current_profile
+				else
+					profile = Prof.find(hash_data['profile_id'])
+				end
+				if profile.nil? == false
+					status = profile.statuses.find(hash_data['status_id'])
+					if status.nil? == false %>
+						<li id="<%= node.id.to_s %>">
+							<div class="left w50 p10">
+								<%= image_tag file_path(profile.portrait, 'portrait', '50'), :alt => profile.name, :type => "p50" %>
+							</div>
+							<div class="left <%= size %>">
+								<div class="m10  <%= size2 %>">
+								<% if status.status == "" %>
+									<% if hash_data["profile_id"] == session["current_profile"]%>
+									<p>Has borrado tu estado.<br/><span class="quiet">Hace <%= time_ago_in_words(node.created_at) %></span></p>
+									<% else %>
+									<p><%= link_to profile.name, profile_show_url(:profilename => profile.profilename) %> ha borrado su estado.<br/><span class="quiet">Hace <%= time_ago_in_words(node.created_at) %></span></p>
+									<% end %>
+								<% else %>
+									<% if hash_data["profile_id"] == session["current_profile"]%>
+									<p>Has cambiado tu estado: '<%= status.status.to_s %>'<br/><span class="quiet">Hace <%= time_ago_in_words(node.created_at) %></span></p>
+									<% else %>
+									<p><%= link_to profile.name, profile_show_url(:profilename => profile.profilename) %> ha cambiado su estado: '<%= status.status.to_s %>'<br/><span class="quiet">Hace <%= time_ago_in_words(node.created_at) %></span></p>
+									<% end %>
+								<% end %>
+								</div>
+							</div>
+							<hr class="mb0" />
+						</li>
+					<% end %>
+				<% end %>
+				<% when "blog"
+					if hash_data['profile_id'] == session['current_profile']
+						profile = @current_profile
+					else
+						profile = Prof.find(hash_data['profile_id'])
+					end
+					begin
+					@blog = Blog.find(hash_data['blog_id'])
+					if profile.nil? == false and @blog.nil? == false %>
+							<li id="<%= node.id.to_s %>">
+								<div class="left w50 p10">
+									<%= image_tag file_path(profile.portrait, 'portrait', '50'), :alt => profile.name, :type => "p50" %>
+								</div>
+								<div class="left <%= size %>">
+									<div class="m10 <%= size2 %>">
+									<% if hash_data["profile_id"] == session["current_profile"]%>
+									<p>Has escrito el artículo titulado: <%= link_to @blog.title, blog_show_url(:profilename => profile.profilename, :slug => @blog.slug) %>.<br/><span class="quiet">Hace <%= time_ago_in_words(node.created_at) %></span></p>
+									<% else %>
+									<p><%= link_to profile.name, profile_show_url(:profilename => profile.profilename) %> ha escrito el artículo titulado: <%= link_to @blog.title, blog_show_url(:profilename => profile.profilename, :slug => @blog.slug) %>.<br/><span class="quiet">Hace <%= time_ago_in_words(node.created_at) %></span></p>
+									<% end %>
+									</div>
+								</div>
+								<hr class="mb0" />
+							</li>
+
+					<% end %>
+					<% rescue
+					end %>
+					<% when "group"
+						if hash_data['profile_id'] == session['current_profile']
+							profile = @current_profile
+						else
+							profile = Prof.find(hash_data['profile_id'])
+						end
+						begin
+						@group = Group.find(hash_data['group_id'])
+						if profile.nil? == false and @group.nil? == false %>
+								<li id="<%= node.id.to_s %>">
+									<div class="left w50 p10">
+										<%= image_tag file_path(profile.portrait, 'portrait', '50'), :alt => profile.name, :type => "p50" %>
+									</div>
+									<div class="left <%= size %>">
+										<div class="m10 <%= size2 %>">
+										<% if hash_data["profile_id"] == session["current_profile"]%>
+										<p>Has creado el grupo: <%= link_to @group.name, group_show_url(:slug => @group.slug) %>.<br/><span class="quiet">Hace <%= time_ago_in_words(node.created_at) %></span></p>
+										<% else %>
+										<p><%= link_to profile.name, profile_show_url(:profilename => profile.profilename) %> ha creado el grupo:  <%= link_to @group.name, group_show_url(:slug => @group.slug) %>.<br/><span class="quiet">Hace <%= time_ago_in_words(node.created_at) %></span></p>
+										<% end %>
+										</div>
+									</div>
+									<hr class="mb0" />
+								</li>
+
+						<% end %>
+						<% rescue
+						end %>
+					<% when "joingroup"
+						if hash_data['profile_id'] == session['current_profile']
+							profile = @current_profile
+						else
+							profile = Prof.find(hash_data['profile_id'])
+						end
+						begin
+						@group = Group.find(hash_data['group_id'])
+						if profile.nil? == false and @group.nil? == false %>
+								<li id="<%= node.id.to_s %>">
+									<div class="left w50 p10">
+										<%= image_tag file_path(profile.portrait, 'portrait', '50'), :alt => profile.name, :type => "p50" %>
+									</div>
+									<div class="left <%= size %>">
+										<div class="m10 <%= size2 %>">
+										<% if hash_data["profile_id"] == session["current_profile"]%>
+										<p>Te has unido al grupo: <%= link_to @group.name, group_show_url(:slug => @group.slug) %>.<br/><span class="quiet">Hace <%= time_ago_in_words(node.created_at) %></span></p>
+										<% else %>
+										<p><%= link_to profile.name, profile_show_url(:profilename => profile.profilename) %> se ha unido al grupo:  <%= link_to @group.name, group_show_url(:slug => @group.slug) %>.<br/><span class="quiet">Hace <%= time_ago_in_words(node.created_at) %></span></p>
+										<% end %>
+										</div>
+									</div>
+									<hr class="mb0" />
+								</li>
+
+						<% end %>
+						<% rescue
+						end %>
+					<% when "gportrait"
+						if hash_data['profile_id'] == session['current_profile']
+							profile = @current_profile
+						else
+							profile = Prof.find(hash_data['profile_id'])
+						end
+						begin
+						@group = Group.find(hash_data['group_id'])
+						if profile.nil? == false and @group.nil? == false %>
+								<li id="<%= node.id.to_s %>">
+									<div class="left w50 p10">
+										<%= image_tag file_path(profile.portrait, 'portrait', '50'), :alt => profile.name, :type => "p50" %>
+									</div>
+									<div class="left <%= size %>">
+										<div class="m10 <%= size2 %>">
+										<% if hash_data["profile_id"] == session["current_profile"]%>
+										<p>Has cambiado la foto del grupo: <%= link_to @group.name, group_show_url(:slug => @group.slug) %>.<br/><span class="quiet">Hace <%= time_ago_in_words(node.created_at) %></span></p>
+										<% else %>
+										<p><%= link_to profile.name, profile_show_url(:profilename => profile.profilename) %> ha cambiado la foto de perfil del grupo: <%= link_to @group.name, group_show_url(:slug => @group.slug) %>.<br/><span class="quiet">Hace <%= time_ago_in_words(node.created_at) %></span></p>
+										<% end %>
+										</div>
+									</div>
+									<hr class="mb0" />
+								</li>
+
+						<% end %>
+						<% rescue
+						end %>
+				<%
+			end #end case
+	#end	#end cache
+end %>

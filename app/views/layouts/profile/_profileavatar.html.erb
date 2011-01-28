@@ -1,0 +1,5 @@
+	<% if @profile == @current_profile %>
+		<%= link_to image_tag(file_path(@profile.portrait, 'portrait', 'a'), :alt=> @profile.name, :class => 'radius4 portrait', :title => 'Pulsa para cambiar la foto de tu perfil.', :type => "p180"), portrait_new_url(:profilename => @profile.profilename), :type => 'modal' %>
+	<% else %>
+		<%=  image_tag(file_path(@profile.portrait, 'portrait', 'a'), :alt=> @profile.name, :class => 'radius4', :type => "p180") %>
+	<% end %>

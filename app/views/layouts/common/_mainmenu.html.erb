@@ -1,0 +1,8 @@
+<% cache "menu-" + @current_profile.updated_at.to_i.to_s do %>
+	   	<div class="menu-items">
+			<%= link_to "Mi perfil", profile_show_url(:profilename => @current_profile.profilename) %> | 
+			<%#= link_to "Mensajes", messages_inbox_url  %> | 
+			<%#= link_to "Mi cuenta", edit_profile_path(:id => @current_user.profile)  %><%= "menu-" + @current_profile.updated_at.to_i.to_s%> | 
+			<%= link_to "Salir", destroy_user_session_path %>
+        </div>
+<% end %>

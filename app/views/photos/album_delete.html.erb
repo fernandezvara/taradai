@@ -1,0 +1,24 @@
+<% content_for :content do %>
+<div class="w470">
+	<div class="w460 radius4 green0f green4b f130 lh130 p5 mr0">¿Borrar álbum?</div>
+	<div class="w460 fcolor8 f110 lh110 mt10"><p>¿Quieres borrar el album de fotos '<%= @album.title %>'?<br />Esta operación no se puede deshacer.</p></div>
+	<div class="w460 fcolor9 f110 lh110 mt10">
+		<div class="w180 p10 left">
+		<% if @photo != false %>
+			<%= image_tag(file_path(@photo.photo, 'photo', 't'), :type => 'pht') %>
+		<% else %>
+			<%=  image_tag('/images/portal/albums/thumb.png') %>
+		<% end %>	
+		</div>
+		<div class="w260 p10 left">&nbsp;</div>
+	</div>
+	<div class="clear"></div>
+	<div class="w470">
+		<div class="right">
+			<%= link_to "Sí", album_deleteit_url(:slug => @album.slug, :id => @photo.id.to_s), :class => 'button' %>
+			<a href ="#" class="button close">No</a>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+<% end %>

@@ -1,0 +1,20 @@
+<div class="mt10 green0f green3b pr10 pl10 pt5 pb5 radius4tl radius4tr b ">
+	<% 
+	members_count = @tendency.members_count
+	if members_count > 6 
+		skip = rand(members_count - 6).to_i
+		members = @tendency.connections_skip('Tend', 6, skip)
+	else
+		members = @tendency.connections('Tend')
+	end
+	%>
+	Miembros (<%= members_count.to_s %>)
+</div>
+<div class="color1 p10">
+	<% members.each do |member| %>
+		<%= link_to member.name, profile_show_url(:profilename => member.profilename) %><br />
+	<% end %>
+</div>
+<div class="green0f green3b pr10 pl10 pt5 pb5 radius4bl radius4br">
+	<%= link_to "Ver todos",  tendencies_members_url(:name => @tendency.slug), :class => 'gside' %>
+</div>

@@ -1,0 +1,73 @@
+<% content_for :content do %>
+	<%= form_for(@message) do |f| %>
+
+		<div class="imessage_left"><label>Para</label></div>
+		<div class="imessage_right mb20"><%= text_field :mail, :to, :class=>"imessage_input_to text" %></div>
+		
+		<div class="clearfix"></div>
+		<div class="imessage_left"><%= f.label :subject, "Título" %></div>
+		<div class="imessage_right"><%= f.text_field :subject, :class => "imessage_input_title" %></div>
+		
+		<div class="clearfix"></div>
+		<div class="imessage_body"><%= f.text_area(:body, :class => "imessage_text") %></div>
+	
+		<div class="imessage_send">
+			<a href="javascript:cancelButton('<%= messages_inbox_url %>')" class="button">Cancelar mensaje</a> 
+			<a href="javascript:submitButton()" class="button">Enviar</a>
+		</div>
+		<% end %>
+<% end %>
+
+<% content_for :head do %>
+	<%= stylesheet_link_tag "textbox/TextboxList", :media => "screen" %>
+	<%= stylesheet_link_tag "textbox/TextboxList.Autocomplete", :media => "screen" %>
+	<%= javascript_include_tag "textbox/GrowingInput" %>
+	<%= javascript_include_tag "textbox/TextboxList" %>
+	<%= javascript_include_tag "textbox/TextboxList.Autocomplete" %>
+	<%= javascript_include_tag "textbox/TextboxList.Autocomplete.Binary" %>
+	<style type="text/css" media="screen">
+		.form_tags { margin-bottom: 10px; }
+		.textboxlist { width: 490px; }
+		.textboxlist-loading { background: url('/images/textbox/spinner.gif') no-repeat 460px center; }
+		.form_friends .textboxlist-autocomplete-result { overflow: hidden; zoom: 1; }
+		.form_friends .textboxlist-autocomplete-result img { float: left; padding-right: 10px; }
+		input.textboxlist-bit-editable-input { border-color: #fff; margin: 0; padding: 0;}
+	</style>
+<% end %>
+
+<% content_for :javascript do %>
+$(document).ready(function() {
+	$(function(){
+		var box = new $.TextboxList('#mail_to', {unique: true, plugins: {autocomplete: { placeholder: "Escribe para obtener sugerencias" }}});
+
+		box.getContainer().addClass('textboxlist-loading');				
+		$.ajax({url: '/my/friends/list.json', dataType: 'jsonp', success: function(r){
+			box.plugins['autocomplete'].setValues(r);
+			box.getContainer().removeClass('textboxlist-loading');
+		}});
+		<%= @javascript_to %>
+	});
+});
+
+function cancelButton(link) {
+	modalWindow("¿Cancelar?","¿seguro que quieres cancelar este mensaje?<br />Esta operación no puede deshacerse", { 'Si': link }, { height: 120, closeText: 'No' });
+	return false;
+}
+
+function submitButton() {
+	if($('input#mail_to').val().length == 0) {
+		modalWindow("Mensaje sin destinatarios", "Para poder enviar un mensaje debes escribir al menos un destinatario.", {}, { height: 120, closeText: 'Cerrar' });
+		return false;
+	} else {
+		if($('textarea#message_body').val().length <= 2) {
+			modalWindow("Mensaje sin texto", "Para poder enviar un mensaje debes escribir algún texto en el cuerpo del mensaje.", {}, { height: 120, closeText: 'Cerrar' });
+			return false;
+		} else {
+			$('form#new_message').submit();
+		}
+	}
+	
+	
+}
+
+<% end %>

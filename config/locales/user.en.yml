@@ -1,0 +1,45 @@
+en:
+    user:
+        titles: 
+            signin: "Sign In"
+            signup: "Sign Up"
+            resend_unlock: "Resend unlock instructions"
+            resend_confirmation: "Resend confirmation instructions"
+            forgot_password: "Forgot Password"
+        labels:
+            email: "E-mail"
+            password: "Password"
+            password_confirmation: "Password (confirmation)"
+            remember_me: "Remember me"
+        buttons:
+            signin: "Sign In"
+            signup: "Sign Up"
+            forgot_password: "Did you fotgot your password?"
+            confirmation_instructions: "Didn't you got the confirmation email?"
+            unlock_instructions: "Didn't you got the unlock email?"
+            resend_unlock: "Send Now"
+            resend_password: "Send Now"
+            resend_confirmation: "Send Now"
+        email:
+            confirmation:
+                welcome: "Welcome!"
+                text1: "Puedes confirmar tu cuenta pulsando sobre el siguiente enlace, te llevará directamente a nuestra página"
+                link: "Confirmar mi cuenta ahora"
+            password:
+                hello: "¡Hola!"
+                hello_name: "¡Hola, {{name}}!"
+                text1: "Tú, o otra persona ha solicitado cambiar la contraseña de tu usuario. Puedes hacerlo usando el enlace que ves más abajo."
+                text2: "Si la petición de cambio de contraseña no la has hecho tú puedes borrar y obviar este correo tranquilamente."
+                text3: "Tu contraseña no va a cambiar excepto que uses el enlace arriba."
+                link: "Cambiar mi contraseña"
+            unlock:
+                hello: "¡Hola!" 
+                hello_name: "¡Hola, {{name}}!"
+                text1: "Tu cuenta de usuario ha sido bloqueado ya que se ha intentado entrar usando este usuario con una contraseña errónea."
+                text2: "Pulsa en el enlace que hay más abajo si quieres desbloquear tu cuenta."
+                link: "Desbloquear mi cuenta"
+                    
+                
+                
+                
+                

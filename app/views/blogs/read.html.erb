@@ -1,0 +1,18 @@
+<% content_for :content do %>
+<div class="color0 radius4 mt20 clearfix">
+	<div class="p10">
+		<h3><%= @blog.title %>
+			<% if @blog.published == false %>
+				<%= ' (borrador)' %>
+			<% end %>
+		</h3><hr />
+		<div class="mb10"><%= raw @blog.body %></div>
+		<hr />
+		<div class="left"><p>Ultimo cambio: <%= l(@blog.updated_at, :format => :short) %></div>
+		<div class="right">
+			<%= link_to "Editar", blog_edit_path(:slug => @blog.slug) %> | <%= link_to "Eliminar", blog_delete_url(:slug => @blog.slug), :class => 'modal' %>
+			</div>
+		<div class="clear"></div>
+	</div>
+</div>
+<% end %>

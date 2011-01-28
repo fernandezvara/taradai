@@ -1,0 +1,38 @@
+<% content_for :content do %>
+<div class="w470">
+	<div class="w460 radius4 green0f green4b f130 lh130 p5 mr0">Mis notificaciones (<%= @notifications.count.to_s %>)</div>
+	<% if @notifications.count == 0 %>
+	<div class="w460 fcolor8 f110 lh110 mt10"><p>No tienes notificaciones que mostrar.</p></div>
+	<% else %>
+	<ul id="notifications">
+		<% @notifications.each do |n| %>
+			<%
+			ndata = n.notificationdatas
+			hash_data = Hash.new
+			ndata.each do |d|
+				hash_data[d.key] = d.data
+			end
+			case n['action']
+			when 'friendship'
+				profile1 = Prof.find(hash_data['profile_id1'])
+				puts "ACTION!!!!! -> #{n['action']}  ---> #{hash_data['profile_id1']}"
+				%>
+				<li style="height:49px;border-bottom:1px #aaa solid;clear:both;">
+					<div class="left w50 m10"><%= image_tag(file_path(profile1.portrait, 'portrait', '30'), :alt=> profile1.name, :type => "p30") %></div>
+					<div class="left w350 f105 m10"><%= link_to "#{profile1.name} ha aceptado tu solicitud de amistad.", profile_show_url(:profilename => profile1.profilename) %><br />
+						<span class="quiet">Hace <%= time_ago_in_words(n.created_at) %></span>
+					</div>
+					<div id="hideable"><%= image_tag "icons/cancel.png" %></div>
+				</li>
+				
+				<%
+				
+				
+			end	
+		end
+	end	%>
+		
+
+	<div class="clear"></div>
+</div>
+<% end %>

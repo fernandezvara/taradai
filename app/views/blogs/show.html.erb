@@ -1,0 +1,39 @@
+<% content_for :main do %>
+<div class="clear color0 radius4 mt10 clearfix">
+	<div class="clear p10">
+		<h3><%= @blog.title %></h3><hr />
+		<div class="mb10"><%= raw @blog.body %></div>
+		<hr />
+		<div class="left">
+			<% if @tendencies.count == 0 %>
+				<%= "Este artículo no tiene categorías."%>
+			<% else %>
+				<%= "Categorias:" %>
+				<% if @tendencies == 1 %>
+					<% @tendencies.each do |t| %>
+						<%= link_to t.name[session[:locale]], tendencies_show_url(:name => t.slug) %>
+					<% end %>
+				<% else %>
+					<% @tendencies.each do |t| %>
+						<% if t != @tendencies.first %>
+							<% if t == @tendencies.last %>
+								<%= ' y ' %>
+							<% else %>
+								<%= ', ' %>
+							<% end %>
+						<% end %>
+						<%= link_to t.name[session[:locale]], tendencies_show_url(:name => t.slug) %>
+					<% end %>
+				<% end %>
+			<% end %>
+		</div>
+		<div class="clear left"><p>Ultimo cambio: <%= l(@blog.updated_at, :format => :short) %></div>
+		<div class="right">
+		<% if @profile == @current_profile %>
+			<%= link_to "Editar", blog_edit_url(:slug => @blog.slug) %> | <%= link_to "Eliminar", blog_delete_url(:slug => @blog.slug), :type => 'modal' %>
+		<% end %>	
+			</div>
+		<div class="clear"></div>
+	</div>
+</div>
+<% end %>

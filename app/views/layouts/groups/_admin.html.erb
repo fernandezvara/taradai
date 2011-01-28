@@ -1,0 +1,13 @@
+<div class="color8 fcolor1 radius4tr radius4br pl10 mt10 mr10 mb5 pt5 pb5">Administración del grupo</div>
+<div class="color2 fcolor9 ml10">
+	<%= link_to "Invitar al grupo", "#" %><br />
+	<%= link_to "Editar configuración de grupo", group_edit_url(:slug => @group.slug) %><br />
+	<% pending = Gpending.where(:group_id => @group.id.to_s).count %>
+	<% if pending >0 %>
+		<% if pending == 1 %>
+			<%= link_to "1 petición como miembro", group_applies_url(:slug => @group.slug) %><br />
+		<% else %>
+			<%= link_to "#{pending.to_s} peticiones como miembro", group_applies_url(:slug => @group.slug) %><br />
+		<% end %>
+	<% end %>
+</div>

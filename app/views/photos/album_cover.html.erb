@@ -1,0 +1,24 @@
+<% content_for :content do %>
+<div class="w470">
+	<div class="w460 radius4 green0f green4b f130 lh130 p5 mr0">Cambiar la portada del álbum: <%= @album.title %></div>
+	<div class="w460 fcolor8 f110 lh110 mt10"><p>¿Quieres cambiar la portada del álbum con esta foto?</p></div>
+	
+	<div class="w460 fcolor9 f110 lh110 mt10">
+		<div class="w180 p10 left"><%= image_tag(file_path(@photo.photo, 'photo', 't'), :type => 'pht') %></div>
+		<% if @photo.title == "" 
+			title = "Sin título"
+		else
+			title = @photo.title
+		end %>
+		<div class="w260 p10 left"><strong>Titulo:</strong> <%= title %></div>
+	</div>
+	<div class="clear"></div>
+	<div class="w470">
+		<div class="right">
+			<%= link_to "Sí", album_change_cover_url(:slug => @album.slug, :id => @photo.id.to_s), :class => 'button' %>
+			<a href ="#" class="button close">No</a>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+<% end %>

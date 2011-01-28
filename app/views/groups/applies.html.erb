@@ -1,0 +1,31 @@
+<% content_for :main do %>
+	<% if @applies.count > 0%>
+		<ul class="friends">
+			<% @applies.each do |a| %>
+				<% prof = Prof.find(a.prof_id) %>
+				<li>
+					<div class="left w80 m10"><%= link_to image_tag(file_path(prof.portrait, 'portrait', '50'), :alt=> prof.name, :type => "p50"), profile_show_url(:profilename => prof.profilename) %></div>
+					<div class="left w440 f105 m10"><%= link_to prof.name, profile_show_url(:profilename => prof.profilename) %>
+						<br />
+						<div class="left">Mensaje:</div>
+						<div id="hideable" class="right">
+							<%= link_to "Aceptar", group_apply_accept_url(:slug => @group.slug, :prof => prof.id.to_s) %> · <%= link_to "Ignorar", group_apply_ignore_url(:slug => @group.slug, :prof => prof.id.to_s) %>
+						</div>
+						<br />
+						<% if a.message == "" %>
+							<% message = "El usuario no ha escrito ningún mensaje." %>
+						<% else %>
+							<% message = a.message %>
+						<% end %>
+						<div class="left w420 color8 fcolor1 radius4 p10 mb5"><%= message %></div>
+						<br/>
+
+					</div>
+					<div class="clear"></div>
+				</li>
+			<% end %>
+		</ul>
+	<% else %>
+		<%= "No hay peticiones como miembro pendientes." %>
+	<% end %>
+<% end %>

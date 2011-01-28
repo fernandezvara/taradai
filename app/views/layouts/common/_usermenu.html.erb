@@ -1,0 +1,31 @@
+<div class="right">
+	<div class="left mr10">
+		<div class="right tright mtop">
+			<div class="ml10 mr10">
+				<% messages = @current_profile.inbox.messages.where(:readed => false).count %>
+				<% notifications = @current_profile.notifications.count %>
+				<%= link_to('Mi perfil', profile_show_url(:profilename => @current_profile.profilename)) %> - 
+				<% if notifications > 0 %>
+				  <%= link_to image_tag('icons/note_new.gif', :style => 'vertical-align:middle;'), notifications_preview_url(), :type => 'modal' %> <%= link_to(notifications, notifications_preview_url(), :type => 'modal') %> - 
+				  <% else %>
+				  <%= link_to image_tag('icons/note.png', :style => 'vertical-align:middle;'), notifications_preview_url(), :type => 'modal' %> <%= link_to(notifications, notifications_preview_url(), :type => 'modal') %> - 
+				<% end %>
+				<% if messages > 0 %>
+				  <%= link_to image_tag('icons/email_new.gif', :style => 'vertical-align:middle;'), messages_preview_url(), :type => 'modal' %> <%= link_to(messages, messages_preview_url(), :type => 'modal') %> - 
+				  <% else %>
+				  <%= link_to image_tag('icons/email.png', :style => 'vertical-align:middle;'), messages_preview_url(), :type => 'modal' %> <%= link_to(messages, messages_preview_url(), :type => 'modal') %> - 
+				<% end %>
+				<%= link_to "Espacio privado", profile_edit_url %>
+				</div>
+		</div>
+		
+		<div class="clear tright mtop2 mr10">
+			<%= link_to 'Inicio', root_url %> - Explorar - <%= link_to "Buscar en taradai", search_form_url, :type => 'modal' %> - Ayuda - <%= link_to "Salir", destroy_user_session_path %>
+		</div>
+	</div>
+	<div class="right ptop mb10">
+		<%= link_to image_tag(file_path(@current_profile.portrait, 'portrait', '50'), :alt=> @current_profile.name, :class=> 'm10', :type => "p50"), profile_show_url(:profilename => @current_profile.profilename) %>
+		<div class="clear"></div>
+	</div>
+</div>
+			

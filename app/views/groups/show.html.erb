@@ -1,0 +1,143 @@
+<% content_for :main do %>
+	<% if @group.private == true and @current_profile.connected?('GMember', @group) == false %>
+		<% if Gpending.where(:group_id => @group.id.to_s, :prof_id => @current_profile.id.to_s).count == 1 %>
+			<div class="m10 tcenter">
+				<br/>
+			Este grupo es privado, únicamente los miembros del mismo pueden ver su contenido. <br /> <br/ >
+			Has solicitado acceso a este grupo, debes esperar a que el creador del mismo te de acceso.
+			<hr />
+			</div>
+		<% else %>
+			<div class="m10 tcenter">
+				<br/>
+			Este grupo es privado, únicamente los miembros del mismo pueden ver su contenido. <br /> 
+			Si deseas formar parte de este grupo puedes hacer una solicitud de acceso.
+			<hr />
+			<%= link_to "Solicitar acceso", group_apply_url(:slug => @group.slug), :class => 'button', :type => 'modal' %>
+			</div>
+		<% end %>
+	<% else %>
+	<ul id="activities">
+		<%= "#{@activities.count} actividades" %>
+		<% @activities.each do |activity|
+			data = activity.activitydatas
+			hash_data = Hash.new
+			data.each do |d|
+				hash_data[d.key] = d.data
+			end
+
+			case activity.action
+			when "group"
+				if hash_data['profile_id'] == session['current_profile']
+					profile = @current_profile
+				else
+					profile = Prof.find(hash_data['profile_id'])
+				end
+				begin
+				@group = Group.find(hash_data['group_id'])
+				if profile.nil? == false and @group.nil? == false %>
+					<li id="<%= activity.id.to_s %>">
+						<div class="left w530">
+						<div class="left w50 p10">
+							<%= link_to image_tag(file_path(profile.portrait, 'portrait', '50'), :alt => profile.name, :type => "p50"), profile_show_url(:profilename => profile.profilename) %>
+						</div>						
+						<div class="m10 w420">
+						<% if hash_data["profile_id"] == session["current_profile"]%>
+						<p>Has creado este grupo.<br/><span class="quiet">Hace <%= time_ago_in_words(activity.created_at) %></span></p>
+						<% else %>
+						<p><%= link_to profile.name, profile_show_url(:profilename => profile.profilename) %> ha creado este grupo.<br/><span class="quiet">Hace <%= time_ago_in_words(activity.created_at) %></span></p>
+						<% end %>
+						</div>
+						</div>
+						<hr class="mb0" />
+					</li>	
+				<% end
+				rescue
+				end
+			when "joingroup"
+				if hash_data['profile_id'] == session['current_profile']
+					profile = @current_profile
+				else
+					profile = Prof.find(hash_data['profile_id'])
+				end
+				begin
+				@group = Group.find(hash_data['group_id'])
+				if profile.nil? == false and @group.nil? == false %>
+					<li id="<%= activity.id.to_s %>">
+						<div class="left w530">
+						<div class="left w50 p10">
+							<%= link_to image_tag(file_path(profile.portrait, 'portrait', '50'), :alt => profile.name, :type => "p50"), profile_show_url(:profilename => profile.profilename) %>
+						</div>						
+						<div class="m10 w420">
+						<% if hash_data["profile_id"] == session["current_profile"]%>
+						<p>Te has unido al grupo.<br/><span class="quiet">Hace <%= time_ago_in_words(activity.created_at) %></span></p>
+						<% else %>
+						<p><%= link_to profile.name, profile_show_url(:profilename => profile.profilename) %> se ha unido al grupo.<br/><span class="quiet">Hace <%= time_ago_in_words(activity.created_at) %></span></p>
+						<% end %>
+						</div>
+						</div>
+						<hr class="mb0" />
+					</li>	
+				<% end
+				rescue
+				end
+			when "gportrait"
+				if hash_data['profile_id'] == session['current_profile']
+					profile = @current_profile
+				else
+					profile = Prof.find(hash_data['profile_id'])
+				end
+				begin
+				@group = Group.find(hash_data['group_id'])
+				if profile.nil? == false and @group.nil? == false %>
+					<li id="<%= activity.id.to_s %>">
+						<div class="left w530">
+						<div class="left w50 p10">
+							<%= link_to image_tag(file_path(profile.portrait, 'portrait', '50'), :alt => profile.name, :type => "p50"), profile_show_url(:profilename => profile.profilename) %>
+						</div>						
+						<div class="m10 w420">
+						<% if hash_data["profile_id"] == session["current_profile"]%>
+						<p>Has cambiado la foto de perfil del grupo.<br/><span class="quiet">Hace <%= time_ago_in_words(activity.created_at) %></span></p>
+						<% else %>
+						<p><%= link_to profile.name, profile_show_url(:profilename => profile.profilename) %> ha cambiado la foto de perfil del grupo.<br/><span class="quiet">Hace <%= time_ago_in_words(activity.created_at) %></span></p>
+						<% end %>
+						</div>
+						</div>
+						<hr class="mb0" />
+					</li>	
+				<% end
+				rescue
+				end
+			when "gforum"
+				if hash_data['profile_id'] == session['current_profile']
+					profile = @current_profile
+				else
+					profile = Prof.find(hash_data['profile_id'])
+				end
+				begin
+				@group = Group.find(hash_data['group_id'])
+				if profile.nil? == false and @group.nil? == false %>
+					<li id="<%= activity.id.to_s %>">
+						<div class="left w530">
+						<div class="left w50 p10">
+							<%= link_to image_tag(file_path(profile.portrait, 'portrait', '50'), :alt => profile.name, :type => "p50"), profile_show_url(:profilename => profile.profilename) %>
+						</div>						
+						<div class="m10 w420">
+						<% @topic = @group.gforum.gtopics.find(hash_data['topic_id']) %>
+						<% if hash_data["profile_id"] == session["current_profile"]%>
+						<p>Has escrito el mensaje '<%= link_to @topic.title, group_forum_topic_show_url(:slug => @group.slug, :tslug => @topic.slug) %>' en el foro del grupo.<br/><span class="quiet">Hace <%= time_ago_in_words(activity.created_at) %></span></p>
+						<% else %>
+						<p><%= link_to profile.name, profile_show_url(:profilename => profile.profilename) %> ha escrito el mensaje '<%= link_to @topic.title, group_forum_topic_show_url(:slug => @group.slug, :tslug => @topic.slug) %>' en el foro del grupo<br/><span class="quiet">Hace <%= time_ago_in_words(activity.created_at) %></span></p>
+						<% end %>
+						</div>
+						</div>
+						<hr class="mb0" />
+					</li>	
+				<% end
+				rescue
+				end
+			end  %>
+		<% end %>
+	</ul>
+	<% end %>
+<% end %>

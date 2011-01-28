@@ -1,0 +1,30 @@
+defaults: &defaults
+  host: 192.168.1.221
+  port: 27017
+  # slaves:
+  #   - host: slave1.local
+  #     port: 27018
+  #   - host: slave2.local
+  #     port: 27019
+
+development:
+  <<: *defaults
+  database: taradai_development
+
+test:
+  <<: *defaults
+  database: taradai_test
+
+# set these environment variables on your prod server
+production:
+    host: 192.168.1.221
+    database: taradai_development
+  
+  
+  # estas son las buenas, quitar las de desarrollo
+other:
+  host: <%= ENV['MONGOID_HOST'] %>
+  port: <%= ENV['MONGOID_PORT'] %>
+  profilename: <%= ENV['MONGOID_USERNAME'] %>
+  password: <%= ENV['MONGOID_PASSWORD'] %>
+  database: <%= ENV['MONGOID_DATABASE'] %>

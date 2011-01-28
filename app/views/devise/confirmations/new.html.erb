@@ -1,0 +1,22 @@
+<% content_for :left do %>
+	<%= form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f| %>
+	  	<fieldset>
+			<legend><%= t('user.titles.resend_confirmation')%></legend>
+			<%= devise_error_messages! %>
+
+			<p><%= f.label(:email, t('user.labels.email')) %><br />
+			<%= f.text_field :email, :class=> "t" %></p>
+
+			<p><%= f.submit t('user.buttons.resend_confirmation') %></p>
+		</fieldset>
+	<% end %>
+<%= render :partial => 'devise/shared/links' %>
+<% end %>
+
+<% content_for :right do %>
+	<h3><%= t('user.titles.help_resend_confirmation') %></h3>
+	<br />
+	<p><%= t('user.labels.help_resend_confirmation1') %></p>
+	<p><%= t('user.labels.help_resend_confirmation2') %></p>
+	<p><%= t('user.labels.help_resend_confirmation3') %></p>
+<% end %>

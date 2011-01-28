@@ -1,0 +1,14 @@
+	<div class="user_info">
+		<div class="user_portrait">
+				<%= image_tag('portal/avatars/avatar50.png', :alt=> @current_user.profile.name) %>
+	    </div>
+	    <div class="user_data">
+	    	<div class="user_link">
+	        	<%= link_to @current_profile.name, profile_show_url(@current_profile.profilename) %>
+	        </div>
+	        <div class="user_messaging">
+	        	<div class="user_m"><%#= link_to @current_user.profile.inbox.unread.to_s, messages_inbox_url %></div>
+	            <div class="user_n"><%#= link_to @current_user.profile.notifications.count.to_s, "#" %></div>
+	        </div>
+	    </div>
+	</div>

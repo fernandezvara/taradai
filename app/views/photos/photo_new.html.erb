@@ -1,0 +1,70 @@
+<% content_for :content do %>
+<script src="/javascripts/uploadify/swfobject.js" type="text/javascript"></script>
+<script src="/javascripts/uploadify/jquery.uploadify.v2.1.4.min.js" type="text/javascript"></script>
+<div class="w470">
+	<div class="w460 radius4 green0f green4b f130 lh130 p5 mr0">Añadir fotos al álbum '<%= @album.title %>'</div>
+	<div class="w460 fcolor8 f110 lh110 mt10"><p>Para añadir fotos a tu álbum, por favor, pulsa el botón 'Subir fotos'. En el cuadro que aparecerá selecciona las fotos que deseas añadir. Se mostrará una barra de proceso por cada archivo.</p></div>
+	
+
+	<style type="text/css">
+		#custom-demo .uploadifyQueueItem {  background-color: #FFFFFF;  border: none;  border-bottom: 1px solid #E5E5E5;  font: 11px Verdana, Geneva, sans-serif;  height: 50px;  margin-top: 0;  padding: 10px;  width: 350px; }
+		#custom-demo .uploadifyError {  background-color: #FDE5DD !important;  border: none !important;  border-bottom: 1px solid #FBCBBC !important;}
+		#custom-demo .uploadifyQueueItem .cancel {  float: right;}
+		#custom-demo .uploadifyQueue .completed {  color: #C5C5C5;}
+		#custom-demo .uploadifyProgress {  background-color: #E5E5E5;  margin-top: 10px;  width: 100%;}
+		#custom-demo .uploadifyProgressBar {  background-color: #0099FF;  height: 3px;  width: 1px;}
+		#custom-demo #custom-queue {  border: 1px solid #E5E5E5;  height: 213px;margin-bottom: 10px;  width: 390px; overflow:scroll;}
+	</style>
+	<div class="w460 fcolor9 f110 lh110 mt10" id="custom-demo">
+		<div class="demo-box">
+			<div id="status-message">Selecciona las fotos que quieres añadir:</div>
+			<div id="custom-queue" class="uplodifyQueue"></div>
+			<input id="custom_file_upload" type="file" name="photofile" style="display: none;" />
+		</div>
+	</div>
+	<div class="clear"></div>
+	<div class="mt10 w470">
+		<div class="right">
+			<%= link_to 'Terminar', album_show_path(:slug => @album.slug, :profilename => @profile.profilename), :class => "button" %>
+		</div>
+	</div>
+	<script type="text/javascript">
+	
+	$(document).ready(function() {
+		$('input#custom_file_upload').uploadify({
+			'uploader'       : '/javascripts/uploadify/uploadify.swf',
+			'script'         : '/photos/create',
+			'scriptData'     : {
+				'authenticity_token'      : encodeURIComponent('<%= u form_authenticity_token if protect_against_forgery? %>'),
+				'album'                   : '<%= @album.slug %>',
+				'user'                    : '<%= @profile.profilename %>' ,
+				"<%= key = Rails.application.config.session_options[:key] %>" : "<%= cookies[key] %>"
+			}, 
+			'cancelImg'      : '/javascripts/uploadify/cancel.png',
+			'multi'          : true,
+			'auto'           : true,
+			'fileExt'        : '*.jpg;*.gif;*.png',
+			'fileDesc'       : 'Image Files (.JPG, .GIF, .PNG)',
+			'queueID'        : 'custom-queue',
+			'queueSizeLimit' : 100,
+			'simUploadLimit' : 3,
+			'displayData'    : 'percentage',
+			'sizeLimit'      : <%= 6.megabytes %>,
+			'removeCompleted': true,
+			'onSelectOnce'   : function(event,data) { 
+				$('#status-message').text(data.filesSelected + ' foto/s añadida/s a la cola de subida.');
+			},
+			'onAllComplete'  : function(event,data) { 
+				$('#status-message').text(data.filesUploaded + ' fotos subidas, ' + data.errors + ' errores.');
+			},
+			'onQueueFull'    : function(event, queueSizeLimit) {
+				alert('No se pueden añadir más de 30 fotos a la vez.');
+				return false;
+			}
+		});
+	});
+	</script>
+	<div class="clear"></div>
+</div>
+<% end %>
+

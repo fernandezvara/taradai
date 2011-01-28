@@ -1,0 +1,34 @@
+<% content_for :main do %>
+	<div class="clear">
+	<p>Mapa:<br/>
+	Sitio: <%= @r.name %><br />
+	País: <%= @r.countrycode %><br />
+	Lat:  <%= @r.position[0] %><br />
+	Lng:  <%= @r.position[1] %><br />
+	ad1:  <%= @r.admin1 %><br />
+	ad2:  <%= @r.admin2 %><br />
+	ad3:  <%= @r.admin3 %><br />
+	ad4:  <%= @r.admin4 %><br />
+	
+	Featurecode: <%= @r.featurecode %></p>
+	</div>
+	<div id="map"></map>
+
+<% end %>
+
+<% content_for :javascript do %>
+	
+	var map = $("#map").gmap3({
+		lat: <%= @r.position[0] %>,
+		lng: <%= @r.position[1] %>,
+		zoom:12
+	});
+	
+	map.toggleDebug();
+	map.addMarkerByLatLng(<%= @r.position[0] %>,<%= @r.position[1] %>,"<%= "#{@r.name} - #{@r.countrycode}" %>","<%= "#{@r.name} - #{@r.countrycode}" %>");
+
+	
+<% end %>
+<% content_for :head do %>
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&language=es"></script>
+<% end %>

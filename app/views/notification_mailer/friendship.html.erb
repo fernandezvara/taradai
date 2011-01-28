@@ -1,0 +1,9 @@
+<% content_for :message do %>
+	<span style="color:#999999; font-size:8pt;"><%= l(Time.now, :format => :long)%></span><br>
+		<p style="padding:0; margin:0 0 11pt 0;line-height:160%; font-size:18px;"><%= "#{@profile1.name} es ahora tu amigo." %></p>
+		<p>Hola, <%= @profile2.name %>!</p>
+		
+		<p><%= link_to @profile1.name, profile_show_url(:profilename => @profile1.profilename) %> ha aceptado tu petición como amigo.</p>
+		<p>Si quieres ver su perfil <%= link_to 'pulsa aquí', profile_show_url(:profilename => @profile1.profilename) %></p>
+	
+<% end %>

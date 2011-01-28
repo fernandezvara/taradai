@@ -1,0 +1,25 @@
+<% content_for :main do %>
+<%= form_tag(search_results_url, :method => 'post') %>
+<div class="w530 green4b green0f radius4">
+	<div class="m10">
+		<div class="clear w100 m10 tright left"><%= select_tag :for, options_for_select([['Gente', 'people'], ['Grupos','groups']], 'people')  %></div>
+		<div class="w380 left m10"><%= text_field_tag 'search', "#{@search_terms}", :class => 'left' %><%= submit_tag 'Buscar', :class => 'ml120 gside' %></div>
+		</form>
+		<div class="clear"></div>
+		</div>
+</div>
+
+	<% if @search.nil? == false %>
+		<% case @for %>
+		<% when 'people' %>
+			<div class="w530 left radius4 green3b green0f mb10">
+				<div class="m5 b"><%= "Resultados de tu búsqueda '#{@search_terms}'." %></div>
+			</div>
+			<div id="results" class="clear">
+				<%= render :partial => 'profile_results' %>
+			</div>
+		<% end %>
+	<% else %>	
+		<%= "search is nil!!"%>
+	<% end %>
+<% end %>

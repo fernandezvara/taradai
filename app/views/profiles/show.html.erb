@@ -1,0 +1,14 @@
+<% content_for :main do %>
+	<ul id="activities">
+	
+	</ul>
+<% end %>
+
+<% content_for :javascript do %>
+	$.doTimeout("ajax", 30000, function () {
+		$.getScript("/<%= @profile.profilename %>/updates.js?time=" + $('ul#activities').attr('time') + '');
+		return true;
+	})
+	
+	$.doTimeout("ajax", true);
+<% end %>

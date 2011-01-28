@@ -1,0 +1,17 @@
+<div class="w180 radius4 tcenter color0 left">
+	<div class="m5 f105">
+		<% if @current_profile.statuses.actual.nil? %>
+			<%= "¿Qué estás pensando?" %>
+		<% else %>
+			<% if @current_profile.statuses.actual.status == "" %>
+				<%= "¿Qué estás pensando?" %>
+			<% else %>
+				<%= @current_profile.statuses.actual.status.to_s %>
+			<% end %>
+		<% end %>
+	<br /><%= link_to "cambiar", status_new_url(:profilename => @current_profile.profilename), :type => 'modal', :id => 'status' %>
+	</div>
+</div>
+<div class="w180 mb0">
+	<img src="http://assets.taradai.com/images/portal/pngs/arrow.png" />
+</div>

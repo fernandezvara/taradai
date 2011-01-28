@@ -1,0 +1,9 @@
+<div class="mt10 green0f green3b pr10 pl10 pt5 pb5 radius4tl radius4tr b ">
+	Miembros (<%= @group.connections_count('GMember') %>)
+</div>
+<div class="color1 p10 radius4bl radius4br">
+	<% members = @group.connections('GMember')
+	members.each do |member| %>
+		<%= link_to member.name, profile_show_path(:profilename => member.profilename) %><br/>
+	<% end %>
+</div>

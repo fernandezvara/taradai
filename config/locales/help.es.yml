@@ -1,0 +1,4 @@
+es:
+    help:
+        invitations:
+            newinvites: "<p>Puedes invitar a tus amigos a taradai de dos maneras:</p><ul><li>incluyendo sus direcciones de correo de forma manual, usando la pestaña 'Invitar'.</li><li>buscando a tus amigos en los contactos de tu correo electrónico, usando la pestaña 'Invitar desde webmail'. (Funciona con Gmail, Yahoo y Windows Live Hotmail).</li></ul><p>Si quieres ver el estado de tus invitaciones ve a la pestaña 'Usuarios ya invitados'.</p><p>Si ya has buscado amigos en tu correo y quieres invitar a alguno más ve a la pastaña 'Usuarios sin invitar'.</p>"

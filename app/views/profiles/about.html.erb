@@ -1,0 +1,84 @@
+<% content_for :main do %>
+	<% cache("profile-" + @profile_id.to_s) do %>
+
+	<div class="inf-box">
+    	<h3>Información básica</h3>
+        <table>
+			<% if @profile.birthday_show != 2%>
+            <tr>
+                <td class="title">Fecha de Nacimiento:</td>
+                <td class="data">
+				<% 
+				case @profile.birthday_show 
+				when 0
+					%>
+					<%#= l(@profile.birthday, :format => :long) %>
+				<%
+				when 1 
+				%>	
+					<%#= l(@profile.birthday, :format => :short2) %>
+				<% end%>
+				</td>
+            </tr>
+			<% end %>
+			<% if @profile.horoscope_show == true %>
+            <tr>
+                <td class="title">Signo del Zodiaco:</td>
+                <td class="data"><%= horoscope(@profile.birthday)%></td>
+            </tr>
+            <% end %>
+			<% if @profile.gender_show %>
+			<tr>
+                <td class="title">Sexo:</td>
+                <td class="data"><%= @profile.gender %></td>
+
+            </tr>
+			<% end %>
+			<% if @profile.civil_state != 0 && @profile.civil_state.nil? == false %>
+            <tr>
+                <td class="title">Estado Civil:</td>
+                <td class="data"><%= t(civil_state(@profile.civil_state, @profile.gender))%></td>
+            </tr>
+			<% end %>
+			<% if @profile.religion_show == true %>
+            <tr>
+                <td class="title">Religión:</td>
+                <td class="data"><%= @profile.religion %></td>
+            </tr>
+			<% end %>
+        </table>
+        <hr />
+        <table>
+			<% if @profile.about_me %>
+            <tr>
+                <td class="title">Sobre mí</td>
+                <td class="data"><%= simple_format(@profile.about_me) %></td>
+            </tr>
+			<% end %>
+			<% if @profile.own_definition %>
+            <tr>
+                <td class="title">Cómo soy</td>
+                <td class="data"><%= simple_format(@profile.own_definition) %></td>
+            </tr>
+			<% end %>
+			<% if @profile.searching_for %>
+            <tr>
+                <td class="title">Busco</td>
+
+                <td class="data"><%= simple_format(@profile.searching_for) %></td>
+            </tr>
+			<% end %>
+            <tr>
+            	<td class="title">Estoy interesado en:</td>
+                <td class="data">
+                	<ul>
+						<% @tendencies.each do |t| %>
+                        <li><%= link_to t.name[session[:locale]], tendencies_show_url(:name => t.slug) %></li>
+						<% end %>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+	</div>
+	<% end %>
+<% end %>

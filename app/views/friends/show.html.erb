@@ -1,0 +1,11 @@
+<% content_for :main do %>
+		<ul class="friends">
+			<% @friends.each do |f| %>
+				<li style="height:70px; border-bottom:1px #aaa solid;">
+					<div class="left w80 m10"><%= link_to image_tag(file_path(f.portrait, 'portrait', '50'), :alt=> f.name, :type => "p50"), profile_show_url(:profilename => f.profilename) %></div>
+					<div class="left w440 f105 m10"><%= link_to f.name, profile_show_url(f.profilename) %></div>
+				</li>
+				<div class="clear"></div>
+			<% end %>
+		</ul>
+<% end %>

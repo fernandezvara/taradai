@@ -1,0 +1,59 @@
+<% content_for :content do %>
+	<% if @messages.count == 0 %>
+		<p>No tienes ningún mensaje.</p>
+	<% else %>
+		<ul class="messages_box">
+			<% @messages.each do |message| %>
+				<% 
+				arr_to = Array.new
+				message.to.each do |to|
+					begin
+						arr_to << Prof.find(to)
+					rescue
+						arr_to << "0"
+					end
+				end %>
+				<% if message.readed == true %>
+					<li class="imessage">
+				<% else %>
+					<li class="imessage unreaded">
+				<% end %>
+						<div class="w550 left">
+							<div class="w70 mr10 left tright">Para:</div>
+							<div class="w470 left">
+								<% arr_to.each do |to| %>
+									<% if arr_to.count != 1 %>
+										<% if to != arr_to.first and to != arr_to.last %>
+											<%= "," %>
+										<% end %>
+										<% if to == arr_to.last %>
+											<%= " y " %>
+										<% end %>
+									<% end %>
+									<% if to == "0" %>
+										<%= "Usuario dado de baja" %>
+									<% else %>
+										<%= link_to to.name, profile_show_url(:profilename => to.profilename) %>
+									<% end %>
+								<% end %>	
+							</div>
+							<div class="w70 mr10 left tright">Título:</div>
+							<div class="w470 left">
+								<% if message.subject == "" or message.subject.nil? 
+									subject = "(sin título)"
+								else
+									subject = message.subject
+								end %>
+								<p><%= link_to subject, message_read_outbox_url(:slug => message.slug) %><br />
+								<span class="quiet"><%= l(message.created_at, :format => :long) %></span></p>
+							</div>
+						</div>
+						<div id="hideable" class="w60 p10 left">
+							<%= link_to 'borrar', message_delete_outbox_url(:slug => message.slug), :type => 'modal' %>
+						</div>
+						<div class="clear"></div>
+					</li>
+			<% end %>
+		</ul>
+	<% end %>
+<% end %>

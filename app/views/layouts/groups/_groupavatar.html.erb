@@ -1,0 +1,5 @@
+<% if @group.owner_id == @current_profile.id.to_s %>
+	<%= link_to image_tag(file_path(@group.gportrait, 'gportrait', 'a'), :alt=> @group.name, :type => 'p180', :class => 'radius4 portrait', :title => 'Pulsa para cambiar la foto del grupo.'), group_portrait_url(:slug=> @group.slug), :type => 'modal' %>
+<% else %>
+	<%=  image_tag(file_path(@group.gportrait, 'gportrait', 'a'), :type => 'p180', :alt=> @group.name, :class => 'radius4') %>
+<% end %>
