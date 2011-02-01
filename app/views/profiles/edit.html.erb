@@ -33,7 +33,23 @@
                 </dd>
                 <div class="clearfix"></div>
                 <dt><%= t('user.labels.birthday_country') %></dt>
-                <dd><p><%#= localized_country_select(:profile, :country, @current_user.profile.country, :class=> "w300") %></p></dd>
+                <dd>
+                <% if @current_profile.location.nil? or @current_profile.location == "" %>
+                <p id="country"><%= localized_country_select(:profile, :country, [], :include_blank => 'Por favor selecciona...', :class=> "w300") %></p>
+                <p id="stateprov" style="display:none">
+                <% else %>
+                <p id="country" style="display:none"><%= localized_country_select(:profile, :country, [@current_profile.country], :class=> "w300") %></p>
+                <p id="actual_country"><%= Hash[LocalizedCountrySelect::localized_countries_array].invert[@current_profile.country] %><br />
+                <%= Geoname.complete_text(@current_profile.location) %>  <a href="#" id="change_country">(Cambiar)</a></p>
+                <p id="stateprov" style="display:none">
+                <% end %>
+                <% if @current_profile.location.nil? or @current_profile.location == "" %>
+                  <%= text_field :profile, :location, :class=>"w500 text" %>
+                <% else%>
+                  <%= text_field :profile, :location, :class=>"w500 text", :value => Geoname.complete_text(@current_profile.location) %>
+                <% end %>
+                </p>
+                </dd>
                 <div class="clearfix"></div>
                 <dt>Crencias religiosas</dt>
                 <dd><p><%= f.text_field :religion, :class => "w300", :maxlength => 50 , :value => @current_user.profile.religion %></p>
@@ -66,4 +82,70 @@
 	<% end %>
 	<% when 'PProfile'%>
 	<% end %>
+<% end %>
+
+<% content_for :head do %>
+	<%= stylesheet_link_tag "textbox/TextboxList", :media => "screen" %>
+	<%= stylesheet_link_tag "textbox/TextboxList.Autocomplete", :media => "screen" %>
+	<%= javascript_include_tag "textbox/GrowingInput" %>
+	<%= javascript_include_tag "textbox/TextboxList" %>
+	<%= javascript_include_tag "textbox/TextboxList.Autocomplete" %>
+	<%= javascript_include_tag "textbox/TextboxList.Autocomplete.Binary" %>
+	<style type="text/css" media="screen">
+		.form_tags { margin-bottom: 10px; }
+		.textboxlist { width: 480px; }
+		.textboxlist-loading { background: url('/images/textbox/spinner.gif') no-repeat 460px center; }
+		.form_friends .textboxlist-autocomplete-result { overflow: hidden; zoom: 1; }
+		.form_friends .textboxlist-autocomplete-result img { float: left; padding-right: 10px; }
+		input.textboxlist-bit-editable-input { border-color: #fff; margin: 0; padding: 0;}
+	</style>
+<% end %>
+
+<% content_for :javascript do %>
+
+$(document).ready(function() {
+
+
+  //var box = new $.TextboxList('#profile_location', {unique: true, plugins: {autocomplete: { placeholder: "Escribe para obtener sugerencias" }}});
+
+	//box.getContainer().addClass('textboxlist-loading');				
+	//var country = $("#profile_country").val();
+
+  $("#profile_location").textboxlist({unique: true, max: 1,
+    plugins: {
+      autocomplete: {
+        placeholder: "Escribe para obtener sugerencias",
+        minLength: 2,
+        queryRemote: true,
+        remote: { url: '/my/localization.json?country=' + $("#profile_country").val() }
+    }}});
+
+  $("#profile_country").change(function() {
+    $("p#stateprov").slideDown();
+  });
+  $("#profile_country").focusout(function() {
+    $("p#stateprov").slideDown();
+  });
+
+  $("#profile_country").change(function() {
+    $("div.textboxlist").hide();
+    $("#profile_location").textboxlist({unique: true, max: 1,
+      plugins: {
+        autocomplete: {
+          placeholder: "Escribe para obtener sugerencias",
+          minLength: 3,
+          queryRemote: true,
+          remote: { url: '/my/localization.json?country=' + $("#profile_country").val() }
+      }}});
+  });
+
+  $("a#change_country").click(function(){
+    $("p#country").show();
+    $("p#actual_country").hide();
+  })
+
+});
+
+
+
 <% end %>

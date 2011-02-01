@@ -15,6 +15,7 @@ end %>
 			data.each do |d|
 				hash_data[d.key] = d.data
 			end
+			begin
 			case node.action
 		   	when "join"
 				if hash_data["profile_id"] == session["current_profile"]
@@ -225,12 +226,12 @@ end %>
 					<% end %>
 				<% end %>
 				<% when "blog"
+				  begin
 					if hash_data['profile_id'] == session['current_profile']
 						profile = @current_profile
 					else
 						profile = Prof.find(hash_data['profile_id'])
 					end
-					begin
 					@blog = Blog.find(hash_data['blog_id'])
 					if profile.nil? == false and @blog.nil? == false %>
 							<li id="<%= node.id.to_s %>">
@@ -253,12 +254,13 @@ end %>
 					<% rescue
 					end %>
 					<% when "group"
+            begin
 						if hash_data['profile_id'] == session['current_profile']
 							profile = @current_profile
 						else
 							profile = Prof.find(hash_data['profile_id'])
 						end
-						begin
+
 						@group = Group.find(hash_data['group_id'])
 						if profile.nil? == false and @group.nil? == false %>
 								<li id="<%= node.id.to_s %>">
@@ -281,12 +283,12 @@ end %>
 						<% rescue
 						end %>
 					<% when "joingroup"
+					  begin
 						if hash_data['profile_id'] == session['current_profile']
 							profile = @current_profile
 						else
 							profile = Prof.find(hash_data['profile_id'])
 						end
-						begin
 						@group = Group.find(hash_data['group_id'])
 						if profile.nil? == false and @group.nil? == false %>
 								<li id="<%= node.id.to_s %>">
@@ -309,12 +311,12 @@ end %>
 						<% rescue
 						end %>
 					<% when "gportrait"
+					  begin
 						if hash_data['profile_id'] == session['current_profile']
 							profile = @current_profile
 						else
 							profile = Prof.find(hash_data['profile_id'])
 						end
-						begin
 						@group = Group.find(hash_data['group_id'])
 						if profile.nil? == false and @group.nil? == false %>
 								<li id="<%= node.id.to_s %>">
@@ -337,12 +339,12 @@ end %>
 						<% rescue
 						end %>
 						<% when "tforum"
+						  begin
   						if hash_data['profile_id'] == session['current_profile']
   							profile = @current_profile
   						else
   							profile = Prof.find(hash_data['profile_id'])
   						end
-  						begin
   						@tendency = Tendency.find(hash_data['tendency_id'])
   						@topic = @tendency.gforum.gtopics.find(hash_data['topic_id'])
   						if profile.nil? == false and @tendency.nil? == false and @topic.nil? == false %>
@@ -369,5 +371,7 @@ end %>
 						
 				<%
 			end #end case
+		rescue
+	  end
 	#end	#end cache
 end %>

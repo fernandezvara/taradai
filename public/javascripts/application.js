@@ -455,7 +455,7 @@ $(document).ready(function() {
 		});
 	}); */
 
-	$('a').click(function(e) {
+	$('a').live('click', function(e) {
 		type = $(this).attr('type');
 		if (type != '') {
 			e.preventDefault();

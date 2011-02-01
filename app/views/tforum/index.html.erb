@@ -12,11 +12,17 @@
 	<% else %>
 		<ul id="forum" class="clear">
 		<% @topics.each do |topic| %>
-			<% profile = Prof.find(topic.prof_id) %>
+			<% 
+			begin
+			profile = Prof.find(topic.prof_id)
+			rescue
+			  profile = nil
+			end 
+			%>
 			<li id="<%= topic.slug %>" style="vertical-align:middle;" class="clear">
 				<div class="w50 left p10">
 					<% if profile.nil? %>
-						<%= image_tag '/portal/avatars/p50_default.png', :alt => 'Usuario dado de baja en el sistema.' %>
+						<%= image_tag '/images/portal/portrait/50_default.jpg', :alt => 'Usuario dado de baja en el sistema.', :type => "p50" %>
 					<% else %>
 						<%= link_to image_tag(file_path(profile.portrait, 'portrait', '50'), :alt => profile.name, :type => "p50"), profile_show_url(:profilename => profile.profilename) %>
 					<% end %>

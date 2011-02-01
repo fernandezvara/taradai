@@ -49,4 +49,15 @@ class MapsController < ApplicationController
       format.json { render :json => arr }
     end
   end
+  
+  def localization
+    country = params[:country]
+    query = params[:search]
+    result = Geoname.search(query, country)
+    
+    respond_to do |format|
+      format.json { render :json => result }
+    end
+  end
+  
 end

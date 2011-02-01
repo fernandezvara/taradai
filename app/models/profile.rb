@@ -1,4 +1,4 @@
-# coding: utf-8
+# encoding: utf-8
 
 class Profile < Prof
 
@@ -13,6 +13,7 @@ class Profile < Prof
   field :gender,            :type => Boolean,    :default => false                           # 1 => hombre , 0 => mujer
   field :gender_show,       :type => Boolean,    :default => true
   field :country,           :type => String
+  field :location,          :type => String
   #field :state,             :type => String
   #field :province,          :type => String
   field :religion,          :type => String
@@ -32,8 +33,8 @@ class Profile < Prof
   field :portrait
   
   validates_presence_of :first_name, :last_name  #, :country
-  validates_format_of   :first_name, :with => /^[A-Za-záéíóúäëïöüàèìòùâêîôû' ]{2,50}$/
-  validates_format_of   :last_name, :with => /^[A-Za-záéíóúäëïöüàèìòùâêîôû' ]{2,50}$/
+  validates_format_of   :first_name, :with => /^[A-Za-záéíóúäëïöüàèìòùâêîôû.' ]{2,50}$/
+  validates_format_of   :last_name, :with => /^[A-Za-záéíóúäëïöüàèìòùâêîôû.' ]{2,50}$/
   
   referenced_in :user
   
@@ -119,8 +120,13 @@ class Profile < Prof
       puts "borrando conexión con #{tendency.slug} ..."
       self.delete_connection('Tend', tendency, true)
     end
+    groups = self.connections('GMember')
+    groups.each do |group|
+      puts "borrando conexión con #{group.slug} ..."
+      self.delete_connection('GMember', group, true)
+    end
   end
-  
+      
   def delete_blogs
     blogs = Blog.where(:prof_id => self.id.to_s)
     blogs.each do |blog|

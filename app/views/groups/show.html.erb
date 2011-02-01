@@ -25,15 +25,17 @@
 			data.each do |d|
 				hash_data[d.key] = d.data
 			end
-
+      
+        
 			case activity.action
 			when "group"
+			begin
 				if hash_data['profile_id'] == session['current_profile']
 					profile = @current_profile
 				else
 					profile = Prof.find(hash_data['profile_id'])
 				end
-				begin
+				
 				@group = Group.find(hash_data['group_id'])
 				if profile.nil? == false and @group.nil? == false %>
 					<li id="<%= activity.id.to_s %>">
@@ -52,15 +54,17 @@
 						<hr class="mb0" />
 					</li>	
 				<% end
-				rescue
-				end
+			rescue
+		  end
+				
 			when "joingroup"
+			begin
 				if hash_data['profile_id'] == session['current_profile']
 					profile = @current_profile
 				else
 					profile = Prof.find(hash_data['profile_id'])
 				end
-				begin
+				
 				@group = Group.find(hash_data['group_id'])
 				if profile.nil? == false and @group.nil? == false %>
 					<li id="<%= activity.id.to_s %>">
@@ -79,15 +83,16 @@
 						<hr class="mb0" />
 					</li>	
 				<% end
-				rescue
-				end
+			rescue
+		  end
 			when "gportrait"
+			begin
 				if hash_data['profile_id'] == session['current_profile']
 					profile = @current_profile
 				else
 					profile = Prof.find(hash_data['profile_id'])
 				end
-				begin
+				
 				@group = Group.find(hash_data['group_id'])
 				if profile.nil? == false and @group.nil? == false %>
 					<li id="<%= activity.id.to_s %>">
@@ -106,15 +111,15 @@
 						<hr class="mb0" />
 					</li>	
 				<% end
-				rescue
-				end
+			rescue
+			end
 			when "gforum"
+			begin
 				if hash_data['profile_id'] == session['current_profile']
 					profile = @current_profile
 				else
 					profile = Prof.find(hash_data['profile_id'])
 				end
-				begin
 				@group = Group.find(hash_data['group_id'])
 				if profile.nil? == false and @group.nil? == false %>
 					<li id="<%= activity.id.to_s %>">
@@ -133,10 +138,10 @@
 						</div>
 						<hr class="mb0" />
 					</li>	
-				<% end
+				<% end 
 				rescue
-				end
-			end  %>
+				end %>
+			<% end %>	
 		<% end %>
 	</ul>
 	<% end %>

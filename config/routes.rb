@@ -8,6 +8,7 @@ Taradai::Application.routes.draw do
   
   match 'map',                                              :controller => 'maps',             :action => 'random',              :as => 'maps_random'
   match 'my/map(.:format)',                                  :controller => 'maps',             :action => 'query',               :as => 'maps_query'
+  match 'my/localization(.:format)',                            :controller => 'maps',             :action => 'localization',            :as => 'maps_location'
   # Searching.....
   match 's',                                                :controller => 'search',           :action => 'form',                :as => 'search_form'
   match 's/results',                                        :controller => 'search',           :action => 'results',             :as => 'search_results'

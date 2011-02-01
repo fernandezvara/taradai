@@ -10,12 +10,13 @@
 		
 		case activity.action
 		when "blog"
+		  begin
 			if hash_data['profile_id'] == session['current_profile']
 				profile = @current_profile
 			else
 				profile = Prof.find(hash_data['profile_id'])
 			end
-			begin
+			
 			@blog = Blog.find(hash_data['blog_id'])
 			if profile.nil? == false and @blog.nil? == false %>
 					<li id="<%= activity.id.to_s %>">
@@ -37,12 +38,12 @@
 			rescue
 			end
 		when "group"
+		  begin
 			if hash_data['profile_id'] == session['current_profile']
 				profile = @current_profile
 			else
 				profile = Prof.find(hash_data['profile_id'])
 			end
-			begin
 			@group = Group.find(hash_data['group_id'])
 			if profile.nil? == false and @group.nil? == false %>
 					<li id="<%= activity.id.to_s %>">
@@ -64,13 +65,12 @@
 			rescue
 			end
 		when "tforum"
-		  puts 'paso'
+		  begin
 			if hash_data['profile_id'] == session['current_profile']
 				profile = @current_profile
 			else
 				profile = Prof.find(hash_data['profile_id'])
 			end
-			begin
 			@topic = @tendency.gforum.gtopics.find(hash_data['topic_id'])
 			if profile.nil? == false and @topic.nil? == false %>
 					<li id="<%= activity.id.to_s %>">

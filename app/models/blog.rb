@@ -12,13 +12,8 @@ class Blog < ActAsGraph
   field :prof_id
   index :prof_id
   
-
-  #referenced_in :profile
-  
   validates_length_of :title, :minimum => 5, :maximum => 100
   validates_length_of :body, :minimum => 5, :maximum => 10000
-  
-  #embeds_many :blogcomments
   
   def slugit!
     title = self.title
