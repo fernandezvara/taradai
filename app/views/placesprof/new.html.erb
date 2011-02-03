@@ -1,0 +1,113 @@
+# encoding: UTF-8
+<% content_for :content do %>
+<div class="w470">
+	
+	<div class="w460 radius4 green0f green4b f130 lh130 p5 mr0">Nuevo centro</div>
+	<div class="w460 mt10">
+	  <%= link_to "Buscar centro en taradai", "/my/places/search", :type => 'modal', :class => 'button' %>
+	  <%= link_to "Mis centros", profile_my_places_index_url, :type => 'modal', :class => 'button' %>
+	  <%= link_to "Crear nuevo centro", profile_my_places_new_url, :type => 'modal', :class => 'button' %>
+	</div>
+	<div class="w460 fcolor8 f110 lh110 pt10 clear"><p>Usa este formulario para crear el centro.</p></div>
+  <div class="w460">
+    <%= simple_form_for @place, :url => profile_my_places_create_url, :remote => true do |f| %>
+      <%= f.input :name, :label => 'Nombre', :input_html => { :class => 'w300' } %>
+      <%= f.input :description, :label => 'Descripción', :as => :text, :input_html => {:class => ['w300', 'h100'] }  %>
+      <div class="input text optional"><label class="text optional" for="privateplace_country">País</label>
+      <%= localized_country_select(:privateplace, :country, [ @current_profile.country ]) %></div>
+      <%= f.input :location, :label => 'Localidad', :input_html => { :class=> ['w300', 'text'] } %>
+      <%= f.input :street, :label => 'Dirección', :hint => 'Nombre de la calle/avenida/etc, número, piso (si procede).',  :input_html => {:class => 'w300' } %>
+      <div class="input text optional"><label class="text optional">Mapa</label><input type="button" id="search_map" value="Buscar en mapa" /></div>
+      <%= f.button :submit %>
+    <% end %>
+
+  </div>
+
+
+	<div class="clear"></div>
+	<div class="mt10 w540">
+		<div class="right">
+	    <input type="button" value="Cancelar" class="close" />
+		</div>
+	</div>
+	</form>
+	<div class="clear"></div>
+</div>
+<%= stylesheet_link_tag "textbox/TextboxList", :media => "screen" %>
+<%= stylesheet_link_tag "textbox/TextboxList.Autocomplete", :media => "screen" %>
+<%= javascript_include_tag "textbox/GrowingInput" %>
+<%= javascript_include_tag "textbox/TextboxList" %>
+<%= javascript_include_tag "textbox/TextboxList.Autocomplete" %>
+<%= javascript_include_tag "textbox/TextboxList.Autocomplete.Binary" %>
+<style type="text/css" media="screen">
+	.form_tags { margin-bottom: 10px; }
+	.textboxlist { width: 300px; margin-left: 140px; }
+	.textboxlist-loading { background: url('/images/textbox/spinner.gif') no-repeat 280px center; }
+	.textboxlist-autocomplete-result { overflow: hidden; zoom: 1; }
+	.textboxlist-autocomplete-result img { float: left; padding-right: 10px; }
+	input.textboxlist-bit-editable-input { border-color: #fff; margin: 0; padding: 0;}
+</style>
+<script type="text/javascript">
+$(document).ready(function() {
+
+  var box = new $.TextboxList('#privateplace_location', {unique: true, max: 1,
+    plugins: {
+      autocomplete: {
+        placeholder: "Escribe para obtener sugerencias",
+        minLength: 2,
+        queryRemote: true,
+        remote: { url: '/my/localization.json?country=' + $("#privateplace_country").val() }
+    }}});
+
+  box.add('<%= Geoname.complete_text(@current_profile.location) %>', '<%= @current_profile.location %>');
+
+
+  $("#privateplace_country").change(function() {
+    $("div.textboxlist").hide();
+    $("#privateplace_location").textboxlist({unique: true, max: 1,
+      plugins: {
+        autocomplete: {
+          placeholder: "Escribe para obtener sugerencias",
+          minLength: 3,
+          queryRemote: true,
+          remote: { url: '/my/localization.json?country=' + $("#privateplace_country").val() }
+      }}});
+  });
+
+  $("input#search_map").click(function() {
+    var errorCount = 0;
+    if ($("input#privateplace_street").val() == "") {
+      $("input#privateplace_street").addClass("error");
+      errorCount = errorCount + 1;
+    } else {
+      $("input#privateplace_street").removeClass("error");
+    }
+    
+    if ($("input#privateplace_location").val() == "") {
+      $("input#privateplace_location").addClass("error");
+      errorCount = errorCount + 1;
+    } else {
+      $("input#privateplace_location").removeClass("error");
+    }
+    
+    if ($("input#privateplace_name").val() == "") {
+      $("input#privateplace_name").addClass("error");
+      errorCount = errorCount + 1;
+    } else {
+      $("input#privateplace_name").removeClass("error");
+    }
+    
+    if (errorCount == 0) {
+      alert("ok");
+    } else {
+      flashBar("Por favor, corrige los errores. Faltan datos por rellenar para poder hacer buscar.", "error", {});
+    }
+  });
+
+  function checkAddress() {
+    var address = ' ' +
+  }
+
+});
+</script>
+<% end %>

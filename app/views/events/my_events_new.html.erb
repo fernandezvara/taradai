@@ -1,0 +1,18 @@
+<% content_for :content do %>
+  <%= simple_form_for @event, :url => profile_my_events_create_url do |f| %>
+    <%= f.input :title, :label => 'Título', :hint => 'Escribe el título para identificar este evento.', :placeholder => 'Título del evento', :input_html => { :class => 'w450'} %>
+    <div class="inputs string optional">
+      <label class="text optional" for="place">Centro</label>
+      <input class="input string w300 left disabled" type="text" disabled="disabled" id="place" name="place" />
+      <%= link_to 'Seleccionar centro', profile_my_places_selection_url, :type => 'modal', :class => 'button' %>
+      <span class="hint">Puedes seleccionar el centro en el que se realizará el evento, si eliges un centro ya registrado en taradai esta entrada de agenda se reflejará en la del centro también. Puedes crear un centro nuevo si fuese necesario. <br />NOTA: Todos los centros que crees tú serán <strong>privados a tu cuenta y no estarán disponibles en las búsquedas</strong>.</span>
+    </div>
+    <%= f.input :description, :label => 'Descripción', :hint => 'Escribe toda la información que consideres útil referente al evento.', :as => :text, :input_html => { :class => ['w450', 'h150'] } %>
+    <%= f.input :start_time, :label => 'Comienzo', :as => :datetime, :start_year => Date.today.year, :end_year => Date.today.year + 10, :minute_step => 15, :default => 3.hours.from_now %>
+    <%= f.input :end_time, :label => 'Finalización', :as => :datetime, :minute_step => 15, :default => 4.hours.from_now %>
+    <%= f.input :full_day, :label => '¿Día/s completo/s?', :as => :boolean, :hint => 'Si el evento dura todo el día o varios días seleciona esta opción.' %>
+    <%= f.input :privacy, :label => 'Privado', :hint => 'Si seleccionas el evento como privado sólo podrás verlo tú.', :as => :boolean %>
+    <%= f.input :allow_attendees, :label => '¿Pueden apuntarse al evento?', :hint => 'Si quieres saber quien está interesado en el evento, puedes permitirles que se inscriban como asistentes a él. Si el evento es privado no tiene efecto.', :as => :boolean %>
+    <%= f.button :submit %>
+  <% end %>
+<% end %>

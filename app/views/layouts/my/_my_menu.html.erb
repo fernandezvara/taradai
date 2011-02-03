@@ -38,12 +38,12 @@
 		when "new"
 			l_art_new = true
 		end
-	when "calendar"
+	when "events"
 		l_cal = true
 		case action_name
-		when "index"
+		when "my_events"
 			l_cal_ind = true
-		when "new"
+		when "my_events_new"
 			l_cal_new = true
 		end
 	when "profile"
@@ -120,15 +120,15 @@
 </ul>
 <ul class="my_menu">
 	<li class="my_events my_back <%= l_cal == true ? "active" : "" %>">
-		<a href="#">Agenda</a>
+		<%= link_to "Agenda", profile_my_events_url %>
 	</li>
 </ul>
 <ul class="my_events_menu my_sub_menu">
 	<li class="my_events_browse my_back <%= l_cal == true and l_cal_ind == true ? "active" : "" %>">
-		<a href="#">Mi agenda</a>
+		<%= link_to "Mi agenda", profile_my_events_url %>
 	</li>
 	<li class="my_events_new my_back <%= l_cal == true and l_cal_new == true ? "active" : "" %>">
-		<a href="#">Nuevo evento</a>
+		<%= link_to "Nuevo evento", profile_my_events_new_url %>
 	</li>
 </ul>
 <ul class="my_menu">

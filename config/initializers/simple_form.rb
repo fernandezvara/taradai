@@ -3,7 +3,7 @@ SimpleForm.setup do |config|
 
   # Components used by the form builder to generate a complete input. You can remove
   # any of them, change the order, or even add your own components to the stack.
-  # config.components = [ :label_input, :hint, :error ]
+  config.components = [ :label_input, :error, :hint ]
 
   # Default tag used on hints.
   # config.hint_tag = :span
@@ -15,7 +15,7 @@ SimpleForm.setup do |config|
   # config.error_method = :first
 
   # Default tag used for error notification helper.
-  # config.error_notification_tag = :p
+  config.error_notification_tag = :p
 
   # You can wrap all inputs in a pre-defined tag.
   # config.wrapper_tag = :div
@@ -48,5 +48,5 @@ SimpleForm.setup do |config|
   # config.country_priority = nil
 
   # Default size for text inputs.
-  # config.default_input_size = 50
+  config.default_input_size = 30
 end

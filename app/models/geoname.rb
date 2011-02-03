@@ -91,7 +91,7 @@ class Geoname
   def self.search(query, country, max = 10)
     results = Array.new
     
-    regex = "/^#{query}/i"
+    regex = "/#{query}/i"
 
     my_search = self.where(:countrycode => country, :name => eval(regex)).limit(max)
     #my_search = self.where(:countrycode => country)

@@ -14,6 +14,9 @@ gem 'rmagick'
 gem 'flash_cookie_session'
 gem 'mongoid_search'
 gem "will_paginate", "~> 3.0.pre2"
+gem 'mongoid_slug', :require => 'mongoid/slug'
+
+gem 'validates_timeliness', '~> 3.0.2'
 
 gem 'mogilefs-client'
 

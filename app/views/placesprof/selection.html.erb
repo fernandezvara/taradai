@@ -1,0 +1,25 @@
+<% content_for :content do %>
+<div class="w470">
+	
+	<div class="w460 radius4 green0f green4b f130 lh130 p5 mr0">Centros</div>
+	<div class="w460 mt10">
+	  <%= link_to "Buscar centro en taradai", "/my/places/search", :type => 'modal', :class => 'button' %>
+	  <%= link_to "Mis centros", profile_my_places_index_url, :type => 'modal', :class => 'button' %>
+	  <%= link_to "Crear nuevo centro", profile_my_places_new_url, :type => 'modal', :class => 'button' %>
+	</div>
+	<div class="w460 fcolor8 f110 lh110 pt10 clear"><p>Utiliza este formulario para buscar un centro en taradai, buscar entre los que has creado tú o crear uno nuevo.<br /><strong>Selecciona la opción que desees.</strong></p></div>
+
+  
+  <div class="w460" id="fo"></div>
+
+
+	<div class="clear"></div>
+	<div class="mt10 w540">
+		<div class="right">
+	    <input type="button" value="Cancelar" class="close" />
+		</div>
+	</div>
+	</form>
+	<div class="clear"></div>
+</div>
+<% end %>

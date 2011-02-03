@@ -1,0 +1,46 @@
+<% content_for :content do %>
+<div class="w470">
+	
+	<div class="w460 radius4 green0f green4b f130 lh130 p5 mr0">Mis centros</div>
+	<div class="w460 mt10">
+	  <%= link_to "Buscar centro en taradai", "/my/places/search", :type => 'modal', :class => 'button' %>
+	  <%= link_to "Mis centros", profile_my_places_index_url, :type => 'modal', :class => 'button' %>
+	  <%= link_to "Crear nuevo centro", profile_my_places_new_url, :type => 'modal', :class => 'button' %>
+	</div>
+	<div class="w460 fcolor8 f110 lh110 pt10 clear"><p>Selecciona el centro en que se celebrará el evento. <br />Puedes hacer los cambios que consideres necesarios en los centros que has creado con anterioridad, así como eliminar aquellos que consideres.</p></div>
+
+  
+  <div class="w460 radius4 green0f green4b p5 mr0"><%= "Tienes #{@places.count} centros."%></div>
+  <div class="w460">
+    <ul>
+      <% @places.each do |place| %>
+        <li>
+          <div class="w300"><%= link_to place.name, "#", :id => place.id, :type => 'selection', :place => place.name %></div><div id="hideable">
+          <% link_to "editar", %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+
+	<div class="clear"></div>
+	<div class="mt10 w540">
+		<div class="right">
+	    <input type="button" value="Cancelar" class="close" />
+		</div>
+	</div>
+	</form>
+	<div class="clear"></div>
+</div>
+<script type="text/javascript">
+$('a').live('click', function(e) {
+	type = $(this).attr('type');
+	if (type != '') {
+		e.preventDefault();
+		if (type == 'selection'){
+      $("input#place").val($(this).attr("place"));
+		}
+	}
+});
+</script>
+<% end %>

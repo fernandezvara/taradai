@@ -18,6 +18,8 @@ class Prof < ActAsGraph
   embeds_many :activities
   embeds_many :notifications
   
+  embeds_many :privateplaces
+  
   has_many_related :blogs
   
   validates_format_of   :profilename, :with => /^[A-Za-z1-9]{3,30}$/

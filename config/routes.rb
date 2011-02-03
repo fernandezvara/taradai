@@ -1,5 +1,47 @@
 Taradai::Application.routes.draw do
 
+  get "placesprof/index"
+
+  get "placesprof/new"
+
+  get "placesprof/create"
+
+  get "placesprof/edit"
+
+  get "placesprof/update"
+
+  get "placesprof/delete"
+
+  get "placesprof/destroy"
+
+  get "events/my_events_create"
+
+  get "events/my_events_new"
+
+  get "events/my_events_edit"
+
+  get "events/my_events_update"
+
+  get "events/my_events_delete"
+
+  get "events/my_events_destroy"
+
+  get "events/group_events"
+
+  get "events/group_events_new"
+
+  get "events/group_events_create"
+
+  get "events/group_events_edit"
+
+  get "events/group_events_update"
+
+  get "events/group_events_delete"
+
+  get "events/group_events_destroy"
+
+  get "events/tendency_events"
+
   devise_for :users
   
   resources :profiles, :only => [:new, :create, :edit, :update]
@@ -7,8 +49,8 @@ Taradai::Application.routes.draw do
   resources :messages, :only => [:create]
   
   match 'map',                                              :controller => 'maps',             :action => 'random',              :as => 'maps_random'
-  match 'my/map(.:format)',                                  :controller => 'maps',             :action => 'query',               :as => 'maps_query'
-  match 'my/localization(.:format)',                            :controller => 'maps',             :action => 'localization',            :as => 'maps_location'
+  match 'my/map(.:format)',                                 :controller => 'maps',             :action => 'query',               :as => 'maps_query'
+  match 'my/localization(.:format)',                        :controller => 'maps',             :action => 'localization',            :as => 'maps_location'
   # Searching.....
   match 's',                                                :controller => 'search',           :action => 'form',                :as => 'search_form'
   match 's/results',                                        :controller => 'search',           :action => 'results',             :as => 'search_results'
@@ -86,6 +128,18 @@ Taradai::Application.routes.draw do
   match ':profilename/photos/album/:slug/:id',              :controller => 'photos',           :action => 'photo_show',          :as => 'photo_show'
   match '/photos/create',                                   :controller => 'photos',           :action => 'photo_create',        :as => 'photo_create'
 
+  # Events
+  match '/my/events',                                       :controller => 'events',           :action => 'my_events',           :as => 'profile_my_events'
+  match '/my/eventsjson.:format',                           :controller => 'events',           :action => 'my_events_json',      :as => 'profile_my_events_json'
+  match '/my/events/new',                                   :controller => 'events',           :action => 'my_events_new',       :as => 'profile_my_events_new'
+  match '/my/events/create',                                :controller => 'events',           :action => 'my_events_create',    :as => 'profile_my_events_create'
+  
+  # Places
+  match '/my/places/selection',                             :controller => 'placesprof',       :action => 'selection',            :as => 'profile_my_places_selection'
+  match '/my/places/index',                                 :controller => 'placesprof',       :action => 'index',                :as => 'profile_my_places_index'  
+  match '/my/places/new',                                   :controller => 'placesprof',       :action => 'new',                  :as => 'profile_my_places_new'
+  match '/my/places/create',                                :controller => 'placesprof',       :action => 'create',               :as => 'profile_my_places_create'    
+  
   #Matchers for tendencies....
   match '/t/:name',                                         :controller => 'tendencies',       :action => 'show',                :as => 'tendencies_show'
   match '/t/:name/blogs',                                   :controller => 'tendencies',       :action => 'blogs',               :as => 'tendencies_blogs'
@@ -125,7 +179,6 @@ Taradai::Application.routes.draw do
   match '/g/:slug/destroy',                                 :controller => 'groups',            :action => 'destroy',             :as => 'group_destroy'
   match '/g/:slug/portrait',                                :controller => 'groups',            :action => 'portrait',            :as => 'group_portrait'
   match '/g/:slug/portrait/create',                         :controller => 'groups',            :action => 'portrait_create',     :as => 'group_portrait_create'  
-  
   
   match '/g/:slug/apply',                                   :controller => 'groups',            :action => 'apply',               :as => 'group_apply' # apply for membership
   match '/g/:slug/applycreate',                             :controller => 'groups',            :action => 'applycreate',         :as => 'group_apply_create'

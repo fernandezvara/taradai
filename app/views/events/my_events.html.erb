@@ -1,0 +1,95 @@
+<% content_for :content do %>
+<div id='calendar' style='font-size:10px; width:630px;'></div>
+<% end %>
+
+<% content_for :javascript do %>
+  $(document).ready(function() {
+
+  		var date = new Date();
+  		var d = date.getDate();
+  		var m = date.getMonth();
+  		var y = date.getFullYear();
+
+  		$('#calendar').fullCalendar({
+  			header: {
+  				left: 'prev,next today',
+  				center: 'title',
+  				right: 'month,agendaWeek,agendaDay'
+  			},
+  			editable: false,
+  			firstDay: 1,
+  			timeFormat: 'H:mm',
+  			monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+  			monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+  			dayNames: ['Domingo', 'Lunes', 'Martes', 'Miercóles', 'Jueves', 'Viernes', 'Sábado'],
+  			dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sáb'],
+  			buttonText: {
+  			  today: 'Hoy',
+  			  month: 'Mes',
+  			  week: 'Semana',
+  			  day: 'Día'
+  			},
+  			columnFormat: {
+  			  month: 'ddd',
+  			  week: 'ddd d/M',
+  			  day: 'dddd d/M'
+  			},
+  			titleFormat: {
+            month: 'MMMM yyyy',                             
+            week: "d MMM [ yyyy]{ '&#8212;' d [ MMM] yyyy}",
+            day: 'dddd, d MMMM yyyy'
+        },
+        allDayText: 'todo el día',
+        axisFormat: 'H:mm',
+        /* height: 'auto', */
+  			events: '/my/eventsjson.json'
+  			/* [
+  				{
+  					title: 'All Day Event',
+  					start: new Date(y, m, 1)
+  				}, 
+  				{
+  					title: 'Long Event',
+  					start: new Date(y, m, d-5),
+  					end: new Date(y, m, d-2)
+  				},
+  				{
+  					id: 999,
+  					title: 'Repeating Event',
+  					start: new Date(y, m, d-3, 16, 0),
+  					allDay: false
+  				},
+  				{
+  					id: 999,
+  					title: 'Repeating Event',
+  					start: new Date(y, m, d+4, 16, 0),
+  					allDay: false
+  				},
+  				{
+  					title: 'Meeting',
+  					start: new Date(y, m, d, 10, 30),
+  					allDay: false
+  				},
+  				{
+  					title: 'Lunch',
+  					start: new Date(y, m, d, 12, 0),
+  					end: new Date(y, m, d, 14, 0),
+  					allDay: false
+  				},
+  				{
+  					title: 'Birthday Party',
+  					start: new Date(y, m, d, 19, 0),
+  					end: new Date(y, m, d, 22, 30),
+  					allDay: false
+  				},
+  				{
+  					title: 'Click for Google',
+  					start: new Date(y, m, 28),
+  					end: new Date(y, m, 29),
+  					url: 'http://google.com/'
+  				}
+  			] */
+  		});
+
+  	});
+<% end %>
