@@ -1,0 +1,16 @@
+<%
+begin
+	g= Geoname.find(@id)
+%>
+
+$("div#my_map").show().gmap3({
+  action: 'setCenter',
+  args:[new google.maps.LatLng(<%= g.position[0] %>,<%= g.position[1] %>)]
+});
+<%
+rescue
+%>
+flashBar("No se ha podido actualizar el mapa", "error", {});
+<%	
+end
+%>

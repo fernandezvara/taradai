@@ -4,6 +4,8 @@
     <div class="inputs string optional">
       <label class="text optional" for="place">Centro</label>
       <input class="input string w300 left disabled" type="text" disabled="disabled" id="place" name="place" />
+      <%= f.input :place_id, :as => :hidden %>
+      <%= f.input :place_private, :as => :hidden %>
       <%= link_to 'Seleccionar centro', profile_my_places_selection_url, :type => 'modal', :class => 'button' %>
       <span class="hint">Puedes seleccionar el centro en el que se realizará el evento, si eliges un centro ya registrado en taradai esta entrada de agenda se reflejará en la del centro también. Puedes crear un centro nuevo si fuese necesario. <br />NOTA: Todos los centros que crees tú serán <strong>privados a tu cuenta y no estarán disponibles en las búsquedas</strong>.</span>
     </div>

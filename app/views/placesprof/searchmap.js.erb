@@ -1,0 +1,34 @@
+# encoding: UTF-8
+
+<% if @error == false %>
+
+$("div#my_map").show().gmap3({
+	action: ':addMarker',
+	latLng: [<%= @lat %>,<%= @lng %>],
+	map: {
+		center: true
+	},
+	marker: {
+		options : {
+			draggable: false
+		}
+	},
+	infowindow:{
+		options: {
+			size: new google.maps.Size(40,20),
+			content: '' + $("#privateplace_name").val() + ''
+		}
+	}
+});
+
+	$("#coords_lat").val('<%= @lat %>');
+	$("#coords_lng").val('<%= @lng %>');
+	flashBar("Si estás de acuerdo con la localización del centro puedes guardar los datos del formulario.", "success", {});
+	$("input#privateplace_submit").removeClass("disabled").removeAttr("disabled");
+
+<% else %>
+
+	flashBar("Se ha producido un error en la búsqueda.", "error", {});
+
+<% end %>
+

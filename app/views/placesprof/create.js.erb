@@ -1,0 +1,9 @@
+<% if @flash_class == "success" %>
+	$("#event_place_id").val('<%= @place.id.to_s %>');
+	$("#event_place_private").val('1');
+	$("#place").val('<%= @place.name %>');
+	$('div#mask').fadeOut(300);
+	$('div#mWindow').fadeOut(300);
+	$('div#mWindowContent').fadeOut(300);
+<% end %>
+flashBar('<%= @flash_message %>', '<%= @flash_class %>', {});

@@ -1,7 +1,6 @@
 class Privateplace
   include Mongoid::Document
   include Mongoid::Timestamps
-  include Mongoid::Slug
   
   field :name,            :type => String
   field :description,     :type => String
@@ -11,7 +10,6 @@ class Privateplace
   field :position,        :type => Array
   field :enabled,         :type => Boolean,     :default => true
   
-  slug :name, :index => true
   index [[ :position, Mongo::GEO2D ]]
   index [[:location], [:country]], :unique => false
   

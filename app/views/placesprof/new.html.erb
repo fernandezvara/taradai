@@ -1,14 +1,16 @@
 # encoding: UTF-8
 <% content_for :content do %>
-<div class="w470">
+<div class="w820">
 	
-	<div class="w460 radius4 green0f green4b f130 lh130 p5 mr0">Nuevo centro</div>
-	<div class="w460 mt10">
+	<div class="w800 radius4 green0f green4b f130 lh130 p5 mr0">Nuevo centro</div>
+	<div class="w800 mt10 tcenter">
 	  <%= link_to "Buscar centro en taradai", "/my/places/search", :type => 'modal', :class => 'button' %>
 	  <%= link_to "Mis centros", profile_my_places_index_url, :type => 'modal', :class => 'button' %>
 	  <%= link_to "Crear nuevo centro", profile_my_places_new_url, :type => 'modal', :class => 'button' %>
 	</div>
-	<div class="w460 fcolor8 f110 lh110 pt10 clear"><p>Usa este formulario para crear el centro.</p></div>
+	<div class="w800 fcolor8 f110 lh110 pt10 clear"><p>Usa este formulario para crear el centro.<br />Cuando hayas añadido los datos pulsa en 'Buscar en mapa' para ajustar el mapa. Una vez que la dirección sea correcta pulsa el botón 'Añadir' para finalizar.</p></div>
+</div>
+<div class="w470 left">
   <div class="w460">
     <%= simple_form_for @place, :url => profile_my_places_create_url, :remote => true do |f| %>
       <%= f.input :name, :label => 'Nombre', :input_html => { :class => 'w300' } %>
@@ -16,29 +18,42 @@
       <div class="input text optional"><label class="text optional" for="privateplace_country">País</label>
       <%= localized_country_select(:privateplace, :country, [ @current_profile.country ]) %></div>
       <%= f.input :location, :label => 'Localidad', :input_html => { :class=> ['w300', 'text'] } %>
+      <div class="mt20">
       <%= f.input :street, :label => 'Dirección', :hint => 'Nombre de la calle/avenida/etc, número, piso (si procede).',  :input_html => {:class => 'w300' } %>
-      <div class="input text optional"><label class="text optional">Mapa</label><input type="button" id="search_map" value="Buscar en mapa" /></div>
-      <%= f.button :submit %>
-    <% end %>
-
+      </div>
+      <%= hidden_field(:coords, :lat)%>
+      <%= hidden_field(:coords, :lng)%>
+      <div class="w460">
+        <div class="right">
+          <input type="button" id="search_map" value="Buscar en mapa" />
+        </div>
+      </div>
   </div>
-
-
-	<div class="clear"></div>
-	<div class="mt10 w540">
-		<div class="right">
-	    <input type="button" value="Cancelar" class="close" />
-		</div>
-	</div>
-	</form>
 	<div class="clear"></div>
 </div>
+<div class="w350 tcenter right">
+  
+  <div class="w350 h300 mt20 clear" id="my_map"></div>
+  <div class="mt10 clear">
+    <p>NOTA: La localización en el plano es aproximada, por favor, usa las teclas de zoom en el mapa  +/- para verlo correctamente.</p>
+  </div>
+</div>
+<div class="clear"></div>
+<div class="m10 w800">
+	<div class="right h50">
+    <input type="button" value="Cancelar" class="close" /> <%= f.button :submit, :disabled => true, :class=> 'disabled' %>
+	</div>
+</div>
+
+  <% end %>
+
 <%= stylesheet_link_tag "textbox/TextboxList", :media => "screen" %>
 <%= stylesheet_link_tag "textbox/TextboxList.Autocomplete", :media => "screen" %>
 <%= javascript_include_tag "textbox/GrowingInput" %>
 <%= javascript_include_tag "textbox/TextboxList" %>
 <%= javascript_include_tag "textbox/TextboxList.Autocomplete" %>
 <%= javascript_include_tag "textbox/TextboxList.Autocomplete.Binary" %>
+
 <style type="text/css" media="screen">
 	.form_tags { margin-bottom: 10px; }
 	.textboxlist { width: 300px; margin-left: 140px; }
@@ -48,6 +63,10 @@
 	input.textboxlist-bit-editable-input { border-color: #fff; margin: 0; padding: 0;}
 </style>
 <script type="text/javascript">
+/* Jquery Gmap3 http://www.night-coder.com/ */
+jQuery.gmap3={_ids:{},_running:{},_stack:{_a:{},init:function(a){if(!this._a[a]){this._a[a]=[]}},add:function(c,b){this.init(c);this._a[c].push(b)},addNext:function(f,b){this.init(f);var e=[],d=0;for(var c in this._a[f]){if(d==1){e.push(b)}e.push(this._a[f][c]);d++}if(d<2){e.push(b)}this._a[f]=e},get:function(b){if(this._a[b]){for(var a in this._a[b]){if(this._a[b][a]){return this._a[b][a]}}}return false},ack:function(b){if(this._a[b]){for(var a in this._a[b]){if(this._a[b][a]){delete this._a[b][a];break}}}if(this.empty(b)){delete this._a[b]}},empty:function(b){if(!this._a[b]){return true}for(var a in this._a[b]){if(this._a[b][a]){return false}}return true}},_init:function(a,b){if(!this._ids[b]){this._ids[b]={$this:a,styles:{},map:null,dr:null}}},_plan:function(c,d,b){this._init(c,d);for(var a in b){this._stack.add(d,b[a])}this._run(d)},_planNext:function(d,b){var c=this._jObject(d);this._init(c,d);this._stack.addNext(d,b)},_end:function(a){delete this._running[a];this._stack.ack(a);this._run(a)},_run:function(c){if(this._running[c]){return}var b=this._stack.get(c);if(!b){return}this._running[c]=true;this._proceed(c,b)},_properties:["events","onces","options","apply","callback"],_default:{verbose:true,init:{mapTypeId:google.maps.MapTypeId.ROADMAP,center:[46.593623,0.342922],zoom:10}},_geocoder:null,_getGeocoder:function(){if(!this._geocoder){this._geocoder=new google.maps.Geocoder()}return this._geocoder},_directionsService:null,_getDirectionsService:function(){if(!this._directionsService){this._directionsService=new google.maps.DirectionsService()}return this._directionsService},_elevationService:null,_getElevationService:function(){if(!this._elevationService){this._elevationService=new google.maps.ElevationService()}return this._elevationService},_getMap:function(a){return this._ids[a].map},_setMap:function(b,a){this._ids[b].map=a},_jObject:function(a){return this._ids[a].$this},_addStyle:function(c,b,a){this._ids[c].styles[b]=a},_getStyles:function(a){return this._ids[a].styles},_getStyle:function(b,a){return this._ids[b].styles[a]},_styleExist:function(b,a){return this._ids[b]&&this._ids[b].styles[a]},_getDirectionRenderer:function(a){return this._ids[a].dr},_setDirectionRenderer:function(b,a){this._ids[b].dr=a},_exist:function(a){return this._ids[a].map?true:false},_autoInit:function(b){if(!b||((b[0]!=":")&&(b[0]!="_"))){return true}var c=["init","geolatlng","getlatlng","getroute","getelevation","addstyledmap","destroy"];b=b.substr(1);for(var a in c){if(c[a]==b){return false}}return true},_proceed:function(g,e){e=e||{};var a=e.action||":init";var c=a.toLowerCase();var d=a.substr(0,1);if(d=="_"){return}var b=true;if(!this._exist(g)&&this._autoInit(c)){this.init(g,jQuery.extend({},this._default.init,e.args&&e.args["map"]?e.args["map"]:e.map?e.map:{}),true)}if(d==":"){a=c.substr(1);if(typeof(this[a])=="function"){this[a](g,$.extend({},this._default[a],e.args?e.args:e))}else{b=false}}else{if(e.target){if(typeof(e.target[a])=="function"){e.out=e.target[a].apply(e.target,e.args?e.args:[])}else{b=false}}else{var f=this._getMap(g);if(typeof(f[a])=="function"){e.out=f[a].apply(f,e.args?e.args:[])}else{b=false}}if(!b&&this._default.verbose){alert("unknown action : "+a)}this._callback(g,e.out,e);this._end(g)}},_call:function(){if(arguments.length<2){return}if(!this._exist(arguments[0])){return}var e=arguments[0],d=arguments[1];var c=this._getMap(e);if(typeof(c[d])!="function"){return}var a=[];for(var b=2;b<arguments.length;b++){a.push(arguments[b])}return c[d].apply(c,a)},_array:function(d){var b=[];for(var c in d){b.push(d[c])}return b},_subcall:function(c,b,a){if(!b.map){return}if(!this._exist(c)){this.init(c,jQuery.extend({},b.map,{center:a}),true)}else{if(b.map["center"]){this._call(c,"setCenter",a)}if(typeof(b.map["zoom"])!="undefined"){this._call(c,"setZoom",b.map["zoom"])}if(typeof(b.map["mapTypeId"])!="undefined"){this._call(c,"setMapTypeId",b.map["mapTypeId"])}}},_attachEvent:function(g,b,a,e,d){var c=this._jObject(g);google.maps.event["addListener"+(d?"Once":"")](b,a,function(f){e(c,b,f)})},_attachEvents:function(d,b,c){if(!c){return}if(c.events){for(var a in c.events){if(typeof(c.events[a])=="function"){this._attachEvent(d,b,a,c.events[a],false)}}}if(c.onces){for(var a in c.onces){if(typeof(c.onces[a])=="function"){this._attachEvent(d,b,a,c.onces[a],true)}}}},_callback:function(c,d,b){b.out=d;if(typeof(b.callback)=="function"){var e=typeof(c)=="string"?this._jObject(c):c;b.callback(e,d)}else{if(typeof(b.callback)=="object"){var e;for(var a in b.callback){if(!e){e=typeof(c)=="string"?this._jObject(c):c}if(typeof(b.callback[a])=="function"){b.callback[a](e,d)}}}}},_manageEnd:function(g,d,e,a){if(typeof(d)=="object"){this._attachEvents(g,d,e);for(var b in e.apply){var f=e.apply[b];if(!f.action){continue}if(typeof(d[f.action])!="function"){continue}if(f.args){d[f.action].apply(d,f.args)}else{d[f.action]()}}}if(!a){this._callback(g,d,e);this._end(g)}},_latLng:function(e,g,c){if(!e){return null}if(e.latLng){return this._latLng(e.latLng)}var f=g?e:null;if(typeof(e.lat)=="function"){return e}else{if(typeof(e.lat)=="number"){return new google.maps.LatLng(e.lat,e.lng)}else{if(!c){var a={},d=0;for(var b in e){if(typeof(e[b])!="number"){return f}a[d==0?"lat":"lng"]=e[b];if(d){break}d++}if(d){return new google.maps.LatLng(a.lat,a.lng)}}}}return f},_count:function(b){var d=0;for(var a in b){d++}return d},_latLngBounds:function(l,g,e){if(!l){return null}var h=e?l:null;if(typeof(l.getCenter)=="function"){return l}var b=this._count(l);if(b==2){var d,m;if(l.ne&&l.sw){d=this._latLng(l.ne);m=this._latLng(l.sw)}else{for(var c in l){if(!d){d=this._latLng(l[c])}else{m=this._latLng(l[c])}}}if(m&&d){return new google.maps.LatLngBounds(m,d)}return h}else{if(b==4){var n=["n","e","s","w"],j=true;for(f in n){j&=typeof(l[n[f]])=="number"}if(j){return new google.maps.LatLngBounds(this._latLng([l.s,l.w]),this._latLng([l.n,l.e]))}if(g){var f=0,a={};for(var c in l){if(typeof(l[c])!="number"){return h}a[n[f]]=l[c];f++}return new google.maps.LatLngBounds(this._latLng([a.s,a.w]),this._latLng([a.n,a.e]))}}}return h},_ikey:function(c,b){b=b.toLowerCase();for(var a in c){if(a.toLowerCase()==b){return a}}return false},_ival:function(c,b){var a=this._ikey(c,b);if(a){return c[a]}return null},_hasKey:function(b,c){if(!b||!c){return false}for(var d in b){d=d.toLowerCase();for(var a in c){if(d==c[a]){return true}}}return false},_extractObject:function(d,a){if(this._hasKey(d,this._properties)||this._hasKey(d,a)){var b,e,f,c={};for(b in this._properties){e=this._properties[b];f=this._ikey(d,e);c[e]=f?d[f]:{}}for(b in a){e=a[b];f=this._ikey(d,e);c[e]=f?d[f]:{}}return c}else{c={options:{}};for(b in d){if(b=="action"){continue}c.options[b]=d[b]}return c}},_object:function(c,g,a,d){var b=this._ikey(g,c);if(b){return this._extractObject(g[b],a)}var h,f={},e=["map"];for(b in d){e.push(d[b])}if(!this._hasKey(g,e)){f=this._extractObject(g,a)}for(b in this._properties){h=this._properties[b];if(!f[h]){f[h]={}}}return f},_resolveLatLng:function(g,d,f,a){var c=this._ival(d,"address");if(c){var b=this;var e=function(h,i){if(i==google.maps.GeocoderStatus.OK){b[f](g,d,a?h:h[0].geometry.location)}else{b[f](g,d,false)}};this._getGeocoder().geocode({address:c},e)}else{this[f](g,d,this._latLng(d,false,true))}},destroy:function(d,b){if(this._ids[d]){this._ids[d].$this.empty();if(this._ids[d].dr){delete this._ids[d].dr}if(this._ids[d].bl){delete this._ids[d].bl}if(this._ids[d].tl){delete this._ids[d].tl}for(var a in this._ids[d].styles){delete this._ids[d].styles[a]}delete this._ids[d].map;var c=this._jObject(d);delete this._ids[d];this._callback(c,null,b)}this._end(d)},init:function(h,e,b){if((h=="")||(this._exist(h))){return this._end(h)}var g=this._object("map",e);if((typeof(g.options["center"])=="boolean")&&g.options["center"]){return false}var d=jQuery.extend({},this._default.init,g.options);if(!d.center){d.center=[this._default.init.center["lat"],this._default.init.center["lng"]]}d.center=this._latLng(d.center);this._setMap(h,new google.maps.Map(document.getElementById(h),d));var f=this._getMap(h);var a=this._getStyles(h);for(var c in a){f.mapTypes.set(c,a[c])}this._manageEnd(h,f,g,b);return true},getlatlng:function(b,a){this._resolveLatLng(b,a,"_getLatLng",true)},_getLatLng:function(c,b,a){this._manageEnd(c,a,b)},getroute:function(d,a){if((typeof(a.callback)=="function")&&a.options){a.options["origin"]=this._latLng(a.options["origin"],true);a.options["destination"]=this._latLng(a.options["destination"],true);var c=this._jObject(d);var b=function(e,f){a.out=f==google.maps.DirectionsStatus.OK?e:false;a.callback(c,a.out)};this._getDirectionsService().route(a.options,b)}this._end(d)},getelevation:function(b,f){var c=this._ival(f,"callback");if(c&&typeof(c)=="function"){var i=this._jObject(b);var j=function(k,m){f.out=m==google.maps.ElevationStatus.OK?k:false;f.callback(i,f.out)};var a=[];var g=this._ival(f,"latlng");if(g){a.push(this._latLng(g))}else{var e=this._ival(f,"locations");if(e){for(var d in e){a.push(this._latLng(e[d]))}}}if(a.length){this._getElevationService().getElevationForLocations({locations:a},j)}else{var l=this._ival(f,"path");var h=this._ival(f,"samples");if(l&&h){for(var d in l){a.push(this._latLng(l[d]))}if(a.length){this._getElevationService().getElevationAlongPath({path:a,samples:h},j)}}}}this._end(b)},addmarker:function(b,a){this._resolveLatLng(b,a,"_addMarker")},_addMarker:function(f,d,a){if(!a){return this._end(f)}this._subcall(f,d,a);var e=this._object("marker",d);e.options["position"]=a;e.options["map"]=this._getMap(f);var c=new google.maps.Marker(e.options);if(d.infowindow){var b=this._object("infowindow",d.infowindow,["open"]);if((typeof(b.open)=="undefined")||b.open){b.apply=this._array(b.apply);b.apply.unshift({action:"open",args:[this._getMap(f),c]})}b.action=":addInfoWindow";this._planNext(f,b)}this._manageEnd(f,c,e)},addinfowindow:function(b,a){this._resolveLatLng(b,a,"_addInfoWindow")},_addInfoWindow:function(e,c,a){this._subcall(e,c,a);var d=this._object("infowindow",c,["open"]);if(a){d.options["position"]=a}var b=new google.maps.InfoWindow(d.options);if((typeof(d.open)=="undefined")||d.open){d.apply=this._array(d.apply);d.apply.unshift({action:"open",args:[this._getMap(e)]})}this._manageEnd(e,b,d)},addpolyline:function(b,a){this._addPoly(b,a,"Polyline","path")},addpolygon:function(b,a){this._addPoly(b,a,"Polygon","paths")},_addPoly:function(g,d,c,e){var f=this._object(c.toLowerCase(),d,[e]);if(f[e]){f.options[e]=[];var b=0;for(var a in f[e]){f.options[e][b++]=this._latLng(f[e][a])}}var c=new google.maps[c](f.options);c.setMap(this._getMap(g));this._manageEnd(g,c,f)},addcircle:function(b,a){this._resolveLatLng(b,a,"_addCircle")},_addCircle:function(e,b,a){var c=this._object("circle",b);if(!a){a=this._latLng(c.options["center"])}if(!a){return this._end(e)}this._subcall(e,b,a);var c=this._object("circle",b);c.options["center"]=a;c.options["map"]=this._getMap(e);var d=new google.maps.Circle(c.options);this._manageEnd(e,d,c)},addrectangle:function(b,a){this._resolveLatLng(b,a,"_addRectangle")},_addRectangle:function(f,d,a){var e=this._object("rectangle",d);e.options["bounds"]=this._latLngBounds(e.options["bounds"],true);if(!e.options["bounds"]){return this._end(f)}var c=e.options["bounds"].getCenter();this._subcall(f,d,c);e.options["map"]=this._getMap(f);var b=new google.maps.Rectangle(e.options);this._manageEnd(f,b,e)},addoverlay:function(b,a){this._resolveLatLng(b,a,"_addOverlay")},_addOverlay:function(h,e,a){var g=this._object("overlay",e);var c=jQuery.extend({pane:"floatPane",content:"",offset:{x:0,y:0}},g.options);d.prototype=new google.maps.OverlayView();function d(i,f,j){this.opts_=i;this.$div_=null;this.latLng_=f;this.map_=j;this.setMap(j)}d.prototype.onAdd=function(){var f=$("<div></div>");f.css("border","none").css("borderWidth","0px").css("position","absolute");f.append($(this.opts_.content));this.$div_=f;var i=this.getPanes();if(i[this.opts_.pane]){$(i[this.opts_.pane]).append(this.$div_)}};d.prototype.draw=function(){if(!this.$div_){return}var f=this.getProjection();var i=f.fromLatLngToDivPixel(this.latLng_);this.$div_.css("left",(i.x+this.opts_.offset["x"])+"px").css("top",(i.y+this.opts_.offset["y"])+"px")};d.prototype.onRemove=function(){this.$div_.remove();this.$div_=null};d.prototype.hide=function(){if(this.$div_){this.$div_.hide()}};d.prototype.show=function(){if(this.$div_){this.$div_.show()}};d.prototype.toggle=function(){if(this.$div_){if(this.$div_.is(":visible")){this.show()}else{this.hide()}}};d.prototype.toggleDOM=function(){if(!this.$div_){return}if(this.getMap()){this.setMap(null)}else{this.setMap(this.map_)}};var b=new d(c,a,this._getMap(h));this._manageEnd(h,b,g)},addfixpanel:function(g,d){var e=this._object("fixpanel",d);if(e.options["content"]){var a=0,f=0;var c=$(e.options["content"]);if(typeof(e.options["left"])!="undefined"){a=e.options["left"]}else{if(typeof(e.options["right"])!="undefined"){a=this._jObject(g).width()-c.width()-e.options["right"]}else{if(e.options["center"]){a=(this._jObject(g).width()-c.width())/2}}}if(typeof(e.options["top"])!="undefined"){f=e.options["top"]}else{if(typeof(e.options["bottom"])!="undefined"){f=this._jObject(g).height()-c.height()-e.options["bottom"]}else{if(e.options["middle"]){f=(this._jObject(g).height()-c.height())/2}}}var b=$("<div></div>").css("position","absolute").css("top",f+"px").css("left",a+"px").css("z-index","1000").append(e.options["content"]);this._jObject(g).first().prepend(b);this._attachEvents(g,this._getMap(g),e);this._callback(g,b,e)}this._end(g)},removedirectionsrenderer:function(d,b,a){var c=this._object("directionrenderer",b);if(this._ids[d].dr){this._ids[d].dr.setMap(null);delete this._ids[d].dr}this._manageEnd(d,true,c,a)},adddirectionsrenderer:function(e,b,a){var d=this._object("directionrenderer",b,["panelId"]);this.removedirectionsrenderer(e,d,true);d.options["map"]=this._getMap(e);this._setDirectionRenderer(e,new google.maps.DirectionsRenderer(d.options));var c=this._getDirectionRenderer(e);if(d.panelId){c.setPanel(document.getElementById(d.panelId))}this._manageEnd(e,c,d,a)},setdirectionspanel:function(d,a){var c=this._object("directionpanel",a,["id"]);var b;if(c.id){b=this._getDirectionRenderer(d);b.setPanel(document.getElementById(c.id))}this._manageEnd(d,b,c)},setdirections:function(d,a){var c=this._object("directions",a);if(a){c.options["directions"]=a.directions?a.directions:(a.options&&a.options["directions"]?a.options["directions"]:null)}var b;if(c.options["directions"]){b=this._getDirectionRenderer(d);if(!b){this.adddirectionsrenderer(d,c,true);b=this._getDirectionRenderer(d)}else{b.setDirections(c.options["directions"])}}this._manageEnd(d,b,c)},setstreetview:function(d,b){var c=this._object("streetview",b,["id"]);var a=new google.maps.StreetViewPanorama(document.getElementById(c.id),c.options);this._getMap(d).setStreetView(a);this._manageEnd(d,a,c)},addkmllayer:function(d,b){var c=this._object("kmllayer",b,["url"]);c.options["map"]=this._getMap(d);var a=new google.maps.KmlLayer(c.url,c.options);this._manageEnd(d,a,b)},addtrafficlayer:function(c,a){var b=this._object("trafficlayer");if(!this._ids[c].tl){this._ids[c].tl=new google.maps.TrafficLayer();this._ids[c].tl.setMap(this._getMap(c))}this._manageEnd(c,this._ids[c].tl,b)},removetrafficlayer:function(d,b){var c=this._object("trafficlayer");var a=typeof(this._ids[d].tl)!="undefined";if(this._ids[d].tl){this._ids[d].tl.setMap(null);delete this._ids[d].tl}this._manageEnd(d,a,c)},addbicyclinglayer:function(c,a){var b=this._object("bicyclinglayer");if(!this._ids[c].bl){this._ids[c].bl=new google.maps.BicyclingLayer();this._ids[c].bl.setMap(this._getMap(c))}this._manageEnd(c,this._ids[c].bl,b)},removebicyclinglayer:function(d,b){var c=this._object("bicyclinglayer");var a=typeof(this._ids[d].bl)!="undefined";if(this._ids[d].bl){this._ids[d].bl.setMap(null);delete this._ids[d].bl}this._manageEnd(d,a,c)},addgroundoverlay:function(d,b){var c=this._object("groundoverlay",b,["bounds","url"]);var a;c.bounds=this._latLngBounds(c.bounds);if(c.bounds&&c.url){a=new google.maps.GroundOverlay(c.url,c.bounds);a.setMap(this._getMap(d))}this._manageEnd(d,a,c)},geolatlng:function(d,a){if(typeof(a.callback)=="function"){var c=this._jObject(d);if(navigator.geolocation){browserSupportFlag=true;navigator.geolocation.getCurrentPosition(function(e){a.out=new google.maps.LatLng(e.coords.latitude,e.coords.longitude);a.callback(c,a.out)},function(){a.out=false;a.callback(c,a.out)})}else{if(google.gears){browserSupportFlag=true;var b=google.gears.factory.create("beta.geolocation");b.getCurrentPosition(function(e){a.out=new google.maps.LatLng(e.latitude,e.longitude);a.callback(c,a.out)},function(){a.out=false;a.callback(c,a.out)})}else{a.out=false;a.callback(c,a.out)}}}this._end(d)},addstyledmap:function(e,c,a){var d=this._object("styledmap",c,["id","style"]);var b;if(d.style&&d.id&&!this._styleExist(e,d.id)){b=new google.maps.StyledMapType(d.style,d.options);this._addStyle(e,d.id,b);if(this._getMap(e)){this._getMap(e).mapTypes.set(d.id,b)}}this._manageEnd(e,b,d,a)},setstyledmap:function(d,b){var c=this._object("styledmap",b,["id","style"]);var a;if(c.id){this.addstyledmap(d,c,true);a=this._getStyle(d,c.id);if(a){this._getMap(d).setMapTypeId(c.id);this._callback(d,a,b)}}this._manageEnd(d,a,c)},setDefault:function(b){for(var a in b){this._default[a]=jQuery.extend({},this._default[a],b[a])}}};jQuery.fn.extend({gmap3:function(){var c=$(this);if(c.length>0){var d=c.attr("id");var a=[];for(var b=0;b<arguments.length;b++){a.push(arguments[b]||{})}if(!a.length){a.push({})}jQuery.gmap3._plan(c,d,a)}return $(this)}});
+/* Jquery Gmap3 http://www.night-coder.com/ */
+
 $(document).ready(function() {
 
   var box = new $.TextboxList('#privateplace_location', {unique: true, max: 1,
@@ -60,18 +79,43 @@ $(document).ready(function() {
     }}});
 
   box.add('<%= Geoname.complete_text(@current_profile.location) %>', '<%= @current_profile.location %>');
-
+  box.addEvent('bitAdd', function(bit){
+    $.ajax({
+      url: '/my/places/updatemap.js?id=' + $("#privateplace_location").val(),
+      dataType: "script"
+    });
+  });
 
   $("#privateplace_country").change(function() {
     $("div.textboxlist").hide();
-    $("#privateplace_location").textboxlist({unique: true, max: 1,
+    $("#privateplace_location").val('');
+    var box = new $.TextboxList('#privateplace_location', {unique: true, max: 1,
       plugins: {
         autocomplete: {
           placeholder: "Escribe para obtener sugerencias",
-          minLength: 3,
+          minLength: 2,
           queryRemote: true,
           remote: { url: '/my/localization.json?country=' + $("#privateplace_country").val() }
       }}});
+
+    box.addEvent('bitAdd', function(bit){
+      $.ajax({
+        url: '/my/places/updatemap.js?id=' + $("#privateplace_location").val(),
+        dataType: "script"
+      });
+    });
+  });
+
+  $("input#privateplace_name").change(function(){
+    $("input#privateplace_submit").addClass("disabled").attr("disabled", "disabled");
+  });
+
+  $("input#privateplace_street").change(function(){
+    $("input#privateplace_submit").addClass("disabled").attr("disabled", "disabled");
+  });
+  
+  $("input#privateplace_location").change(function(){
+    $("input#privateplace_submit").addClass("disabled").attr("disabled", "disabled");
   });
 
   $("input#search_map").click(function() {
@@ -98,16 +142,34 @@ $(document).ready(function() {
     }
     
     if (errorCount == 0) {
-      alert("ok");
+      checkAddress();
     } else {
-      flashBar("Por favor, corrige los errores. Faltan datos por rellenar para poder hacer buscar.", "error", {});
+      flashBar("Por favor, corrige los errores. Faltan datos por rellenar para poder hacer la búsqueda.", "error", {});
     }
   });
 
   function checkAddress() {
-    var address = ' ' +
+     $.ajax({
+       url: '/my/places/searchmap.js?id=' + $("#privateplace_location").val() + '&search=' + $("#privateplace_street").val() + "&utf8=✓",
+       dataType: "script"
+     });
   }
 
+    $("div#my_map").show().gmap3({
+      action: ':init',
+      mapTypeControlOptions: {
+         mapTypeIds: [
+          google.maps.MapTypeId.SATELLITE, 
+          google.maps.MapTypeId.ROADMAP
+        ]
+      },
+      center:{
+        lat: <%= Geoname.find(@current_profile.location).position[0] %>,
+        lng: <%= Geoname.find(@current_profile.location).position[1] %>
+      },
+      zoom:15
+    });
+    
 });
 </script>
 <% end %>

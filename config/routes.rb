@@ -140,6 +140,8 @@ Taradai::Application.routes.draw do
   match '/my/places/new',                                   :controller => 'placesprof',       :action => 'new',                  :as => 'profile_my_places_new'
   match '/my/places/create',                                :controller => 'placesprof',       :action => 'create',               :as => 'profile_my_places_create'    
   
+  match '/my/places/updatemap.:format',                     :controller => 'placesprof',       :action => 'updatemap',            :as => 'profile_my_places_updatemap'
+  match '/my/places/searchmap.:format',                     :controller => 'placesprof',       :action => 'searchmap',            :as => 'profile_my_places_searchmap'    
   #Matchers for tendencies....
   match '/t/:name',                                         :controller => 'tendencies',       :action => 'show',                :as => 'tendencies_show'
   match '/t/:name/blogs',                                   :controller => 'tendencies',       :action => 'blogs',               :as => 'tendencies_blogs'

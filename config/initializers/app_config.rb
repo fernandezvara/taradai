@@ -1,3 +1,5 @@
+Encoding.default_internal="UTF-8"
+
 APP_CONFIG = YAML.load_file("#{Rails.root.to_s}/config/app_config.yml")[Rails.env]
 
 Graph.connect(:url => "redis://192.168.1.221:6379/0")

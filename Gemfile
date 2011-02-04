@@ -18,6 +18,8 @@ gem 'mongoid_slug', :require => 'mongoid/slug'
 
 gem 'validates_timeliness', '~> 3.0.2'
 
+gem 'geokit'
+
 gem 'mogilefs-client'
 
 gem 'stalker'

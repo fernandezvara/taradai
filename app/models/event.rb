@@ -15,6 +15,8 @@ class Event < ActAsGraph
   field :location,         :type => String
   field :birthday,         :type => Boolean,    :default => false
   field :attend,           :type => Boolean,    :default => false
+  field :place_private,    :type => Boolean
+  field :place_id,         :type => String
   
   slug :title, :index => true
   
@@ -35,14 +37,26 @@ class Event < ActAsGraph
     events = self.where(:obj_class => obj.class.to_s, :obj_id => obj.id.to_s).and(:start_time.gt => Time.at(start_time.to_i), :start_time.lt => Time.at(end_time.to_i))
     arr = Array.new
     events.each do |event|
-      begin
-        if event.privacy == true
-          arr << { :id => event.id.to_s, :title => event.title, :start => event.start_time.to_i, :end => event.end_time.to_i, :allDay => event.full_day, :className => "ev0" }
+      #begin
+        if event.place_id.nil? == false and event.place_id != ""
+          if event.place_private == true
+            center = obj.privateplaces.find(event.place_id)
+            text = " (#{center.name})"
+            #TODO: IT'S NECESARY TO ADD A SEARCHER FOR CENTERS NON-PRIVATES
+          else 
+            text = ""
+          end
         else
-          arr << { :id => event.id.to_s, :title => event.title, :start => event.start_time.to_i, :end => event.end_time.to_i, :allDay => event.full_day, :className => "ev1" }
+          text = ""
         end
-      rescue
-      end
+        if event.privacy == true
+
+            arr << { :id => event.id.to_s, :title => event.title + text, :start => event.start_time.to_i, :end => event.end_time.to_i, :allDay => event.full_day, :className => "ev0" }
+        else
+          arr << { :id => event.id.to_s, :title => event.title + text, :start => event.start_time.to_i, :end => event.end_time.to_i, :allDay => event.full_day, :className => "ev1" }
+        end
+      #rescue
+      #end
     end
     arr
   end
