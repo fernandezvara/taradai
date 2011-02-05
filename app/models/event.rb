@@ -18,6 +18,9 @@ class Event < ActAsGraph
   field :place_private,    :type => Boolean
   field :place_id,         :type => String
   
+  field :recurrent,     :type => String,     :default => ""
+  
+  
   slug :title, :index => true
   
   index [[:obj_class, Mongo::ASCENDING] , [:obj_id, Mongo::ASCENDING]], :unique => false
@@ -50,8 +53,7 @@ class Event < ActAsGraph
           text = ""
         end
         if event.privacy == true
-
-            arr << { :id => event.id.to_s, :title => event.title + text, :start => event.start_time.to_i, :end => event.end_time.to_i, :allDay => event.full_day, :className => "ev0" }
+          arr << { :id => event.id.to_s, :title => event.title + text, :start => event.start_time.to_i, :end => event.end_time.to_i, :allDay => event.full_day, :className => "ev0" }
         else
           arr << { :id => event.id.to_s, :title => event.title + text, :start => event.start_time.to_i, :end => event.end_time.to_i, :allDay => event.full_day, :className => "ev1" }
         end

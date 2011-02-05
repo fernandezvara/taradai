@@ -19,7 +19,5 @@ class Privateplace
     def count
       size
     end
-  end
-  
-  
+  end  
 end

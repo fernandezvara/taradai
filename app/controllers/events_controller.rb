@@ -15,12 +15,63 @@ class EventsController < ApplicationController
   
   def my_events_create
     @event = Event.new(params[:event])
-    #@event.title = params[:event][:title]
-    #@event.description = params[:event][:description]
-    #@event.start_time = (Date.)
     @event.obj_class = @current_profile.class.to_s
     @event.obj_id = @current_profile.id.to_s
     if @event.save
+      puts params[:rec][:bool]
+      puts params[:rec][:bool].class
+      puts params[:rec][:times]
+      puts params[:rec][:times].class
+      puts params[:rec][:schedule]
+      puts params[:rec][:schedule].class
+      
+      
+      if params[:rec][:bool] == "1"
+        #recurrency...
+        @event.recurrent = @event.id.to_s
+        @event.save
+        
+        recurrent_times = params[:rec][:times].to_i   #times to repeat the event
+        recurrent_schedule = params[:rec][:schedule].to_i  #Type of repetition, week, month, year
+        new_event = Hash.new
+        recurrent_times.times do |r|   # r defines the round, if round = 0 we clone @event, else we clone new_event[r - 1]
+          #each repetition do....
+          puts "pasoooo"
+          if r == 0
+            new_event[r] = @event.clone
+            new_event[r - 1] = @event  # patch: if we are working with the new_event[0] we use the new_event[-1] for get the data
+          else
+            new_event[r] = new_event[r -1]
+          end
+          
+          case recurrent_schedule
+          when "w"
+            new_event[r].start_time = new_event[r - 1].start_time + 7.days
+            new_event[r].end_time = new_event[r - 1].end_time + 7.days
+          when "m"
+            starttime = new_event[r - 1].start_time.utc
+            endtime = new_event[r - 1].end_time.utc
+            if starttime.day > 28
+              if starttime.next_month.end_of_month.day < starttime.day     # Si el último día del més que viene es inferior al día de hoy
+                  new_event[r].start_time = DateTime.new(starttime.next_month.year, starttime.next_month.month, starttime.next_month.end_of_month.day, starttime.hour, starttime.min)
+              else
+                new_event[r].start_time = starttime + 1.month   #Si el último día del més que viene es superior mantenemos el día y sumamos un més
+              end
+            end
+            if endtime.day > 28
+              if endtime.next_month.end_of_month.day < endtime.day     # Si el último día del més que viene es inferior al día de hoy
+                new_event[r].end_time = DateTime.new(endtime.next_month.year, endtime.next_month.month, endtime.next_month.end_of_month.day, endtime.hour, endtime.min)
+              else
+                new_event[r].end_time = endtime + 1.month   #Si el último día del més que viene es superior mantenemos el día y sumamos un més
+              end
+            end
+          when "y"
+            new_event[r].start_time = new_event[r - 1].start_time + 1.year
+            new_event[r].end_time = new_event[r - 1].end_time + 1.year
+          end
+          new_event[r].save
+        end
+      end
       redirect_to profile_my_events_url, :success => 'Evento creado correctamente'
     else
       flash.now[:error] = 'Por favor corrige los errores.'

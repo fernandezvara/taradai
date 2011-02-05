@@ -1,7 +1,7 @@
 <% content_for :content do %>
   <%= simple_form_for @event, :url => profile_my_events_create_url do |f| %>
     <%= f.input :title, :label => 'Título', :hint => 'Escribe el título para identificar este evento.', :placeholder => 'Título del evento', :input_html => { :class => 'w450'} %>
-    <div class="inputs string optional">
+    <div class="input string optional">
       <label class="text optional" for="place">Centro</label>
       <input class="input string w300 left disabled" type="text" disabled="disabled" id="place" name="place" />
       <%= f.input :place_id, :as => :hidden %>
@@ -12,9 +12,39 @@
     <%= f.input :description, :label => 'Descripción', :hint => 'Escribe toda la información que consideres útil referente al evento.', :as => :text, :input_html => { :class => ['w450', 'h150'] } %>
     <%= f.input :start_time, :label => 'Comienzo', :as => :datetime, :start_year => Date.today.year, :end_year => Date.today.year + 10, :minute_step => 15, :default => 3.hours.from_now %>
     <%= f.input :end_time, :label => 'Finalización', :as => :datetime, :minute_step => 15, :default => 4.hours.from_now %>
-    <%= f.input :full_day, :label => '¿Día/s completo/s?', :as => :boolean, :hint => 'Si el evento dura todo el día o varios días seleciona esta opción.' %>
+    <%= f.input :full_day, :label => '¿Día/s completo/s?', :as => :boolean, :hint => 'Si el evento dura todo el día o varios días, y no tiene un horario definido, seleciona esta opción. ' %>
+    <div class="input boolean optional">
+      <input id="rec_bool" type="hidden" name="rec[bool]" value="0" />
+      <input class="boolean optional" id="rec_bool" name="rec[bool]" type="checkbox" value="1" />
+      <label class="boolean optional" for="rec_bool"> ¿Añadir repeticiones?</label>
+      <span class="hint">Si este evento se repite en el tiempo puedes crear varias entradas en la agenda a la vez.</span>
+    </div>
+  <div class="input boolean optional" id="recurrent_opts" style="display:none">
+    <label>Tipo de repetición y número</label>
+    <select class="select optional" id="rec_schedule" name="rec[schedule]">
+      <option value="w" selected="selected">Semanal</option>
+      <option value="m">Mensual</option>
+      <option value="y">Anual</option>
+    </select>
+    - 
+    <% options_rep = options_for_select(1..100, :selected => 1) %>
+    <%= select_tag 'rec[times]', options_rep %>
+    <span class="hint">Selecciona el tipo de repetición y el número de veces que se repetirá.<br />Nota: Si el día de comienzo es superior al número de días del mes en el que se repite, se usará el último día de ese mes. <br />Ejemplo: Primer evento el 31 de enero, tres repeticiones mensuales: 28 de febrero, 31 de marzo y 30 de abril.</span>
+  </div><div class="clear"></div>
     <%= f.input :privacy, :label => 'Privado', :hint => 'Si seleccionas el evento como privado sólo podrás verlo tú.', :as => :boolean %>
     <%= f.input :allow_attendees, :label => '¿Pueden apuntarse al evento?', :hint => 'Si quieres saber quien está interesado en el evento, puedes permitirles que se inscriban como asistentes a él. Si el evento es privado no tiene efecto.', :as => :boolean %>
     <%= f.button :submit %>
   <% end %>
+<% end %>
+
+<% content_for :javascript do %>
+  $(document).ready(function(){
+    $("input#rec_bool").change(function(){
+      if ($(this).attr("checked") == true) {
+        $("div#recurrent_opts").slideDown();
+      } else {
+        $("div#recurrent_opts").slideUp();
+      }
+    });
+  });
 <% end %>
