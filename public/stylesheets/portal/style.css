@@ -4,7 +4,7 @@ body { background: #f7ecf9 url(../../images/portal/bgs/1.jpg) top center no-repe
 a { color: #6e1271;text-decoration:none; font-weight:bold; }
 a:hover { color: #6e1271; text-decoration:underline; font-weight:bold; }
 a:visited { color: #6e1271; font-weight:bold; }
-.notifications { font-weight:bold;padding:2px 6px 1px 6px; background-color:#005e10; color:#FFF; border:0px #005e10 solid; margin-right:10px; float:right; margin-top: -4px;  -moz-border-radius: 3px; border-radius: 3px; -webkit-border-radius: 3px;}
+.notifications { font-weight:bold;padding:2px 6px 1px 6px; background-color:#005e10; color:#FFF; border:0px #005e10 solid; margin-right:0px; float:right; margin-top: -4px;  -moz-border-radius: 3px; border-radius: 3px; -webkit-border-radius: 3px;}
 .notifications:hover { background-color:#f0feea;color:#005e10; border:0px #7cb263 solid; }
 .separator { margin: 10px 0 10px 0; }
 div.error, div.notice, div.success {z-index:1000;padding: 15px; border-top:2px solid #ddd; font-size:1.4em; bottom:0px; height:30px; position:fixed; width:100%; text-align:center;}
@@ -143,21 +143,21 @@ ul#search_results li:hover { background-color:#ffe7ff; border: 1px solid #ffdcff
 
 
 /* MY.HTML */
-.my_main_content { height:auto; }
+.my_main_content {  height:auto; }
 .my_side { padding:20px;}
-.my_content { padding: 20px;}
+.my_content { min-height:510px; padding: 10px;}
 .my_name h2 { margin:0px; display:inline;}
 .my_name .status_message { color:#ffdcff; font-size:1.2em;}
 .my_name .status_message_box { font-size:1.1em;}
 .my_name .time { color:#666; font-size:1em;}
 .my_name .input { margin:2px;}
 .my_actions { float:right; margin:0em 0 0.535em;}
-.my_menu { margin-bottom:2px; list-style:none outside none; margin-left:0px; }
+.my_menu { margin-bottom:2px; list-style:none outside none; margin-left:0px; margin-top:12px;}
 .my_menu .active { background-color:#39680d; color:#fff; }
-.my_menu > li { border-top: 1px solid #eee; height:16px; padding: 4px; margin: 0px;}
-.my_menu > li:hover { background-color:#7cb263; color:#666; } 
+.my_menu > li { -moz-border-radius-topleft: 4px; border-top-left-radius: 4px; -webkit-border-top-left-radius: 4px; -moz-border-radius-bottomleft: 4px; border-bottom-left-radius: 4px; -webkit-border-bottom-left-radius: 4px; /* border-top: 1px solid #eee; */ height:16px; padding: 4px; margin: 0px;}
+.my_menu > li:hover { background-color:#7cb263;  color:#666; } 
 .my_menu > li:hover a { color:#39680d;}
-.my_menu a { color:#005e10; text-decoration:none;  padding:0px; margin-left: 36px;}
+.my_menu a { color:#005e10; text-decoration:none;  padding:0px; margin-left: 20px;}
 .my_menu > .active a { color:#fff; }
 .my_back { background-repeat:no-repeat; background-position:4px 4px; cursor:pointer;}
 .my_menu .my_activity { background-image:url(../../images/icons/comments.png); }
@@ -169,12 +169,12 @@ ul#search_results li:hover { background-color:#ffe7ff; border: 1px solid #ffdcff
 .my_menu .my_blog { background-image:url(../../images/icons/page.png); }
 .my_menu .my_settings { background-image:url(../../images/icons/user_edit.png); }
 .my_menu .my_photo { background-image:url(../../images/icons/picture_edit.png); }
-.my_sub_menu { margin-bottom:2px; list-style:none outside none; margin-left:36px; }
+.my_sub_menu { margin-bottom:2px; list-style:none outside none; margin-left:16px; }
 .my_sub_menu .active { background-color:#39680d; color:#fff; }
-.my_sub_menu > li { border-top: 1px solid #eee; height:16px; padding: 4px; margin: 0px;}
+.my_sub_menu > li { -moz-border-radius-topleft: 4px; border-top-left-radius: 4px; -webkit-border-top-left-radius: 4px; -moz-border-radius-bottomleft: 4px; border-bottom-left-radius: 4px; -webkit-border-bottom-left-radius: 4px; /*border-top: 1px solid #eee; */ height:16px; padding: 4px; margin: 0px;}
 .my_sub_menu > li:hover { background-color:#7cb263; color:#666; } 
 .my_sub_menu > li:hover a { color:#39680d;}
-.my_sub_menu a { color:#005e10; text-decoration:none;  padding:0px; margin-left: 36px;}
+.my_sub_menu a { color:#005e10; text-decoration:none;  padding:0px; margin-left: 20px;}
 .my_sub_menu > .active a { color:#fff; }
 .my_messages_menu .my_messages_inbox { background-image:url(../../images/icons/email_open.png); }
 .my_messages_menu .my_messages_outbox { background-image:url(../../images/icons/email_go.png); }

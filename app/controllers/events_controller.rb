@@ -32,28 +32,34 @@ class EventsController < ApplicationController
         @event.save
         
         recurrent_times = params[:rec][:times].to_i   #times to repeat the event
-        recurrent_schedule = params[:rec][:schedule].to_i  #Type of repetition, week, month, year
+        recurrent_schedule = params[:rec][:schedule].to_s  #Type of repetition, week, month, year
         new_event = Hash.new
         recurrent_times.times do |r|   # r defines the round, if round = 0 we clone @event, else we clone new_event[r - 1]
           #each repetition do....
-          puts "pasoooo"
+          puts "pasoooo - #{r}"
           if r == 0
             new_event[r] = @event.clone
             new_event[r - 1] = @event  # patch: if we are working with the new_event[0] we use the new_event[-1] for get the data
           else
-            new_event[r] = new_event[r -1]
+            new_event[r] = new_event[r -1].clone
           end
+          
+          puts "ID nuevo= #{new_event[r].id.to_s}"
+          puts "ID anterior= #{new_event[r - 1].id.to_s}"
+          puts "Class nuevo= #{new_event[r].class.to_s}"
+          puts "Class anterior= #{new_event[r - 1].class.to_s}"
           
           case recurrent_schedule
           when "w"
             new_event[r].start_time = new_event[r - 1].start_time + 7.days
             new_event[r].end_time = new_event[r - 1].end_time + 7.days
           when "m"
+            puts "paso mes - #{r}"
             starttime = new_event[r - 1].start_time.utc
             endtime = new_event[r - 1].end_time.utc
             if starttime.day > 28
               if starttime.next_month.end_of_month.day < starttime.day     # Si el último día del més que viene es inferior al día de hoy
-                  new_event[r].start_time = DateTime.new(starttime.next_month.year, starttime.next_month.month, starttime.next_month.end_of_month.day, starttime.hour, starttime.min)
+                new_event[r].start_time = DateTime.new(starttime.next_month.year, starttime.next_month.month, starttime.next_month.end_of_month.day, starttime.hour, starttime.min)
               else
                 new_event[r].start_time = starttime + 1.month   #Si el último día del més que viene es superior mantenemos el día y sumamos un més
               end
@@ -69,7 +75,12 @@ class EventsController < ApplicationController
             new_event[r].start_time = new_event[r - 1].start_time + 1.year
             new_event[r].end_time = new_event[r - 1].end_time + 1.year
           end
-          new_event[r].save
+          puts "fechas:"
+          puts "start_time anterior  = #{new_event[r - 1].start_time}"
+          puts "start_time posterior = #{new_event[r].start_time}"
+          puts "end_time anterior  = #{new_event[r - 1].end_time}"
+          puts "end_time posterior = #{new_event[r].end_time}"
+          new_event[r].save!
         end
       end
       redirect_to profile_my_events_url, :success => 'Evento creado correctamente'

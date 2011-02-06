@@ -1,7 +1,5 @@
 <%
 	case controller_name
-	when "notifications"
-		l_not = true
 	when "messages"
 		l_mai = true
 		case action_name
@@ -46,7 +44,7 @@
 		when "my_events_new"
 			l_cal_new = true
 		end
-	when "profile"
+	when "profiles"
 		l_pro = true
 	when "portrait"
 		l_pho = true
@@ -54,10 +52,6 @@
 %>
 
 <ul class="my_menu">
-	<li class="my_notifications my_back <%= l_not == true ? "active" : "" %>">
-		<%= link_to "Notificaciones", "#" %>
-		<span id="notifications_unreaded" class="notifications">0</span>
-	</li>
 	<li class="my_messages my_back <%= l_mai == true ? "active" : "" %>">
 		<%= link_to "Mensajes", messages_inbox_url %>
 	</li>
@@ -65,7 +59,7 @@
 <ul class="my_messages_menu my_sub_menu">
 	<li class="my_messages_inbox my_back <%= l_mai == true and l_inb == true ? "active" : "" %>">
 		<%= link_to "Recibidos", messages_inbox_url %>
-		<span id="inbox_unreaded" class="notifications"><%#= @current_user.inbox.unread.to_s %></span>
+		<span id="inbox_unreaded" class="notifications"><%= @current_profile.inbox.messages.where(:readed => false).count %></span>
 	</li>
 	<li class="my_messages_outbox my_back <%= l_mai == true and l_out == true ? "active" : "" %>">
 		<%= link_to "Enviados", messages_outbox_url %>
@@ -76,17 +70,17 @@
 </ul>
 <ul class="my_menu my_back">
 	<li class="my_friends my_back <%= l_fri == true ? "active" : "" %>">
-		<%= link_to "Amigos", "#" %>
+		<%= link_to "Amigos", friend_requests_url %>
 	</li>
 </ul>
 <ul class="my_friends_menu my_sub_menu">
 	<li class="my_friends_requests my_back <%= l_fri == true and l_fri_pet == true ? "active" : "" %>">
 		<%= link_to "Solicitudes", friend_requests_url %>
-		<span id="friends_requests" class="notifications"><%#= Friendship.my_pending(@current_user) %></span>
+		<span id="friends_requests" class="notifications"><%= Pending.find(:all, :conditions => { :requested => @current_profile.id.to_s }).count %></span>
 	</li>
 	<li class="my_friends_pending my_back <%= l_fri == true and l_fri_req == true ? "active" : "" %>">
 		<%= link_to "Tus Peticiones", friend_requested_url %>
-		<span id="friends_requested" class="notifications"><%#= Friendship.my_requests(@current_user) %></span>
+		<span id="friends_requested" class="notifications"><%= Pending.find(:all, :conditions => { :requester => @current_profile.id.to_s }).count %></span>
 	</li>
 	<li class="my_friends_search my_back <%= l_fri == true and l_fri_sea == true ? "active" : "" %>">
 		<%= link_to "Invitaciones", "#" %>

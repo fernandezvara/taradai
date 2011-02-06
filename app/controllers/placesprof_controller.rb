@@ -58,8 +58,8 @@ class PlacesprofController < ApplicationController
     @error = false
     
     begin
-      search = Geokit::Geocoders::GoogleGeocoder.geocode("#{Geoname.complete_text(@id)}, #{@search}".parameterize.gsub("-", " "))
-      puts "Geokit::Geocoders::GoogleGeocoder.geocode(#{Geoname.complete_text(@id)}, #{@search})"
+      search = Geokit::Geocoders::GoogleGeocoder.geocode(" #{@search}, #{Geoname.complete_text(@id)}".parameterize.gsub("-", " "))
+      puts "Geokit::Geocoders::GoogleGeocoder.geocode(#{@search}, #{Geoname.complete_text(@id)} )"
       @lat = search.lat
       @lng = search.lng
     rescue

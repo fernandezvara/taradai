@@ -3,13 +3,7 @@
 		<div class="right tright mtop">
 			<div class="ml10 mr10">
 				<% messages = @current_profile.inbox.messages.where(:readed => false).count %>
-				<% notifications = @current_profile.notifications.count %>
 				<%= link_to('Mi perfil', profile_show_url(:profilename => @current_profile.profilename)) %> - 
-				<% if notifications > 0 %>
-				  <%= link_to image_tag('icons/note_new.gif', :style => 'vertical-align:middle;'), notifications_preview_url(), :type => 'modal' %> <%= link_to(notifications, notifications_preview_url(), :type => 'modal') %> - 
-				  <% else %>
-				  <%= link_to image_tag('icons/note.png', :style => 'vertical-align:middle;'), notifications_preview_url(), :type => 'modal' %> <%= link_to(notifications, notifications_preview_url(), :type => 'modal') %> - 
-				<% end %>
 				<% if messages > 0 %>
 				  <%= link_to image_tag('icons/email_new.gif', :style => 'vertical-align:middle;'), messages_preview_url(), :type => 'modal' %> <%= link_to(messages, messages_preview_url(), :type => 'modal') %> - 
 				  <% else %>

@@ -51,17 +51,15 @@
 		<div class="clear"></div>
 		<div class="span-24 last my_main_top">
 		</div>
-	    <div class="span-24 last my_main_content radius4 color1">
-	    	<div class="span-7 green0b radius4bl radius4tl">
-	        	<div class="p10">
+	    <div class="span-24 last my_main_content radius4">
+	    	<div class="left w200 mr0">
 					<%= render :partial => 'layouts/my/my_menu' %>
-				</div>
-			</div>
-			<div class="span-17 last">
-	        	<div class="my_content">
-					<%= yield :content %>
-				</div>
-			</div>
+			  </div>
+  			<div class="span-19 last">
+  	        <div class="my_content color0 radius4"><!-- hay que cambiar esto...... -->
+  					<%= yield :content %>
+  				  </div>
+  			</div>
 		</div>
 		<div class="clear"></div>
 		<div class="span-24 last footer">

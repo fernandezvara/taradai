@@ -1,3 +1,4 @@
+# encoding: UTF-8
 class ProfilesController < ApplicationController
   
   before_filter :authenticate_user!, :only => [:new, :create, :edit, :update]
