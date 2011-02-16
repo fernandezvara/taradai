@@ -248,6 +248,10 @@ $(document).ready(function() {
 		var contentH = $('div#mWindowContent').height();
 		var contentW = $('div#mWindowContent').width();
 		
+		alert("contentH = " + contentH);
+		alert("contentH = " + contentW);
+		
+		
 		var maskH = $(document).height();
 		var winW = $(window).width();
 		var winH = $(window).height();

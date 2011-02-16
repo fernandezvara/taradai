@@ -38,10 +38,14 @@ class EventsController < ApplicationController
           #each repetition do....
           puts "pasoooo - #{r}"
           if r == 0
-            new_event[r] = @event.clone
+            attribs = @event.attributes.select { |a| %w(title description obj_class obj_id full_day allow_attendees privacy location place_private place_id recurrent).include? a  }
+            # Copying the data from the first event
+            new_event[r] = Event.new attribs
             new_event[r - 1] = @event  # patch: if we are working with the new_event[0] we use the new_event[-1] for get the data
           else
-            new_event[r] = new_event[r -1].clone
+            # Copying data from the last event
+            attribs = new_event[r - 1].attributes.select { |a| %w(title description obj_class obj_id full_day allow_attendees privacy location place_private place_id recurrent).include? a }
+            new_event[r] = Event.new attribs
           end
           
           puts "ID nuevo= #{new_event[r].id.to_s}"
